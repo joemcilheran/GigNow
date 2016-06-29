@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GigNow", "GigNow\GigNow.csproj", "{72B9CE95-6C0B-456A-B05E-F479801AEC1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GigNow.Tests", "GigNow.Tests\GigNow.Tests.csproj", "{0E788938-AF78-4428-8CE5-E5071B4DB04D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{72B9CE95-6C0B-456A-B05E-F479801AEC1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72B9CE95-6C0B-456A-B05E-F479801AEC1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72B9CE95-6C0B-456A-B05E-F479801AEC1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72B9CE95-6C0B-456A-B05E-F479801AEC1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E788938-AF78-4428-8CE5-E5071B4DB04D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E788938-AF78-4428-8CE5-E5071B4DB04D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E788938-AF78-4428-8CE5-E5071B4DB04D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E788938-AF78-4428-8CE5-E5071B4DB04D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
