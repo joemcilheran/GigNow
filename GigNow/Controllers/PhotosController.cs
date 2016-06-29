@@ -17,7 +17,8 @@ namespace GigNow.Controllers
         // GET: Photos
         public ActionResult Index()
         {
-            return View(db.Photos.ToList());
+            var photos = db.Photos.Include(p => p.Artist).Include(p => p.Venue);
+            return View(photos.ToList());
         }
 
         // GET: Photos/Details/5
@@ -38,6 +39,8 @@ namespace GigNow.Controllers
         // GET: Photos/Create
         public ActionResult Create()
         {
+            ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name");
+            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name");
             return View();
         }
 
@@ -46,7 +49,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PhotoId,Name,Data")] Photo photo)
+        public ActionResult Create([Bind(Include = "PhotoId,Name,Data,ArtistId,VenueId")] Photo photo)
         {
             if (ModelState.IsValid)
             {
@@ -55,6 +58,8 @@ namespace GigNow.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", photo.ArtistId);
+            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", photo.VenueId);
             return View(photo);
         }
 
@@ -70,6 +75,8 @@ namespace GigNow.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", photo.ArtistId);
+            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", photo.VenueId);
             return View(photo);
         }
 
@@ -78,7 +85,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PhotoId,Name,Data")] Photo photo)
+        public ActionResult Edit([Bind(Include = "PhotoId,Name,Data,ArtistId,VenueId")] Photo photo)
         {
             if (ModelState.IsValid)
             {
@@ -86,6 +93,8 @@ namespace GigNow.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", photo.ArtistId);
+            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", photo.VenueId);
             return View(photo);
         }
 

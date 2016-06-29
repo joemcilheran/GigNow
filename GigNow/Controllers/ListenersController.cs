@@ -40,7 +40,7 @@ namespace GigNow.Controllers
         public ActionResult Create()
         {
             ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress");
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email");
+            
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace GigNow.Controllers
             }
 
             ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", listener.AddressId);
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email", listener.UserId);
+            
             return View(listener);
         }
 
@@ -76,7 +76,7 @@ namespace GigNow.Controllers
                 return HttpNotFound();
             }
             ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", listener.AddressId);
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email", listener.UserId);
+            
             return View(listener);
         }
 
@@ -94,7 +94,7 @@ namespace GigNow.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", listener.AddressId);
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email", listener.UserId);
+            
             return View(listener);
         }
 

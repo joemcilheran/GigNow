@@ -13,7 +13,7 @@ namespace GigNow.Models
         public int CityId { get; set; }
         public string Name { get; set; }
         [ForeignKey("zipcode")]
-        public int ZipCodeId { get; set; }
+        public int? ZipCodeId { get; set; }
         public Zipcode zipcode { get; set; }
     }
 }

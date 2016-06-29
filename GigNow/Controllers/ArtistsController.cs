@@ -17,7 +17,7 @@ namespace GigNow.Controllers
         // GET: Artists
         public ActionResult Index()
         {
-            var artists = db.Artists.Include(a => a.address).Include(a => a.AppUser).Include(a => a.photo).Include(a => a.track1).Include(a => a.track2).Include(a => a.track3).Include(a => a.video);
+            var artists = db.Artists.Include(a => a.address).Include(a => a.AppUser);
             return View(artists.ToList());
         }
 
@@ -40,12 +40,7 @@ namespace GigNow.Controllers
         public ActionResult Create()
         {
             ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress");
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email");
-            ViewBag.PhotoId = new SelectList(db.Photos, "PhotoId", "Name");
-            ViewBag.track1Id = new SelectList(db.Tracks, "TraclId", "Name");
-            ViewBag.track2Id = new SelectList(db.Tracks, "TraclId", "Name");
-            ViewBag.track3Id = new SelectList(db.Tracks, "TraclId", "Name");
-            ViewBag.VideoId = new SelectList(db.Videos, "VideoId", "Name");
+            
             return View();
         }
 
@@ -54,7 +49,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ArtistId,Name,AddressId,ContactName,Genre1,Genre2,Genre3,Type,NumberOfMembers,PhotoId,VideoId,track1Id,track2Id,track3Id,UserId")] Artist artist)
+        public ActionResult Create([Bind(Include = "ArtistId,Name,AddressId,ContactName,Genre1,Genre2,Genre3,Type,NumberOfMembers,UserId")] Artist artist)
         {
             if (ModelState.IsValid)
             {
@@ -64,12 +59,7 @@ namespace GigNow.Controllers
             }
 
             ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", artist.AddressId);
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email", artist.UserId);
-            ViewBag.PhotoId = new SelectList(db.Photos, "PhotoId", "Name", artist.PhotoId);
-            ViewBag.track1Id = new SelectList(db.Tracks, "TraclId", "Name", artist.track1Id);
-            ViewBag.track2Id = new SelectList(db.Tracks, "TraclId", "Name", artist.track2Id);
-            ViewBag.track3Id = new SelectList(db.Tracks, "TraclId", "Name", artist.track3Id);
-            ViewBag.VideoId = new SelectList(db.Videos, "VideoId", "Name", artist.VideoId);
+           
             return View(artist);
         }
 
@@ -86,12 +76,7 @@ namespace GigNow.Controllers
                 return HttpNotFound();
             }
             ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", artist.AddressId);
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email", artist.UserId);
-            ViewBag.PhotoId = new SelectList(db.Photos, "PhotoId", "Name", artist.PhotoId);
-            ViewBag.track1Id = new SelectList(db.Tracks, "TraclId", "Name", artist.track1Id);
-            ViewBag.track2Id = new SelectList(db.Tracks, "TraclId", "Name", artist.track2Id);
-            ViewBag.track3Id = new SelectList(db.Tracks, "TraclId", "Name", artist.track3Id);
-            ViewBag.VideoId = new SelectList(db.Videos, "VideoId", "Name", artist.VideoId);
+           
             return View(artist);
         }
 
@@ -100,7 +85,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ArtistId,Name,AddressId,ContactName,Genre1,Genre2,Genre3,Type,NumberOfMembers,PhotoId,VideoId,track1Id,track2Id,track3Id,UserId")] Artist artist)
+        public ActionResult Edit([Bind(Include = "ArtistId,Name,AddressId,ContactName,Genre1,Genre2,Genre3,Type,NumberOfMembers,UserId")] Artist artist)
         {
             if (ModelState.IsValid)
             {
@@ -109,12 +94,7 @@ namespace GigNow.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", artist.AddressId);
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email", artist.UserId);
-            ViewBag.PhotoId = new SelectList(db.Photos, "PhotoId", "Name", artist.PhotoId);
-            ViewBag.track1Id = new SelectList(db.Tracks, "TraclId", "Name", artist.track1Id);
-            ViewBag.track2Id = new SelectList(db.Tracks, "TraclId", "Name", artist.track2Id);
-            ViewBag.track3Id = new SelectList(db.Tracks, "TraclId", "Name", artist.track3Id);
-            ViewBag.VideoId = new SelectList(db.Videos, "VideoId", "Name", artist.VideoId);
+           
             return View(artist);
         }
 

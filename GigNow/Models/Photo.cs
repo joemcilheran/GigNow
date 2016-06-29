@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -12,5 +13,11 @@ namespace GigNow.Models
         public int PhotoId { get; set; }
         public string Name { get; set; }
         public byte[] Data { get; set; }
+        [ForeignKey("Artist")]
+        public int? ArtistId { get; set; }
+        public Artist Artist { get; set; }
+        [ForeignKey("Venue")]
+        public int? VenueId { get; set; }
+        public Venue Venue { get; set; }
     }
 }

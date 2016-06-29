@@ -17,7 +17,7 @@ namespace GigNow.Controllers
         // GET: Venues
         public ActionResult Index()
         {
-            var venues = db.Venues.Include(v => v.address).Include(v => v.AppUser).Include(v => v.Photo);
+            var venues = db.Venues.Include(v => v.address).Include(v => v.AppUser);
             return View(venues.ToList());
         }
 
@@ -40,8 +40,6 @@ namespace GigNow.Controllers
         public ActionResult Create()
         {
             ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress");
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email");
-            ViewBag.PhotoId = new SelectList(db.Photos, "PhotoId", "Name");
             return View();
         }
 
@@ -50,7 +48,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "VenueId,Name,AddressId,Capacity,StageSize,ContactName,DefaultArtistType,DefaultCompensation,DefaultGenre,DefaultPerks,FBLink,SiteLink,TwitterLink,ExtraLink,ExtraLink2,SoundSystem,LoadInInstructions,rating,PhotoId,UserId")] Venue venue)
+        public ActionResult Create([Bind(Include = "VenueId,Name,AddressId,Capacity,StageSize,ContactName,DefaultArtistType,DefaultCompensation,DefaultGenre,DefaultPerks,FBLink,SiteLink,TwitterLink,ExtraLink,ExtraLink2,SoundSystem,LoadInInstructions,rating,UserId")] Venue venue)
         {
             if (ModelState.IsValid)
             {
@@ -60,8 +58,6 @@ namespace GigNow.Controllers
             }
 
             ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", venue.AddressId);
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email", venue.UserId);
-            ViewBag.PhotoId = new SelectList(db.Photos, "PhotoId", "Name", venue.PhotoId);
             return View(venue);
         }
 
@@ -78,8 +74,6 @@ namespace GigNow.Controllers
                 return HttpNotFound();
             }
             ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", venue.AddressId);
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email", venue.UserId);
-            ViewBag.PhotoId = new SelectList(db.Photos, "PhotoId", "Name", venue.PhotoId);
             return View(venue);
         }
 
@@ -88,7 +82,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "VenueId,Name,AddressId,Capacity,StageSize,ContactName,DefaultArtistType,DefaultCompensation,DefaultGenre,DefaultPerks,FBLink,SiteLink,TwitterLink,ExtraLink,ExtraLink2,SoundSystem,LoadInInstructions,rating,PhotoId,UserId")] Venue venue)
+        public ActionResult Edit([Bind(Include = "VenueId,Name,AddressId,Capacity,StageSize,ContactName,DefaultArtistType,DefaultCompensation,DefaultGenre,DefaultPerks,FBLink,SiteLink,TwitterLink,ExtraLink,ExtraLink2,SoundSystem,LoadInInstructions,rating,UserId")] Venue venue)
         {
             if (ModelState.IsValid)
             {
@@ -97,8 +91,6 @@ namespace GigNow.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", venue.AddressId);
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email", venue.UserId);
-            ViewBag.PhotoId = new SelectList(db.Photos, "PhotoId", "Name", venue.PhotoId);
             return View(venue);
         }
 

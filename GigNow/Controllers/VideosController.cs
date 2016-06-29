@@ -17,7 +17,8 @@ namespace GigNow.Controllers
         // GET: Videos
         public ActionResult Index()
         {
-            return View(db.Videos.ToList());
+            var videos = db.Videos.Include(v => v.Artist);
+            return View(videos.ToList());
         }
 
         // GET: Videos/Details/5
@@ -38,6 +39,7 @@ namespace GigNow.Controllers
         // GET: Videos/Create
         public ActionResult Create()
         {
+            ViewBag.AtistId = new SelectList(db.Artists, "ArtistId", "Name");
             return View();
         }
 
@@ -46,7 +48,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "VideoId,Name,Data")] Video video)
+        public ActionResult Create([Bind(Include = "VideoId,Name,Data,AtistId")] Video video)
         {
             if (ModelState.IsValid)
             {
@@ -55,6 +57,7 @@ namespace GigNow.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.AtistId = new SelectList(db.Artists, "ArtistId", "Name", video.AtistId);
             return View(video);
         }
 
@@ -70,6 +73,7 @@ namespace GigNow.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.AtistId = new SelectList(db.Artists, "ArtistId", "Name", video.AtistId);
             return View(video);
         }
 
@@ -78,7 +82,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "VideoId,Name,Data")] Video video)
+        public ActionResult Edit([Bind(Include = "VideoId,Name,Data,AtistId")] Video video)
         {
             if (ModelState.IsValid)
             {
@@ -86,6 +90,7 @@ namespace GigNow.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.AtistId = new SelectList(db.Artists, "ArtistId", "Name", video.AtistId);
             return View(video);
         }
 

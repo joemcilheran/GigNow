@@ -193,6 +193,14 @@
     <Compile Include="Migrations\201606292027364_initial.Designer.cs">
       <DependentUpon>201606292027364_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606292140385_resetFKToNullable.cs" />
+    <Compile Include="Migrations\201606292140385_resetFKToNullable.Designer.cs">
+      <DependentUpon>201606292140385_resetFKToNullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606292215004_fixedArtistAndVenue.cs" />
+    <Compile Include="Migrations\201606292215004_fixedArtistAndVenue.Designer.cs">
+      <DependentUpon>201606292215004_fixedArtistAndVenue.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
@@ -257,8 +265,6 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
@@ -276,11 +282,6 @@
     <Content Include="Views\Addresses\Details.cshtml" />
     <Content Include="Views\Addresses\Edit.cshtml" />
     <Content Include="Views\Addresses\Index.cshtml" />
-    <Content Include="Views\Artists\Create.cshtml" />
-    <Content Include="Views\Artists\Delete.cshtml" />
-    <Content Include="Views\Artists\Details.cshtml" />
-    <Content Include="Views\Artists\Edit.cshtml" />
-    <Content Include="Views\Artists\Index.cshtml" />
     <Content Include="Views\ArtistRelationships\Create.cshtml" />
     <Content Include="Views\ArtistRelationships\Delete.cshtml" />
     <Content Include="Views\ArtistRelationships\Details.cshtml" />
@@ -311,11 +312,6 @@
     <Content Include="Views\Messages\Details.cshtml" />
     <Content Include="Views\Messages\Edit.cshtml" />
     <Content Include="Views\Messages\Index.cshtml" />
-    <Content Include="Views\Photos\Create.cshtml" />
-    <Content Include="Views\Photos\Delete.cshtml" />
-    <Content Include="Views\Photos\Details.cshtml" />
-    <Content Include="Views\Photos\Edit.cshtml" />
-    <Content Include="Views\Photos\Index.cshtml" />
     <Content Include="Views\Slots\Create.cshtml" />
     <Content Include="Views\Slots\Delete.cshtml" />
     <Content Include="Views\Slots\Details.cshtml" />
@@ -326,31 +322,43 @@
     <Content Include="Views\States\Details.cshtml" />
     <Content Include="Views\States\Edit.cshtml" />
     <Content Include="Views\States\Index.cshtml" />
-    <Content Include="Views\Tracks\Create.cshtml" />
-    <Content Include="Views\Tracks\Delete.cshtml" />
-    <Content Include="Views\Tracks\Details.cshtml" />
-    <Content Include="Views\Tracks\Edit.cshtml" />
-    <Content Include="Views\Tracks\Index.cshtml" />
-    <Content Include="Views\Venues\Create.cshtml" />
-    <Content Include="Views\Venues\Delete.cshtml" />
-    <Content Include="Views\Venues\Details.cshtml" />
-    <Content Include="Views\Venues\Edit.cshtml" />
-    <Content Include="Views\Venues\Index.cshtml" />
     <Content Include="Views\VenueRelationships\Create.cshtml" />
     <Content Include="Views\VenueRelationships\Delete.cshtml" />
     <Content Include="Views\VenueRelationships\Details.cshtml" />
     <Content Include="Views\VenueRelationships\Edit.cshtml" />
     <Content Include="Views\VenueRelationships\Index.cshtml" />
-    <Content Include="Views\Videos\Create.cshtml" />
-    <Content Include="Views\Videos\Delete.cshtml" />
-    <Content Include="Views\Videos\Details.cshtml" />
-    <Content Include="Views\Videos\Edit.cshtml" />
-    <Content Include="Views\Videos\Index.cshtml" />
     <Content Include="Views\Zipcodes\Create.cshtml" />
     <Content Include="Views\Zipcodes\Delete.cshtml" />
     <Content Include="Views\Zipcodes\Details.cshtml" />
     <Content Include="Views\Zipcodes\Edit.cshtml" />
     <Content Include="Views\Zipcodes\Index.cshtml" />
+    <Content Include="Views\Artists\Create.cshtml" />
+    <Content Include="Views\Artists\Delete.cshtml" />
+    <Content Include="Views\Artists\Details.cshtml" />
+    <Content Include="Views\Artists\Edit.cshtml" />
+    <Content Include="Views\Artists\Index.cshtml" />
+    <Content Include="Views\Venues\Create.cshtml" />
+    <Content Include="Views\Venues\Delete.cshtml" />
+    <Content Include="Views\Venues\Details.cshtml" />
+    <Content Include="Views\Venues\Edit.cshtml" />
+    <Content Include="Views\Venues\Index.cshtml" />
+    <Content Include="Views\Tracks\Create.cshtml" />
+    <Content Include="Views\Tracks\Delete.cshtml" />
+    <Content Include="Views\Tracks\Details.cshtml" />
+    <Content Include="Views\Tracks\Edit.cshtml" />
+    <Content Include="Views\Tracks\Index.cshtml" />
+    <Content Include="Views\Videos\Create.cshtml" />
+    <Content Include="Views\Videos\Delete.cshtml" />
+    <Content Include="Views\Videos\Details.cshtml" />
+    <Content Include="Views\Videos\Edit.cshtml" />
+    <Content Include="Views\Videos\Index.cshtml" />
+    <Content Include="Views\Photos\Create.cshtml" />
+    <Content Include="Views\Photos\Delete.cshtml" />
+    <Content Include="Views\Photos\Details.cshtml" />
+    <Content Include="Views\Photos\Edit.cshtml" />
+    <Content Include="Views\Photos\Index.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -366,6 +374,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201606292027364_initial.resx">
       <DependentUpon>201606292027364_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606292140385_resetFKToNullable.resx">
+      <DependentUpon>201606292140385_resetFKToNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606292215004_fixedArtistAndVenue.resx">
+      <DependentUpon>201606292215004_fixedArtistAndVenue.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

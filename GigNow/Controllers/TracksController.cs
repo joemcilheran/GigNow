@@ -17,7 +17,8 @@ namespace GigNow.Controllers
         // GET: Tracks
         public ActionResult Index()
         {
-            return View(db.Tracks.ToList());
+            var tracks = db.Tracks.Include(t => t.Artist);
+            return View(tracks.ToList());
         }
 
         // GET: Tracks/Details/5
@@ -38,6 +39,7 @@ namespace GigNow.Controllers
         // GET: Tracks/Create
         public ActionResult Create()
         {
+            ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name");
             return View();
         }
 
@@ -46,7 +48,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TraclId,Name,Data")] Track track)
+        public ActionResult Create([Bind(Include = "TraclId,Name,Data,ArtistId")] Track track)
         {
             if (ModelState.IsValid)
             {
@@ -55,6 +57,7 @@ namespace GigNow.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", track.ArtistId);
             return View(track);
         }
 
@@ -70,6 +73,7 @@ namespace GigNow.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", track.ArtistId);
             return View(track);
         }
 
@@ -78,7 +82,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TraclId,Name,Data")] Track track)
+        public ActionResult Edit([Bind(Include = "TraclId,Name,Data,ArtistId")] Track track)
         {
             if (ModelState.IsValid)
             {
@@ -86,6 +90,7 @@ namespace GigNow.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", track.ArtistId);
             return View(track);
         }
 

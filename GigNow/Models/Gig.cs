@@ -15,11 +15,11 @@ namespace GigNow.Models
         public DateTime Date { get; set; }
         public DateTime Time { get; set; }
         public string DefaultGenre { get; set; }
-        public int DefaulCompensation { get; set; }
+        public int? DefaulCompensation { get; set; }
         public string Name { get; set; }
         public bool UseVenueDefaults { get; set; }
         [ForeignKey("Venue")]
-        public int VenueId { get; set; }
+        public int? VenueId { get; set; }
         public Venue Venue { get; set; }
 
     }

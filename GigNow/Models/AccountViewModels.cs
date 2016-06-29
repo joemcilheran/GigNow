@@ -49,6 +49,9 @@ namespace GigNow.Models
     public class LoginViewModel
     {
         [Required]
+        [Display(Name = "UserName")]
+        public string UserName { get; set; }
+        [Required]
         [Display(Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }
@@ -65,6 +68,9 @@ namespace GigNow.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "UserName")]
+        public string UserName { get; set; }
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -79,6 +85,9 @@ namespace GigNow.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+        [Required]
+        [Display(Name = "UserRoles")]
+        public string UserRoles { get; set; }
     }
 
     public class ResetPasswordViewModel

@@ -12,7 +12,7 @@ namespace GigNow.Models
         [Key]
         public int ListenerID { get; set; }
         [ForeignKey("address")]
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; }
         public Address address { get; set; }
         [ForeignKey("AppUser")]
         public string UserId { get; set; }

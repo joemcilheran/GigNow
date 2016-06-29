@@ -11,9 +11,9 @@ namespace GigNow.Models
     {
         [Key]
         public int ZipcodeId { get; set; }
-        public int ZipCode { get; set; }
+        public int? ZipCode { get; set; }
         [ForeignKey("address")]
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; }
         public Address address { get; set; }
     }
 }

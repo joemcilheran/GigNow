@@ -12,10 +12,10 @@ namespace GigNow.Models
         [Key]
         public int ArtistRelationshipId { get; set; }
         [ForeignKey("Listener")]
-        public int ListenerId { get; set; }
+        public int? ListenerId { get; set; }
         public Listener Listener { get; set; }
         [ForeignKey("Artist")]
-        public int ArtistId { get; set; }
+        public int? ArtistId { get; set; }
         public Artist Artist { get; set; }
     }
 }

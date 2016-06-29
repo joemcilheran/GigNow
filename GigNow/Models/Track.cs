@@ -12,5 +12,7 @@ namespace GigNow.Models
         public int TraclId { get; set; }
         public string Name { get; set; }
         public byte[] Data { get; set; }
+        public int? ArtistId { get; set; }
+        public Artist Artist { get; set; }
     }
 }

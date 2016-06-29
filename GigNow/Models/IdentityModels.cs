@@ -34,7 +34,7 @@ namespace GigNow.Models
 
         public System.Data.Entity.DbSet<GigNow.Models.Artist> Artists { get; set; }
 
-        public System.Data.Entity.DbSet<GigNow.Models.ApplicationUser> ApplicationUsers { get; set; }
+
 
         public System.Data.Entity.DbSet<GigNow.Models.Photo> Photos { get; set; }
 

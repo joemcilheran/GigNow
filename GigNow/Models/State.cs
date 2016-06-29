@@ -13,7 +13,7 @@ namespace GigNow.Models
         public int StateId { get; set; }
         public string Name { get; set; }
         [ForeignKey("city")]
-        public int CityId { get; set; }
+        public int? CityId { get; set; }
         public City city { get; set; }
 
     }
