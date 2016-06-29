@@ -1,0 +1,82 @@
+﻿@model GigNow.Models.Gig
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Gig</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Venue.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Venue.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cover)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cover)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Time)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Time)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DefaultGenre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DefaultGenre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DefaulCompensation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DefaulCompensation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UseVenueDefaults)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UseVenueDefaults)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.GigId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<GigNow.Models.VenueRelationship>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Listener.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Venue.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Listener.UserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Venue.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.VenueRelationshipId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.VenueRelationshipId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.VenueRelationshipId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -168,11 +168,32 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AddressesController.cs" />
+    <Compile Include="Controllers\ArtistRelationshipsController.cs" />
+    <Compile Include="Controllers\ArtistsController.cs" />
+    <Compile Include="Controllers\CitiesController.cs" />
+    <Compile Include="Controllers\GigRelationshipsController.cs" />
+    <Compile Include="Controllers\GigsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ListenersController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Controllers\PhotosController.cs" />
+    <Compile Include="Controllers\SlotsController.cs" />
+    <Compile Include="Controllers\StatesController.cs" />
+    <Compile Include="Controllers\TracksController.cs" />
+    <Compile Include="Controllers\VenueRelationshipsController.cs" />
+    <Compile Include="Controllers\VenuesController.cs" />
+    <Compile Include="Controllers\VideosController.cs" />
+    <Compile Include="Controllers\ZipcodesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606292027364_initial.cs" />
+    <Compile Include="Migrations\201606292027364_initial.Designer.cs">
+      <DependentUpon>201606292027364_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Artist.cs" />
@@ -250,6 +271,86 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Addresses\Create.cshtml" />
+    <Content Include="Views\Addresses\Delete.cshtml" />
+    <Content Include="Views\Addresses\Details.cshtml" />
+    <Content Include="Views\Addresses\Edit.cshtml" />
+    <Content Include="Views\Addresses\Index.cshtml" />
+    <Content Include="Views\Artists\Create.cshtml" />
+    <Content Include="Views\Artists\Delete.cshtml" />
+    <Content Include="Views\Artists\Details.cshtml" />
+    <Content Include="Views\Artists\Edit.cshtml" />
+    <Content Include="Views\Artists\Index.cshtml" />
+    <Content Include="Views\ArtistRelationships\Create.cshtml" />
+    <Content Include="Views\ArtistRelationships\Delete.cshtml" />
+    <Content Include="Views\ArtistRelationships\Details.cshtml" />
+    <Content Include="Views\ArtistRelationships\Edit.cshtml" />
+    <Content Include="Views\ArtistRelationships\Index.cshtml" />
+    <Content Include="Views\Cities\Create.cshtml" />
+    <Content Include="Views\Cities\Delete.cshtml" />
+    <Content Include="Views\Cities\Details.cshtml" />
+    <Content Include="Views\Cities\Edit.cshtml" />
+    <Content Include="Views\Cities\Index.cshtml" />
+    <Content Include="Views\Gigs\Create.cshtml" />
+    <Content Include="Views\Gigs\Delete.cshtml" />
+    <Content Include="Views\Gigs\Details.cshtml" />
+    <Content Include="Views\Gigs\Edit.cshtml" />
+    <Content Include="Views\Gigs\Index.cshtml" />
+    <Content Include="Views\GigRelationships\Create.cshtml" />
+    <Content Include="Views\GigRelationships\Delete.cshtml" />
+    <Content Include="Views\GigRelationships\Details.cshtml" />
+    <Content Include="Views\GigRelationships\Edit.cshtml" />
+    <Content Include="Views\GigRelationships\Index.cshtml" />
+    <Content Include="Views\Listeners\Create.cshtml" />
+    <Content Include="Views\Listeners\Delete.cshtml" />
+    <Content Include="Views\Listeners\Details.cshtml" />
+    <Content Include="Views\Listeners\Edit.cshtml" />
+    <Content Include="Views\Listeners\Index.cshtml" />
+    <Content Include="Views\Messages\Create.cshtml" />
+    <Content Include="Views\Messages\Delete.cshtml" />
+    <Content Include="Views\Messages\Details.cshtml" />
+    <Content Include="Views\Messages\Edit.cshtml" />
+    <Content Include="Views\Messages\Index.cshtml" />
+    <Content Include="Views\Photos\Create.cshtml" />
+    <Content Include="Views\Photos\Delete.cshtml" />
+    <Content Include="Views\Photos\Details.cshtml" />
+    <Content Include="Views\Photos\Edit.cshtml" />
+    <Content Include="Views\Photos\Index.cshtml" />
+    <Content Include="Views\Slots\Create.cshtml" />
+    <Content Include="Views\Slots\Delete.cshtml" />
+    <Content Include="Views\Slots\Details.cshtml" />
+    <Content Include="Views\Slots\Edit.cshtml" />
+    <Content Include="Views\Slots\Index.cshtml" />
+    <Content Include="Views\States\Create.cshtml" />
+    <Content Include="Views\States\Delete.cshtml" />
+    <Content Include="Views\States\Details.cshtml" />
+    <Content Include="Views\States\Edit.cshtml" />
+    <Content Include="Views\States\Index.cshtml" />
+    <Content Include="Views\Tracks\Create.cshtml" />
+    <Content Include="Views\Tracks\Delete.cshtml" />
+    <Content Include="Views\Tracks\Details.cshtml" />
+    <Content Include="Views\Tracks\Edit.cshtml" />
+    <Content Include="Views\Tracks\Index.cshtml" />
+    <Content Include="Views\Venues\Create.cshtml" />
+    <Content Include="Views\Venues\Delete.cshtml" />
+    <Content Include="Views\Venues\Details.cshtml" />
+    <Content Include="Views\Venues\Edit.cshtml" />
+    <Content Include="Views\Venues\Index.cshtml" />
+    <Content Include="Views\VenueRelationships\Create.cshtml" />
+    <Content Include="Views\VenueRelationships\Delete.cshtml" />
+    <Content Include="Views\VenueRelationships\Details.cshtml" />
+    <Content Include="Views\VenueRelationships\Edit.cshtml" />
+    <Content Include="Views\VenueRelationships\Index.cshtml" />
+    <Content Include="Views\Videos\Create.cshtml" />
+    <Content Include="Views\Videos\Delete.cshtml" />
+    <Content Include="Views\Videos\Details.cshtml" />
+    <Content Include="Views\Videos\Edit.cshtml" />
+    <Content Include="Views\Videos\Index.cshtml" />
+    <Content Include="Views\Zipcodes\Create.cshtml" />
+    <Content Include="Views\Zipcodes\Delete.cshtml" />
+    <Content Include="Views\Zipcodes\Details.cshtml" />
+    <Content Include="Views\Zipcodes\Edit.cshtml" />
+    <Content Include="Views\Zipcodes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -261,6 +362,11 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201606292027364_initial.resx">
+      <DependentUpon>201606292027364_initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

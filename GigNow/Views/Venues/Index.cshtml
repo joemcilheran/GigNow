@@ -1,0 +1,141 @@
+﻿@model IEnumerable<GigNow.Models.Venue>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.address.StreetAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AppUser.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Photo.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Capacity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StageSize)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DefaultArtistType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DefaultCompensation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DefaultGenre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DefaultPerks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FBLink)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SiteLink)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TwitterLink)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExtraLink)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExtraLink2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SoundSystem)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LoadInInstructions)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.rating)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.address.StreetAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AppUser.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Photo.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Capacity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StageSize)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DefaultArtistType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DefaultCompensation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DefaultGenre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DefaultPerks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FBLink)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SiteLink)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TwitterLink)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExtraLink)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExtraLink2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SoundSystem)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LoadInInstructions)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.rating)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.VenueId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.VenueId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.VenueId })
+        </td>
+    </tr>
+}
+
+</table>

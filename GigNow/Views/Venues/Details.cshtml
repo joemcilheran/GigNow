@@ -1,0 +1,170 @@
+﻿@model GigNow.Models.Venue
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Venue</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.address.StreetAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address.StreetAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AppUser.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AppUser.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Photo.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Photo.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Capacity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Capacity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StageSize)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StageSize)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DefaultArtistType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DefaultArtistType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DefaultCompensation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DefaultCompensation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DefaultGenre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DefaultGenre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DefaultPerks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DefaultPerks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FBLink)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FBLink)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SiteLink)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SiteLink)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TwitterLink)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TwitterLink)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExtraLink)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExtraLink)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExtraLink2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExtraLink2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SoundSystem)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SoundSystem)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LoadInInstructions)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LoadInInstructions)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.rating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.rating)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.VenueId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

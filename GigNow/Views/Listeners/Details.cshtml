@@ -1,0 +1,58 @@
+﻿@model GigNow.Models.Listener
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Listener</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.address.StreetAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address.StreetAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AppUser.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AppUser.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Genre1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genre1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Genre2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genre2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Genre3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genre3)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ListenerID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

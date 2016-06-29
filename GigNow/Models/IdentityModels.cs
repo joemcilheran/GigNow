@@ -29,5 +29,39 @@ namespace GigNow.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<GigNow.Models.Address> Addresses { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.Artist> Artists { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.ApplicationUser> ApplicationUsers { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.Photo> Photos { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.Track> Tracks { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.Video> Videos { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.ArtistRelationship> ArtistRelationships { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.Listener> Listeners { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.City> Cities { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.Zipcode> Zipcodes { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.Gig> Gigs { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.Venue> Venues { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.GigRelationship> GigRelationships { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.Message> Messages { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.Slot> Slots { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.State> States { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.VenueRelationship> VenueRelationships { get; set; }
     }
 }

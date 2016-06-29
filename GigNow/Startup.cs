@@ -50,7 +50,7 @@ namespace GigNow
                 }
             }
 
-            if (!roleManager.RoleExists("Venue Manager))
+            if (!roleManager.RoleExists("Venue Manager"))
             {
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
                 role.Name = "Venue Manager";

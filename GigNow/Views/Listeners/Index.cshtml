@@ -1,0 +1,57 @@
+﻿@model IEnumerable<GigNow.Models.Listener>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.address.StreetAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AppUser.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Genre1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Genre2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Genre3)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.address.StreetAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AppUser.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Genre1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Genre2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Genre3)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ListenerID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ListenerID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ListenerID })
+        </td>
+    </tr>
+}
+
+</table>

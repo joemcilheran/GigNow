@@ -1,0 +1,39 @@
+﻿@model IEnumerable<GigNow.Models.GigRelationship>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Gig.DefaultGenre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Listener.UserId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gig.DefaultGenre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Listener.UserId)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.GigRelationshipId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.GigRelationshipId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.GigRelationshipId })
+        </td>
+    </tr>
+}
+
+</table>
