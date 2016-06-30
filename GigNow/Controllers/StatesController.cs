@@ -17,8 +17,7 @@ namespace GigNow.Controllers
         // GET: States
         public ActionResult Index()
         {
-            var states = db.States.Include(s => s.city);
-            return View(states.ToList());
+            return View(db.States.ToList());
         }
 
         // GET: States/Details/5
@@ -39,7 +38,6 @@ namespace GigNow.Controllers
         // GET: States/Create
         public ActionResult Create()
         {
-            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name");
             return View();
         }
 
@@ -48,7 +46,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StateId,Name,CityId")] State state)
+        public ActionResult Create([Bind(Include = "StateId,Name")] State state)
         {
             if (ModelState.IsValid)
             {
@@ -57,7 +55,6 @@ namespace GigNow.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", state.CityId);
             return View(state);
         }
 
@@ -73,7 +70,6 @@ namespace GigNow.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", state.CityId);
             return View(state);
         }
 
@@ -82,7 +78,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "StateId,Name,CityId")] State state)
+        public ActionResult Edit([Bind(Include = "StateId,Name")] State state)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +86,6 @@ namespace GigNow.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", state.CityId);
             return View(state);
         }
 

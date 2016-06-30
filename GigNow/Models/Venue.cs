@@ -27,6 +27,7 @@ namespace GigNow.Models
         public string TwitterLink { get; set; }
         public string ExtraLink { get; set; }
         public string ExtraLink2 { get; set; }
+
         public bool SoundSystem { get; set; }
         public string LoadInInstructions { get; set; }
         public int? rating { get; set; }

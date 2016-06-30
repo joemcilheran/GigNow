@@ -81,7 +81,7 @@ namespace GigNow.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("RedirectToView");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -167,9 +167,8 @@ namespace GigNow.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
-                    var s = UserManager.GetRoles(user.Id);
-                    string role = s[0].ToString();
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("RedirectToCreateProfile");
+                   
                 }
                 var query = db.Roles.Where(x => !x.Name.Contains("Admin"));
                 ViewBag.Name = new SelectList(query.ToList(), "Name", "Name");
@@ -486,6 +485,38 @@ namespace GigNow.Controllers
                     properties.Dictionary[XsrfKey] = UserId;
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
+            }
+        }
+        public ActionResult RedirectToView()
+        {
+            var user = User.Identity;
+            var s = UserManager.GetRoles(user.GetUserId());
+            string role = s[0].ToString();
+            switch (role)
+            {
+                case "Admin":
+                    return RedirectToAction("Index", "Users");
+                case "Venue Manager":
+                    return RedirectToAction("ViewProfile", "Venue");
+                case "Artist Manager":
+                    return RedirectToAction("ViewProfile", "Artists");
+                default:
+                    return RedirectToAction("ViewProfile", "Listeners");
+            }
+        }
+        public ActionResult RedirectToCreateProfile()
+        {
+            var user = User.Identity;
+            var s = UserManager.GetRoles(user.GetUserId());
+            string role = s[0].ToString();
+            switch (role)
+            {
+                case "Venue Manager":
+                    return RedirectToAction("Create", "VenueViewModelVMs");
+                case "Artist Manager":
+                    return RedirectToAction("Create", "ArtistViewModelVMs");
+                default:
+                    return RedirectToAction("Create", "Listeners");
             }
         }
         #endregion

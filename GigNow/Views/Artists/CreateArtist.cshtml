@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "CreateArtist";
+}
+
+<h2>CreateArtist</h2>
+
+@using (Html.BeginForm("CreateArtist", "Artists", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+
+    <div class="form-group">
+        @Html.Label("Artist Name", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBox("Name")
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Conact Name", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBox("ContactName")
+        </div>
+    </div>   
+     <div class="form-group">
+        @Html.Label("Genre", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBox("Genre1")
+        </div>
+    </div>    
+    <div class="form-group">
+        @Html.Label("Genre", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBox("Genre2")
+        </div>
+    </div>    
+    <div class="form-group">
+        @Html.Label("Genre", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBox("Genre3")
+        </div>
+    </div>   
+     <div class="form-group">
+        @Html.Label("Type of Act", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBox("Type")
+        </div>
+    </div>    
+    <div class="form-group">
+        @Html.Label("Number of Members", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBox("NumberOfMembers")
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Street Address", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBox("StreetAddress")
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Apt", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBox("Apt")
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("City", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBox("City")
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Zipcode", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBox("Zip")
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("State", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBox("State")
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Create Artist Profile" />
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

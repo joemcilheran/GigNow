@@ -63,5 +63,9 @@ namespace GigNow.Models
         public System.Data.Entity.DbSet<GigNow.Models.State> States { get; set; }
 
         public System.Data.Entity.DbSet<GigNow.Models.VenueRelationship> VenueRelationships { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.VenueViewModelVM> VenueViewModelVMs { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.ArtistViewModelVM> ArtistViewModelVMs { get; set; }
     }
 }

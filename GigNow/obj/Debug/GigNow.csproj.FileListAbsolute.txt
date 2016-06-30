@@ -64,10 +64,8 @@ c:\users\joseph a mcilheran\documents\visual studio 2015\Projects\GigNow\GigNow\
 c:\users\joseph a mcilheran\documents\visual studio 2015\Projects\GigNow\GigNow\bin\Microsoft.Owin.Security.Google.xml
 c:\users\joseph a mcilheran\documents\visual studio 2015\Projects\GigNow\GigNow\bin\Microsoft.Owin.Security.Twitter.xml
 c:\users\joseph a mcilheran\documents\visual studio 2015\Projects\GigNow\GigNow\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-c:\users\joseph a mcilheran\documents\visual studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.csprojResolveAssemblyReference.cache
-c:\users\joseph a mcilheran\documents\visual studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.Migrations.initial.resources
-c:\users\joseph a mcilheran\documents\visual studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.Migrations.resetFKToNullable.resources
-c:\users\joseph a mcilheran\documents\visual studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.Migrations.fixedArtistAndVenue.resources
-c:\users\joseph a mcilheran\documents\visual studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.csproj.GenerateResource.Cache
 c:\users\joseph a mcilheran\documents\visual studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.dll
 c:\users\joseph a mcilheran\documents\visual studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.pdb
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.csprojResolveAssemblyReference.cache
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.Migrations.redo.resources
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.csproj.GenerateResource.Cache

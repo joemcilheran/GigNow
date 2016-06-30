@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GigNow.Models;
+using Microsoft.AspNet.Identity;
 
 namespace GigNow.Controllers
 {
@@ -35,11 +36,37 @@ namespace GigNow.Controllers
             }
             return View(artist);
         }
+        public ActionResult CreateArtist()
+        { 
+            return View();
+        }
+        [HttpPost]
+        //public ActionResult CreateArtist(string Name, string ContactName, string Genre1, string Genre2, string Genre3, string Type, int? NumberofMembers, string StreetAddress, string Apt, int? Zip, string City, string State)
+        //{
+        //    //var userId = User.Identity.GetUserId();
+        //    //Address address = new Address {Apt = Apt, StreetAddress = StreetAddress};
+        //    //db.Addresses.Add(address);
+        //    //db.SaveChanges();
+        //    //Zipcode zipcode = new Zipcode {ZipCode = Zip, AddressId = address.AddressId };
+        //    //db.Zipcodes.Add(zipcode);
+        //    //db.SaveChanges();
+        //    //City city = new City { Name = City, ZipCodeId = zipcode.ZipcodeId };
+        //    //db.Cities.Add(city);
+        //    //db.SaveChanges();
+        //    //State state = new State { Name = State, CityId = city.CityId };
+        //    //db.States.Add(state);
+        //    //db.SaveChanges();
+        //    //Artist artist = new Artist { Name = Name, ContactName = ContactName, Genre1 = Genre1, Genre2 = Genre2, Genre3 = Genre3, Type = Type, NumberOfMembers = NumberofMembers, UserId = userId, AddressId = address.AddressId };
+        //    //db.Artists.Add(artist);
+        //    //db.SaveChanges();
+        //    return RedirectToAction("AddFiles",new { Artistid = artist.ArtistId });
+
+        //}
 
         // GET: Artists/Create
         public ActionResult Create()
         {
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress");
+           
             
             return View();
         }
@@ -49,7 +76,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ArtistId,Name,AddressId,ContactName,Genre1,Genre2,Genre3,Type,NumberOfMembers,UserId")] Artist artist)
+        public ActionResult Create([Bind(Include = "ArtistId,Name,StreetAddress,City,ZipCode,State,ContactName,Genre1,Genre2,Genre3,Type,NumberOfMembers")] Artist artist)
         {
             if (ModelState.IsValid)
             {
@@ -131,6 +158,10 @@ namespace GigNow.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public ActionResult AddFiles(int Artistid)
+        {
+            return View();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace GigNow.Controllers
         // GET: Cities
         public ActionResult Index()
         {
-            var cities = db.Cities.Include(c => c.zipcode);
+            var cities = db.Cities.Include(c => c.state);
             return View(cities.ToList());
         }
 
@@ -39,7 +39,7 @@ namespace GigNow.Controllers
         // GET: Cities/Create
         public ActionResult Create()
         {
-            ViewBag.ZipCodeId = new SelectList(db.Zipcodes, "ZipcodeId", "ZipcodeId");
+            ViewBag.StateId = new SelectList(db.States, "StateId", "Name");
             return View();
         }
 
@@ -48,7 +48,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CityId,Name,ZipCodeId")] City city)
+        public ActionResult Create([Bind(Include = "CityId,Name,StateId")] City city)
         {
             if (ModelState.IsValid)
             {
@@ -57,7 +57,7 @@ namespace GigNow.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ZipCodeId = new SelectList(db.Zipcodes, "ZipcodeId", "ZipcodeId", city.ZipCodeId);
+            ViewBag.StateId = new SelectList(db.States, "StateId", "Name", city.StateId);
             return View(city);
         }
 
@@ -73,7 +73,7 @@ namespace GigNow.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ZipCodeId = new SelectList(db.Zipcodes, "ZipcodeId", "ZipcodeId", city.ZipCodeId);
+            ViewBag.StateId = new SelectList(db.States, "StateId", "Name", city.StateId);
             return View(city);
         }
 
@@ -82,7 +82,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CityId,Name,ZipCodeId")] City city)
+        public ActionResult Edit([Bind(Include = "CityId,Name,StateId")] City city)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace GigNow.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ZipCodeId = new SelectList(db.Zipcodes, "ZipcodeId", "ZipcodeId", city.ZipCodeId);
+            ViewBag.StateId = new SelectList(db.States, "StateId", "Name", city.StateId);
             return View(city);
         }
 

@@ -171,6 +171,7 @@
     <Compile Include="Controllers\AddressesController.cs" />
     <Compile Include="Controllers\ArtistRelationshipsController.cs" />
     <Compile Include="Controllers\ArtistsController.cs" />
+    <Compile Include="Controllers\ArtistViewModelVMsController.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\GigRelationshipsController.cs" />
     <Compile Include="Controllers\GigsController.cs" />
@@ -184,28 +185,22 @@
     <Compile Include="Controllers\TracksController.cs" />
     <Compile Include="Controllers\VenueRelationshipsController.cs" />
     <Compile Include="Controllers\VenuesController.cs" />
+    <Compile Include="Controllers\VenueViewModelVMsController.cs" />
     <Compile Include="Controllers\VideosController.cs" />
     <Compile Include="Controllers\ZipcodesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201606292027364_initial.cs" />
-    <Compile Include="Migrations\201606292027364_initial.Designer.cs">
-      <DependentUpon>201606292027364_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606292140385_resetFKToNullable.cs" />
-    <Compile Include="Migrations\201606292140385_resetFKToNullable.Designer.cs">
-      <DependentUpon>201606292140385_resetFKToNullable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606292215004_fixedArtistAndVenue.cs" />
-    <Compile Include="Migrations\201606292215004_fixedArtistAndVenue.Designer.cs">
-      <DependentUpon>201606292215004_fixedArtistAndVenue.cs</DependentUpon>
+    <Compile Include="Migrations\201606302321343_redo.cs" />
+    <Compile Include="Migrations\201606302321343_redo.Designer.cs">
+      <DependentUpon>201606302321343_redo.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Artist.cs" />
     <Compile Include="Models\ArtistRelationship.cs" />
+    <Compile Include="Models\ArtistViewModelVM.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Gig.cs" />
     <Compile Include="Models\GigRelationship.cs" />
@@ -219,6 +214,7 @@
     <Compile Include="Models\Track.cs" />
     <Compile Include="Models\Venue.cs" />
     <Compile Include="Models\VenueRelationship.cs" />
+    <Compile Include="Models\VenueViewModelVM.cs" />
     <Compile Include="Models\Video.cs" />
     <Compile Include="Models\Zipcode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -277,21 +273,11 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Addresses\Create.cshtml" />
-    <Content Include="Views\Addresses\Delete.cshtml" />
-    <Content Include="Views\Addresses\Details.cshtml" />
-    <Content Include="Views\Addresses\Edit.cshtml" />
-    <Content Include="Views\Addresses\Index.cshtml" />
     <Content Include="Views\ArtistRelationships\Create.cshtml" />
     <Content Include="Views\ArtistRelationships\Delete.cshtml" />
     <Content Include="Views\ArtistRelationships\Details.cshtml" />
     <Content Include="Views\ArtistRelationships\Edit.cshtml" />
     <Content Include="Views\ArtistRelationships\Index.cshtml" />
-    <Content Include="Views\Cities\Create.cshtml" />
-    <Content Include="Views\Cities\Delete.cshtml" />
-    <Content Include="Views\Cities\Details.cshtml" />
-    <Content Include="Views\Cities\Edit.cshtml" />
-    <Content Include="Views\Cities\Index.cshtml" />
     <Content Include="Views\Gigs\Create.cshtml" />
     <Content Include="Views\Gigs\Delete.cshtml" />
     <Content Include="Views\Gigs\Details.cshtml" />
@@ -317,21 +303,11 @@
     <Content Include="Views\Slots\Details.cshtml" />
     <Content Include="Views\Slots\Edit.cshtml" />
     <Content Include="Views\Slots\Index.cshtml" />
-    <Content Include="Views\States\Create.cshtml" />
-    <Content Include="Views\States\Delete.cshtml" />
-    <Content Include="Views\States\Details.cshtml" />
-    <Content Include="Views\States\Edit.cshtml" />
-    <Content Include="Views\States\Index.cshtml" />
     <Content Include="Views\VenueRelationships\Create.cshtml" />
     <Content Include="Views\VenueRelationships\Delete.cshtml" />
     <Content Include="Views\VenueRelationships\Details.cshtml" />
     <Content Include="Views\VenueRelationships\Edit.cshtml" />
     <Content Include="Views\VenueRelationships\Index.cshtml" />
-    <Content Include="Views\Zipcodes\Create.cshtml" />
-    <Content Include="Views\Zipcodes\Delete.cshtml" />
-    <Content Include="Views\Zipcodes\Details.cshtml" />
-    <Content Include="Views\Zipcodes\Edit.cshtml" />
-    <Content Include="Views\Zipcodes\Index.cshtml" />
     <Content Include="Views\Artists\Create.cshtml" />
     <Content Include="Views\Artists\Delete.cshtml" />
     <Content Include="Views\Artists\Details.cshtml" />
@@ -359,6 +335,38 @@
     <Content Include="Views\Photos\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Artists\CreateArtist.cshtml" />
+    <Content Include="Views\Artists\AddFiles.cshtml" />
+    <Content Include="Views\VenueViewModelVMs\Create.cshtml" />
+    <Content Include="Views\VenueViewModelVMs\Delete.cshtml" />
+    <Content Include="Views\VenueViewModelVMs\Details.cshtml" />
+    <Content Include="Views\VenueViewModelVMs\Edit.cshtml" />
+    <Content Include="Views\VenueViewModelVMs\Index.cshtml" />
+    <Content Include="Views\Addresses\Create.cshtml" />
+    <Content Include="Views\Addresses\Delete.cshtml" />
+    <Content Include="Views\Addresses\Details.cshtml" />
+    <Content Include="Views\Addresses\Edit.cshtml" />
+    <Content Include="Views\Addresses\Index.cshtml" />
+    <Content Include="Views\Cities\Create.cshtml" />
+    <Content Include="Views\Cities\Delete.cshtml" />
+    <Content Include="Views\Cities\Details.cshtml" />
+    <Content Include="Views\Cities\Edit.cshtml" />
+    <Content Include="Views\Cities\Index.cshtml" />
+    <Content Include="Views\States\Create.cshtml" />
+    <Content Include="Views\States\Delete.cshtml" />
+    <Content Include="Views\States\Details.cshtml" />
+    <Content Include="Views\States\Edit.cshtml" />
+    <Content Include="Views\States\Index.cshtml" />
+    <Content Include="Views\ArtistViewModelVMs\Create.cshtml" />
+    <Content Include="Views\ArtistViewModelVMs\Delete.cshtml" />
+    <Content Include="Views\ArtistViewModelVMs\Details.cshtml" />
+    <Content Include="Views\ArtistViewModelVMs\Edit.cshtml" />
+    <Content Include="Views\ArtistViewModelVMs\Index.cshtml" />
+    <Content Include="Views\Zipcodes\Create.cshtml" />
+    <Content Include="Views\Zipcodes\Delete.cshtml" />
+    <Content Include="Views\Zipcodes\Details.cshtml" />
+    <Content Include="Views\Zipcodes\Edit.cshtml" />
+    <Content Include="Views\Zipcodes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -372,14 +380,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606292027364_initial.resx">
-      <DependentUpon>201606292027364_initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606292140385_resetFKToNullable.resx">
-      <DependentUpon>201606292140385_resetFKToNullable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606292215004_fixedArtistAndVenue.resx">
-      <DependentUpon>201606292215004_fixedArtistAndVenue.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606302321343_redo.resx">
+      <DependentUpon>201606302321343_redo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

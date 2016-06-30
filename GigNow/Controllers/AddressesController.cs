@@ -17,7 +17,8 @@ namespace GigNow.Controllers
         // GET: Addresses
         public ActionResult Index()
         {
-            return View(db.Addresses.ToList());
+            var addresses = db.Addresses.Include(a => a.zipcode);
+            return View(addresses.ToList());
         }
 
         // GET: Addresses/Details/5
@@ -38,6 +39,7 @@ namespace GigNow.Controllers
         // GET: Addresses/Create
         public ActionResult Create()
         {
+            ViewBag.ZipCodeId = new SelectList(db.Zipcodes, "ZipcodeId", "ZipcodeId");
             return View();
         }
 
@@ -46,7 +48,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AddressId,StreetAddress,Apt")] Address address)
+        public ActionResult Create([Bind(Include = "AddressId,StreetAddress,Apt,ZipCodeId")] Address address)
         {
             if (ModelState.IsValid)
             {
@@ -55,6 +57,7 @@ namespace GigNow.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.ZipCodeId = new SelectList(db.Zipcodes, "ZipcodeId", "ZipcodeId", address.ZipCodeId);
             return View(address);
         }
 
@@ -70,6 +73,7 @@ namespace GigNow.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.ZipCodeId = new SelectList(db.Zipcodes, "ZipcodeId", "ZipcodeId", address.ZipCodeId);
             return View(address);
         }
 
@@ -78,7 +82,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AddressId,StreetAddress,Apt")] Address address)
+        public ActionResult Edit([Bind(Include = "AddressId,StreetAddress,Apt,ZipCodeId")] Address address)
         {
             if (ModelState.IsValid)
             {
@@ -86,6 +90,7 @@ namespace GigNow.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.ZipCodeId = new SelectList(db.Zipcodes, "ZipcodeId", "ZipcodeId", address.ZipCodeId);
             return View(address);
         }
 

@@ -17,7 +17,7 @@ namespace GigNow.Controllers
         // GET: Zipcodes
         public ActionResult Index()
         {
-            var zipcodes = db.Zipcodes.Include(z => z.address);
+            var zipcodes = db.Zipcodes.Include(z => z.city);
             return View(zipcodes.ToList());
         }
 
@@ -39,7 +39,7 @@ namespace GigNow.Controllers
         // GET: Zipcodes/Create
         public ActionResult Create()
         {
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress");
+            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name");
             return View();
         }
 
@@ -48,7 +48,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ZipcodeId,ZipCode,AddressId")] Zipcode zipcode)
+        public ActionResult Create([Bind(Include = "ZipcodeId,ZipCode,CityId")] Zipcode zipcode)
         {
             if (ModelState.IsValid)
             {
@@ -57,7 +57,7 @@ namespace GigNow.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", zipcode.AddressId);
+            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", zipcode.CityId);
             return View(zipcode);
         }
 
@@ -73,7 +73,7 @@ namespace GigNow.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", zipcode.AddressId);
+            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", zipcode.CityId);
             return View(zipcode);
         }
 
@@ -82,7 +82,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ZipcodeId,ZipCode,AddressId")] Zipcode zipcode)
+        public ActionResult Edit([Bind(Include = "ZipcodeId,ZipCode,CityId")] Zipcode zipcode)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace GigNow.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", zipcode.AddressId);
+            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", zipcode.CityId);
             return View(zipcode);
         }
 
