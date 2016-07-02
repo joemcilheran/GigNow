@@ -9,7 +9,7 @@ namespace GigNow.Models
     public class Track
     {
         [Key]
-        public int TraclId { get; set; }
+        public int TrackId { get; set; }
         public string Name { get; set; }
         public byte[] Data { get; set; }
         public int? ArtistId { get; set; }

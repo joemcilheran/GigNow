@@ -47,20 +47,40 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(VenueViewModelVM venueViewModelVM)
+        public ActionResult Create(VenueViewModelVM venueViewModelVM, HttpPostedFileBase upload)
         {
+
             if (ModelState.IsValid)
             {
                 var userId = User.Identity.GetUserId();
-                db.VenueViewModelVMs.Add(venueViewModelVM);
-                db.SaveChanges();
+                db.Venues.Add(venueViewModelVM.venue);
+                db.Addresses.Add(venueViewModelVM.address);
+                db.Zipcodes.Add(venueViewModelVM.zipcode);
+                db.Cities.Add(venueViewModelVM.city);
+                db.States.Add(venueViewModelVM.state);
+                db.SaveChanges();   
                 venueViewModelVM.venue.AddressId = venueViewModelVM.address.AddressId;
                 venueViewModelVM.venue.UserId = userId;
                 venueViewModelVM.address.ZipCodeId = venueViewModelVM.zipcode.ZipcodeId;
                 venueViewModelVM.zipcode.CityId = venueViewModelVM.city.CityId;
-                venueViewModelVM.city.StateId = venueViewModelVM.state.StateId; 
-                db.SaveChanges();              
-                return RedirectToAction("AddFiles", "Venues", new {venueId = venueViewModelVM.venue.VenueId });
+                venueViewModelVM.city.StateId = venueViewModelVM.state.StateId;              
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    var photo = new Photo
+                    {
+                        Name = System.IO.Path.GetFileName(upload.FileName),
+                        VenueId = venueViewModelVM.venue.VenueId
+                    };
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        photo.Data = reader.ReadBytes(upload.ContentLength);
+                    }
+                    db.Photos.Add(photo);
+                    venueViewModelVM.photo = photo;
+
+                }
+                db.SaveChanges();
+                return RedirectToAction("VenueView", new {venueId = venueViewModelVM.venue.VenueId});
             }
 
             return View(venueViewModelVM);
@@ -131,5 +151,25 @@ namespace GigNow.Controllers
             }
             base.Dispose(disposing);
         }
+        public ActionResult VenueView(int venueId)
+        {
+            var Venue = db.Venues.Find(venueId);
+            var Address = db.Addresses.Find(Venue.AddressId);
+            var Zipcode = db.Zipcodes.Find(Address.ZipCodeId);
+            var City = db.Cities.Find(Zipcode.CityId);
+            var State = db.States.Find(City.StateId);
+            VenueViewModelVM VVM = new VenueViewModelVM
+            {
+                Id = 123,
+                photo = db.Photos.Find(venueId),
+                venue = Venue,
+                address = Address,
+                zipcode = Zipcode,
+                city = City,
+                state = State,
+            };
+            return View(VVM);
+        }
+
     }
 }

@@ -177,6 +177,7 @@
     <Compile Include="Controllers\GigsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ListenersController.cs" />
+    <Compile Include="Controllers\ListenerViewModelVMsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Controllers\PhotosController.cs" />
@@ -195,6 +196,18 @@
     <Compile Include="Migrations\201606302321343_redo.Designer.cs">
       <DependentUpon>201606302321343_redo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607011402568_added listenerViewModel.cs" />
+    <Compile Include="Migrations\201607011402568_added listenerViewModel.Designer.cs">
+      <DependentUpon>201607011402568_added listenerViewModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607011407564_corrected typo in trackId.cs" />
+    <Compile Include="Migrations\201607011407564_corrected typo in trackId.Designer.cs">
+      <DependentUpon>201607011407564_corrected typo in trackId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607011702394_added photo to viewmodels.cs" />
+    <Compile Include="Migrations\201607011702394_added photo to viewmodels.Designer.cs">
+      <DependentUpon>201607011702394_added photo to viewmodels.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
@@ -206,6 +219,7 @@
     <Compile Include="Models\GigRelationship.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Listener.cs" />
+    <Compile Include="Models\ListenerViewModelVM.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Photo.cs" />
@@ -318,11 +332,6 @@
     <Content Include="Views\Venues\Details.cshtml" />
     <Content Include="Views\Venues\Edit.cshtml" />
     <Content Include="Views\Venues\Index.cshtml" />
-    <Content Include="Views\Tracks\Create.cshtml" />
-    <Content Include="Views\Tracks\Delete.cshtml" />
-    <Content Include="Views\Tracks\Details.cshtml" />
-    <Content Include="Views\Tracks\Edit.cshtml" />
-    <Content Include="Views\Tracks\Index.cshtml" />
     <Content Include="Views\Videos\Create.cshtml" />
     <Content Include="Views\Videos\Delete.cshtml" />
     <Content Include="Views\Videos\Details.cshtml" />
@@ -367,6 +376,17 @@
     <Content Include="Views\Zipcodes\Details.cshtml" />
     <Content Include="Views\Zipcodes\Edit.cshtml" />
     <Content Include="Views\Zipcodes\Index.cshtml" />
+    <Content Include="Views\ListenerViewModelVMs\Create.cshtml" />
+    <Content Include="Views\ListenerViewModelVMs\Delete.cshtml" />
+    <Content Include="Views\ListenerViewModelVMs\Details.cshtml" />
+    <Content Include="Views\ListenerViewModelVMs\Edit.cshtml" />
+    <Content Include="Views\ListenerViewModelVMs\Index.cshtml" />
+    <Content Include="Views\Tracks\Create.cshtml" />
+    <Content Include="Views\Tracks\Delete.cshtml" />
+    <Content Include="Views\Tracks\Details.cshtml" />
+    <Content Include="Views\Tracks\Edit.cshtml" />
+    <Content Include="Views\Tracks\Index.cshtml" />
+    <Content Include="Views\VenueViewModelVMs\VenueView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -382,6 +402,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201606302321343_redo.resx">
       <DependentUpon>201606302321343_redo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607011402568_added listenerViewModel.resx">
+      <DependentUpon>201607011402568_added listenerViewModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607011407564_corrected typo in trackId.resx">
+      <DependentUpon>201607011407564_corrected typo in trackId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607011702394_added photo to viewmodels.resx">
+      <DependentUpon>201607011702394_added photo to viewmodels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

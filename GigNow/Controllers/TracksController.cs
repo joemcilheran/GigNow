@@ -48,7 +48,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TraclId,Name,Data,ArtistId")] Track track)
+        public ActionResult Create([Bind(Include = "TrackId,Name,Data,ArtistId")] Track track)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +82,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TraclId,Name,Data,ArtistId")] Track track)
+        public ActionResult Edit([Bind(Include = "TrackId,Name,Data,ArtistId")] Track track)
         {
             if (ModelState.IsValid)
             {

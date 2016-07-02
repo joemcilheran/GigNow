@@ -132,5 +132,10 @@ namespace GigNow.Controllers
             }
             base.Dispose(disposing);
         }
+        public ActionResult ShowPhoto(int PhotoId)
+        {
+            var photo = db.Photos.Find(PhotoId);
+            return File(photo.Data, "image/jpg");
+        }
     }
 }

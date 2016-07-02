@@ -47,17 +47,32 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ArtistViewModelVM artistViewModelVM)
+        public ActionResult Create(ArtistViewModelVM artistViewModelVM, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
                 var userId = User.Identity.GetUserId();
                 db.ArtistViewModelVMs.Add(artistViewModelVM);
+                db.SaveChanges();
                 artistViewModelVM.artist.AddressId = artistViewModelVM.address.AddressId;
                 artistViewModelVM.artist.UserId = userId;
                 artistViewModelVM.address.ZipCodeId = artistViewModelVM.zipcode.ZipcodeId;
                 artistViewModelVM.zipcode.CityId = artistViewModelVM.city.CityId;
                 artistViewModelVM.city.StateId = artistViewModelVM.state.StateId;
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    var photo = new Photo
+                    {
+                        Name = System.IO.Path.GetFileName(upload.FileName),
+                        ArtistId = artistViewModelVM.artist.ArtistId
+                    };
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        photo.Data = reader.ReadBytes(upload.ContentLength);
+                    }
+                    db.Photos.Add(photo);
+                    artistViewModelVM.photo = photo;
+                }
                 db.SaveChanges();
                 return RedirectToAction("AddFiles","Artists", new {ArtistId = artistViewModelVM.artist.ArtistId });
             }
