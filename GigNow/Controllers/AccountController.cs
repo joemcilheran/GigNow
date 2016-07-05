@@ -489,19 +489,22 @@ namespace GigNow.Controllers
         }
         public ActionResult RedirectToView()
         {
-            var user = User.Identity;
-            var s = UserManager.GetRoles(user.GetUserId());
+            var userId = User.Identity.GetUserId();
+            var s = UserManager.GetRoles(userId);
             string role = s[0].ToString();
             switch (role)
             {
                 case "Admin":
                     return RedirectToAction("Index", "Users");
                 case "Venue Manager":
-                    return RedirectToAction("ViewProfile", "Venue");
+                    var venue = db.Venues.FirstOrDefault(x => x.UserId == userId);
+                    return RedirectToAction("VenueView", "Venues", new {venueId = venue.VenueId});
                 case "Artist Manager":
-                    return RedirectToAction("ViewProfile", "Artists");
+                    var artist = db.Artists.FirstOrDefault(x => x.UserId == userId);
+                    return RedirectToAction("ArtistView", "Artists", new {artistId = artist.ArtistId});
                 default:
-                    return RedirectToAction("ViewProfile", "Listeners");
+                    var listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
+                    return RedirectToAction("ListenerView", "Listeners", new {listenerId = listener.ListenerID});
             }
         }
         public ActionResult RedirectToCreateProfile()
@@ -512,9 +515,9 @@ namespace GigNow.Controllers
             switch (role)
             {
                 case "Venue Manager":
-                    return RedirectToAction("Create", "VenueViewModelVMs");
+                    return RedirectToAction("Create", "Venues");
                 case "Artist Manager":
-                    return RedirectToAction("Create", "ArtistViewModelVMs");
+                    return RedirectToAction("Create", "Artists");
                 default:
                     return RedirectToAction("Create", "Listeners");
             }

@@ -12,12 +12,15 @@ namespace GigNow.Models
         [Key]
         public int GigId { get; set; }
         public int Cover { get; set; }
+        [DataType(DataType.Date)]
         public DateTime Date { get; set; }
         public DateTime Time { get; set; }
-        public string DefaultGenre { get; set; }
-        public int? DefaulCompensation { get; set; }
         public string Name { get; set; }
-        public bool UseVenueDefaults { get; set; }
+        public string DefaultArtistType { get; set; }
+        public int? DefaultCompensation { get; set; }
+        public string DefaultGenre { get; set; }
+        public string DefaultPerks { get; set; }
+        public string LoadInInsrtuctions { get; set; }
         [ForeignKey("Venue")]
         public int? VenueId { get; set; }
         public Venue Venue { get; set; }

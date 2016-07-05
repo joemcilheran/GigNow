@@ -208,6 +208,18 @@
     <Compile Include="Migrations\201607011702394_added photo to viewmodels.Designer.cs">
       <DependentUpon>201607011702394_added photo to viewmodels.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607051626134_added defaults to gig.cs" />
+    <Compile Include="Migrations\201607051626134_added defaults to gig.Designer.cs">
+      <DependentUpon>201607051626134_added defaults to gig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607051918467_added artistId to slot.cs" />
+    <Compile Include="Migrations\201607051918467_added artistId to slot.Designer.cs">
+      <DependentUpon>201607051918467_added artistId to slot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607051927549_made FK artistId in slot nullable.cs" />
+    <Compile Include="Migrations\201607051927549_made FK artistId in slot nullable.Designer.cs">
+      <DependentUpon>201607051927549_made FK artistId in slot nullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
@@ -217,6 +229,7 @@
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Gig.cs" />
     <Compile Include="Models\GigRelationship.cs" />
+    <Compile Include="Models\GigViewModelVM.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Listener.cs" />
     <Compile Include="Models\ListenerViewModelVM.cs" />
@@ -230,6 +243,7 @@
     <Compile Include="Models\VenueRelationship.cs" />
     <Compile Include="Models\VenueViewModelVM.cs" />
     <Compile Include="Models\Video.cs" />
+    <Compile Include="Models\VideoResult.cs" />
     <Compile Include="Models\Zipcode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -243,10 +257,14 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\DatePickerReady.js" />
+    <Content Include="Scripts\jquery-1.5.2.js" />
+    <Content Include="Scripts\jquery-1.5.2.min.js" />
+    <Content Include="Scripts\jquery.ui.core.js" />
+    <Content Include="Scripts\jquery.ui.core.min.js" />
+    <Content Include="Scripts\jquery.ui.datepicker.js" />
+    <Content Include="Scripts\jquery.ui.datepicker.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -312,11 +330,9 @@
     <Content Include="Views\Messages\Details.cshtml" />
     <Content Include="Views\Messages\Edit.cshtml" />
     <Content Include="Views\Messages\Index.cshtml" />
-    <Content Include="Views\Slots\Create.cshtml" />
     <Content Include="Views\Slots\Delete.cshtml" />
     <Content Include="Views\Slots\Details.cshtml" />
     <Content Include="Views\Slots\Edit.cshtml" />
-    <Content Include="Views\Slots\Index.cshtml" />
     <Content Include="Views\VenueRelationships\Create.cshtml" />
     <Content Include="Views\VenueRelationships\Delete.cshtml" />
     <Content Include="Views\VenueRelationships\Details.cshtml" />
@@ -386,7 +402,13 @@
     <Content Include="Views\Tracks\Details.cshtml" />
     <Content Include="Views\Tracks\Edit.cshtml" />
     <Content Include="Views\Tracks\Index.cshtml" />
-    <Content Include="Views\VenueViewModelVMs\VenueView.cshtml" />
+    <Content Include="Views\Venues\VenueView.cshtml" />
+    <Content Include="Views\Artists\AddAudioandVideo.cshtml" />
+    <Content Include="Views\Artists\ArtistView.cshtml" />
+    <Content Include="Views\Gigs\GigView.cshtml" />
+    <Content Include="Views\Slots\Index.cshtml" />
+    <Content Include="Views\Slots\Create.cshtml" />
+    <Content Include="Views\Shared\Date.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -397,7 +419,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201606302321343_redo.resx">
@@ -411,6 +432,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607011702394_added photo to viewmodels.resx">
       <DependentUpon>201607011702394_added photo to viewmodels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607051626134_added defaults to gig.resx">
+      <DependentUpon>201607051626134_added defaults to gig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607051918467_added artistId to slot.resx">
+      <DependentUpon>201607051918467_added artistId to slot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607051927549_made FK artistId in slot nullable.resx">
+      <DependentUpon>201607051927549_made FK artistId in slot nullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

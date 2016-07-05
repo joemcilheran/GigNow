@@ -1,0 +1,101 @@
+﻿@model GigNow.Models.GigViewModelVM
+@{
+    ViewBag.Title = "GigView";
+}
+<div>
+    <h2>@Html.DisplayFor(model => model.gig.Name)</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.venue.Name)
+        </dt>
+
+        <dd>
+            @Html.ActionLink((Model.venue.Name),"VenueView", new {venueId = Model.venue.VenueId})
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.gig.Cover)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gig.Cover)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.gig.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gig.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.gig.Time)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gig.Time)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.gig.LoadInInsrtuctions)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gig.LoadInInsrtuctions)
+        </dd>
+
+        @if (ViewBag.User == "Gig Admin")
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.gig.DefaultGenre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.gig.DefaultGenre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.gig.DefaultArtistType)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.gig.DefaultArtistType)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.gig.DefaultCompensation)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.gig.DefaultCompensation)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.gig.DefaultPerks)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.gig.DefaultPerks)
+            </dd>
+        }
+
+
+    </dl>
+</div>
+    @if(Model.bill.Count > 0)
+    {
+        <h2>Bill</h2>
+        @Html.Action("Index","Slots", new {bill = Model.bill})
+    }
+    else
+    {
+        <h4>No Slots added</h4>
+    }
+    @if(ViewBag.User == "Gig Admin")
+    {
+        @Html.ActionLink("Add a slot","Create","Slots", new {gigId = Model.gig.GigId})
+    }
+
+
+
+
+

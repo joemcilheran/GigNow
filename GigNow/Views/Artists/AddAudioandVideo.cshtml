@@ -1,0 +1,52 @@
+﻿@model GigNow.Models.Artist
+
+@{
+    ViewBag.Title = "AddAudioandVideo";
+}
+
+<h2>@Html.DisplayFor(model => model.Name)</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Add Audio Tracks and a Video to your Profile</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Add an audio track", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="Track One" name="audio1" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Add an audio track", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="Track Two" name="audio2" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Add an audio track", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="Track Three" name="audio3" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Add a Video", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="Video" name="video" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

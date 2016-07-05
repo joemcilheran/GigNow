@@ -52,7 +52,11 @@ namespace GigNow.Controllers
             if (ModelState.IsValid)
             {
                 var userId = User.Identity.GetUserId();
-                db.ArtistViewModelVMs.Add(artistViewModelVM);
+                db.Artists.Add(artistViewModelVM.artist);
+                db.Addresses.Add(artistViewModelVM.address);
+                db.Zipcodes.Add(artistViewModelVM.zipcode);
+                db.Cities.Add(artistViewModelVM.city);
+                db.States.Add(artistViewModelVM.state);
                 db.SaveChanges();
                 artistViewModelVM.artist.AddressId = artistViewModelVM.address.AddressId;
                 artistViewModelVM.artist.UserId = userId;
@@ -72,11 +76,11 @@ namespace GigNow.Controllers
                     }
                     db.Photos.Add(photo);
                     artistViewModelVM.photo = photo;
+
                 }
                 db.SaveChanges();
-                return RedirectToAction("AddFiles","Artists", new {ArtistId = artistViewModelVM.artist.ArtistId });
+                return RedirectToAction("AddAudioandVideo","Artists", new {artist = artistViewModelVM.artist});
             }
-
             return View(artistViewModelVM);
         }
 
@@ -144,6 +148,26 @@ namespace GigNow.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public ActionResult ArtistView()
+        {
+            var userId = User.Identity.GetUserId();
+            var Artist = db.Artists.FirstOrDefault(x => x.UserId == userId);
+            var Address = db.Addresses.Find(Artist.AddressId);
+            var Zipcode = db.Zipcodes.Find(Address.ZipCodeId);
+            var City = db.Cities.Find(Zipcode.CityId);
+            var State = db.States.Find(City.StateId);
+            ArtistViewModelVM AVM = new ArtistViewModelVM
+            {
+                Id = 1,
+                photo = db.Photos.FirstOrDefault(x => x.VenueId == Artist.ArtistId),
+                artist = Artist,
+                address = Address,
+                zipcode = Zipcode,
+                city = City,
+                state = State,
+            };
+            return View(AVM);
         }
     }
 }

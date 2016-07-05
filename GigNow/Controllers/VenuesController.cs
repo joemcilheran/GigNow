@@ -36,56 +36,55 @@ namespace GigNow.Controllers
             }
             return View(venue);
         }
-        //public ActionResult CreateArtist()
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //public ActionResult CreateArtist(string Name, string ContactName, string Genre1, string Genre2, string Genre3, string Type, int? NumberofMembers, string StreetAddress, string Apt, int? Zip, string City, string State)
-        //{
-        //    //var userId = User.Identity.GetUserId();
-        //    //Address address = new Address { Apt = Apt, StreetAddress = StreetAddress };
-        //    //db.Addresses.Add(address);
-        //    //db.SaveChanges();
-        //    //Zipcode zipcode = new Zipcode { ZipCode = Zip, AddressId = address.AddressId };
-        //    //db.Zipcodes.Add(zipcode);
-        //    //db.SaveChanges();
-        //    //City city = new City { Name = City, ZipCodeId = zipcode.ZipcodeId };
-        //    //db.Cities.Add(city);
-        //    //db.SaveChanges();
-        //    //State state = new State { Name = State, CityId = city.CityId };
-        //    //db.States.Add(state);
-        //    //db.SaveChanges();
-        //    //Artist artist = new Artist { Name = Name, ContactName = ContactName, Genre1 = Genre1, Genre2 = Genre2, Genre3 = Genre3, Type = Type, NumberOfMembers = NumberofMembers, UserId = userId, AddressId = address.AddressId };
-        //    //db.Artists.Add(artist);
-        //    //db.SaveChanges();
-        //    return RedirectToAction("AddFiles", new { Artistid = artist.ArtistId });
-
-        //}
 
         // GET: Venues/Create
         public ActionResult Create()
         {
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress");
             return View();
         }
 
-        // POST: Venues/Create
+        // POST: VenueViewModelVMs/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "VenueId,Name,AddressId,Capacity,StageSize,ContactName,DefaultArtistType,DefaultCompensation,DefaultGenre,DefaultPerks,FBLink,SiteLink,TwitterLink,ExtraLink,ExtraLink2,SoundSystem,LoadInInstructions,rating,UserId")] Venue venue)
+        public ActionResult Create(VenueViewModelVM venueViewModelVM, HttpPostedFileBase upload)
         {
+
             if (ModelState.IsValid)
             {
-                db.Venues.Add(venue);
+                var userId = User.Identity.GetUserId();
+                db.Venues.Add(venueViewModelVM.venue);
+                db.Addresses.Add(venueViewModelVM.address);
+                db.Zipcodes.Add(venueViewModelVM.zipcode);
+                db.Cities.Add(venueViewModelVM.city);
+                db.States.Add(venueViewModelVM.state);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                venueViewModelVM.venue.AddressId = venueViewModelVM.address.AddressId;
+                venueViewModelVM.venue.UserId = userId;
+                venueViewModelVM.address.ZipCodeId = venueViewModelVM.zipcode.ZipcodeId;
+                venueViewModelVM.zipcode.CityId = venueViewModelVM.city.CityId;
+                venueViewModelVM.city.StateId = venueViewModelVM.state.StateId;
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    var photo = new Photo
+                    {
+                        Name = System.IO.Path.GetFileName(upload.FileName),
+                        VenueId = venueViewModelVM.venue.VenueId
+                    };
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        photo.Data = reader.ReadBytes(upload.ContentLength);
+                    }
+                    db.Photos.Add(photo);
+                    venueViewModelVM.photo = photo;
+
+                }
+                db.SaveChanges();
+                return RedirectToAction("VenueView", new { venueId = venueViewModelVM.venue.VenueId });
             }
 
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", venue.AddressId);
-            return View(venue);
+            return View(venueViewModelVM);
         }
 
         // GET: Venues/Edit/5
@@ -158,6 +157,30 @@ namespace GigNow.Controllers
         public ActionResult AddFiles(int VenueId)
         {
             return View();
+        }
+        public ActionResult VenueView(int VenueId)
+        {
+            var userId = User.Identity.GetUserId();
+            var Venue = db.Venues.Find(VenueId);
+            if(Venue.UserId == userId)
+            {
+                ViewBag.User = "Venue Admin";
+            }
+            var Address = db.Addresses.Find(Venue.AddressId);
+            var Zipcode = db.Zipcodes.Find(Address.ZipCodeId);
+            var City = db.Cities.Find(Zipcode.CityId);
+            var State = db.States.Find(City.StateId);
+            VenueViewModelVM VVM = new VenueViewModelVM
+            {
+                Id = 1,
+                photo = db.Photos.FirstOrDefault(x => x.VenueId == Venue.VenueId),
+                venue = Venue,
+                address = Address,
+                zipcode = Zipcode,
+                city = City,
+                state = State,
+            };
+            return View(VVM);
         }
     }
 }

@@ -151,17 +151,18 @@ namespace GigNow.Controllers
             }
             base.Dispose(disposing);
         }
-        public ActionResult VenueView(int venueId)
+        public ActionResult VenueView()
         {
-            var Venue = db.Venues.Find(venueId);
+            var userId = User.Identity.GetUserId();
+            var Venue = db.Venues.FirstOrDefault(x => x.UserId == userId);
             var Address = db.Addresses.Find(Venue.AddressId);
             var Zipcode = db.Zipcodes.Find(Address.ZipCodeId);
             var City = db.Cities.Find(Zipcode.CityId);
             var State = db.States.Find(City.StateId);
             VenueViewModelVM VVM = new VenueViewModelVM
             {
-                Id = 123,
-                photo = db.Photos.Find(venueId),
+                Id = 1,
+                photo = db.Photos.FirstOrDefault(x => x.VenueId == Venue.VenueId),
                 venue = Venue,
                 address = Address,
                 zipcode = Zipcode,

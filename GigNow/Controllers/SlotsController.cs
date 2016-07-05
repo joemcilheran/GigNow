@@ -15,10 +15,9 @@ namespace GigNow.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Slots
-        public ActionResult Index()
+        public ActionResult Index(List<Slot> bill)
         {
-            var slots = db.Slots.Include(s => s.Gig);
-            return View(slots.ToList());
+            return View(bill);
         }
 
         // GET: Slots/Details/5
@@ -37,10 +36,18 @@ namespace GigNow.Controllers
         }
 
         // GET: Slots/Create
-        public ActionResult Create()
+        public ActionResult Create(int gigId)
         {
-            ViewBag.GigId = new SelectList(db.Gigs, "GigId", "DefaultGenre");
-            return View();
+            var Gig = db.Gigs.Find(gigId);
+            Slot slot = new Slot
+            {
+                GigId = gigId,
+                Compensation = Gig.DefaultCompensation,
+                Perks = Gig.DefaultPerks,
+                Genre = Gig.DefaultGenre,
+                ArtistType = Gig.DefaultArtistType
+            };
+            return View(slot);
         }
 
         // POST: Slots/Create
@@ -48,13 +55,13 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SlotId,Compensation,Genre,IsFilled,ArtistType,Perks,Order,Length,UseGigDefaults,GigId")] Slot slot)
+        public ActionResult Create(Slot slot)
         {
             if (ModelState.IsValid)
             {
                 db.Slots.Add(slot);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("GigView","Gigs", new {gigId = slot.GigId });
             }
 
             ViewBag.GigId = new SelectList(db.Gigs, "GigId", "DefaultGenre", slot.GigId);

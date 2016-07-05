@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GigNow.Models;
+using Microsoft.AspNet.Identity;
 
 namespace GigNow.Controllers
 {
@@ -39,28 +40,35 @@ namespace GigNow.Controllers
         // GET: Listeners/Create
         public ActionResult Create()
         {
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress");
-            
             return View();
         }
 
-        // POST: Listeners/Create
+        // POST: ListenerViewModelVMs/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ListenerID,AddressId,UserId,Genre1,Genre2,Genre3")] Listener listener)
+        public ActionResult Create(ListenerViewModelVM listenerViewModelVM)
         {
             if (ModelState.IsValid)
             {
-                db.Listeners.Add(listener);
+                db.Listeners.Add(listenerViewModelVM.listener);
+                db.Addresses.Add(listenerViewModelVM.address);
+                db.Zipcodes.Add(listenerViewModelVM.zipcode);
+                db.Cities.Add(listenerViewModelVM.city);
+                db.States.Add(listenerViewModelVM.state);
+                db.SaveChanges();
+                var userId = User.Identity.GetUserId();
+                listenerViewModelVM.listener.AddressId = listenerViewModelVM.address.AddressId;
+                listenerViewModelVM.listener.UserId = userId;
+                listenerViewModelVM.address.ZipCodeId = listenerViewModelVM.zipcode.ZipcodeId;
+                listenerViewModelVM.zipcode.CityId = listenerViewModelVM.city.CityId;
+                listenerViewModelVM.city.StateId = listenerViewModelVM.state.StateId;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", listener.AddressId);
-            
-            return View(listener);
+            return View(listenerViewModelVM);
         }
 
         // GET: Listeners/Edit/5

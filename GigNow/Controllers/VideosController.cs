@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GigNow.Models;
+using Microsoft.AspNet.Identity;
+using System.IO;
 
 namespace GigNow.Controllers
 {
@@ -127,6 +129,18 @@ namespace GigNow.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
+        } 
+        //public void PlayVideo(ControllerContext context)
+        //{
+        //    var userId = User.Identity.GetUserId();
+        //    var artist = db.Artists.FirstOrDefault(x => x.UserId == userId);
+        //    var artistId = artist.ArtistId;
+        //    var video = db.Videos.FirstOrDefault(x => x.AtistId == artistId);
+        //    var stream = new MemoryStream(video.Data);
+        //    var bytesinfile = new byte[stream.Length];
+        //    stream.Read(bytesinfile, 0, video.Data.Length);
+        //    BinaryWriter.Write(bytesinfile);
+
+        //}
     }
 }

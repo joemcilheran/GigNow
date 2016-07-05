@@ -6,7 +6,6 @@
 
 <h2>Create</h2>
 
-
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
@@ -28,16 +27,6 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Genre, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Genre, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsFilled, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsFilled)
-                    @Html.ValidationMessageFor(model => model.IsFilled, "", new { @class = "text-danger" })
-                </div>
             </div>
         </div>
 
@@ -72,23 +61,8 @@
                 @Html.ValidationMessageFor(model => model.Length, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UseGigDefaults, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.UseGigDefaults)
-                    @Html.ValidationMessageFor(model => model.UseGigDefaults, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.GigId, "GigId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("GigId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.GigId, "", new { @class = "text-danger" })
-            </div>
+        <div>
+            @Html.HiddenFor(model => model.GigId)
         </div>
 
         <div class="form-group">
@@ -102,7 +76,3 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

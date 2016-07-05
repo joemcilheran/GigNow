@@ -36,58 +36,53 @@ namespace GigNow.Controllers
             }
             return View(artist);
         }
-        public ActionResult CreateArtist()
-        { 
-            return View();
-        }
-        [HttpPost]
-        //public ActionResult CreateArtist(string Name, string ContactName, string Genre1, string Genre2, string Genre3, string Type, int? NumberofMembers, string StreetAddress, string Apt, int? Zip, string City, string State)
-        //{
-        //    //var userId = User.Identity.GetUserId();
-        //    //Address address = new Address {Apt = Apt, StreetAddress = StreetAddress};
-        //    //db.Addresses.Add(address);
-        //    //db.SaveChanges();
-        //    //Zipcode zipcode = new Zipcode {ZipCode = Zip, AddressId = address.AddressId };
-        //    //db.Zipcodes.Add(zipcode);
-        //    //db.SaveChanges();
-        //    //City city = new City { Name = City, ZipCodeId = zipcode.ZipcodeId };
-        //    //db.Cities.Add(city);
-        //    //db.SaveChanges();
-        //    //State state = new State { Name = State, CityId = city.CityId };
-        //    //db.States.Add(state);
-        //    //db.SaveChanges();
-        //    //Artist artist = new Artist { Name = Name, ContactName = ContactName, Genre1 = Genre1, Genre2 = Genre2, Genre3 = Genre3, Type = Type, NumberOfMembers = NumberofMembers, UserId = userId, AddressId = address.AddressId };
-        //    //db.Artists.Add(artist);
-        //    //db.SaveChanges();
-        //    return RedirectToAction("AddFiles",new { Artistid = artist.ArtistId });
-
-        //}
 
         // GET: Artists/Create
         public ActionResult Create()
         {
-           
-            
             return View();
         }
 
-        // POST: Artists/Create
+        // POST: ArtistViewModelVMs/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ArtistId,Name,StreetAddress,City,ZipCode,State,ContactName,Genre1,Genre2,Genre3,Type,NumberOfMembers")] Artist artist)
+        public ActionResult Create(ArtistViewModelVM artistViewModelVM, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
-                db.Artists.Add(artist);
+                var userId = User.Identity.GetUserId();
+                db.Artists.Add(artistViewModelVM.artist);
+                db.Addresses.Add(artistViewModelVM.address);
+                db.Zipcodes.Add(artistViewModelVM.zipcode);
+                db.Cities.Add(artistViewModelVM.city);
+                db.States.Add(artistViewModelVM.state);
                 db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                artistViewModelVM.artist.AddressId = artistViewModelVM.address.AddressId;
+                artistViewModelVM.artist.UserId = userId;
+                artistViewModelVM.address.ZipCodeId = artistViewModelVM.zipcode.ZipcodeId;
+                artistViewModelVM.zipcode.CityId = artistViewModelVM.city.CityId;
+                artistViewModelVM.city.StateId = artistViewModelVM.state.StateId;
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    var photo = new Photo
+                    {
+                        Name = System.IO.Path.GetFileName(upload.FileName),
+                        ArtistId = artistViewModelVM.artist.ArtistId
+                    };
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        photo.Data = reader.ReadBytes(upload.ContentLength);
+                    }
+                    db.Photos.Add(photo);
+                    artistViewModelVM.photo = photo;
 
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", artist.AddressId);
-           
-            return View(artist);
+                }
+                db.SaveChanges();
+                return RedirectToAction("AddAudioandVideo", new { artist = artistViewModelVM.artist });
+            }
+            return View(artistViewModelVM);
         }
 
         // GET: Artists/Edit/5
@@ -159,9 +154,76 @@ namespace GigNow.Controllers
             }
             base.Dispose(disposing);
         }
-        public ActionResult AddFiles(int Artistid)
+        public ActionResult AddAudioandVideo(Artist artist)
         {
-            return View();
+            return View(artist);
         }
+        [HttpPost]
+        public ActionResult AddAudioandVideo(HttpPostedFileBase audio1, HttpPostedFileBase audio2, HttpPostedFileBase audio3, HttpPostedFileBase video)
+        {
+            var userId = User.Identity.GetUserId();
+            var artist = db.Artists.FirstOrDefault(x => x.UserId == userId);
+            var artistId = artist.ArtistId;
+            saveAudio(audio1, artistId);
+            saveAudio(audio2, artistId);
+            saveAudio(audio3, artistId);
+            saveVideo(video, artistId);
+            return RedirectToAction("ArtistView");
+        }
+        public void saveAudio(HttpPostedFileBase audio, int artistId)
+        {
+            if (audio != null && audio.ContentLength > 0)
+            {
+                Track track = new Track
+                {
+                    Name = System.IO.Path.GetFileName(audio.FileName),
+                    ArtistId = artistId
+                };
+                using (var reader = new System.IO.BinaryReader(audio.InputStream))
+                {
+                    track.Data = reader.ReadBytes(audio.ContentLength);
+                }
+                db.Tracks.Add(track);
+                db.SaveChanges();
+            }
+        }
+        public void saveVideo(HttpPostedFileBase upload, int artistId)
+        {
+            if (upload != null && upload.ContentLength > 0)
+            {
+                Video video = new Video
+                {
+                    Name = System.IO.Path.GetFileName(upload.FileName),
+                    AtistId = artistId
+                };
+                using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                {
+                    video.Data = reader.ReadBytes(upload.ContentLength);
+                }
+                db.Videos.Add(video);
+                db.SaveChanges();
+            }
+        }
+        public ActionResult ArtistView()
+        {
+            var userId = User.Identity.GetUserId();
+            var Artist = db.Artists.FirstOrDefault(x => x.UserId == userId);
+            var Address = db.Addresses.Find(Artist.AddressId);
+            var Zipcode = db.Zipcodes.Find(Address.ZipCodeId);
+            var City = db.Cities.Find(Zipcode.CityId);
+            var State = db.States.Find(City.StateId);
+            ArtistViewModelVM AVM = new ArtistViewModelVM
+            {
+                Id = 1,
+                photo = db.Photos.FirstOrDefault(x => x.VenueId == Artist.ArtistId),
+                artist = Artist,
+                address = Address,
+                zipcode = Zipcode,
+                city = City,
+                state = State,
+            };
+            return View(AVM);
+        }
+
     }
 }

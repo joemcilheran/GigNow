@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GigNow.Models;
+using Microsoft.AspNet.Identity;
 
 namespace GigNow.Controllers
 {
@@ -39,8 +40,17 @@ namespace GigNow.Controllers
         // GET: Gigs/Create
         public ActionResult Create()
         {
-            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name");
-            return View();
+            var userId = User.Identity.GetUserId();
+            var venue = db.Venues.FirstOrDefault(x => x.UserId == userId);
+            Gig gig = new Gig
+            {
+                VenueId = venue.VenueId,
+                DefaultArtistType = venue.DefaultArtistType,
+                DefaultCompensation = venue.DefaultCompensation,
+                DefaultGenre = venue.DefaultGenre,
+                DefaultPerks = venue.DefaultPerks
+            };
+            return View(gig);
         }
 
         // POST: Gigs/Create
@@ -48,13 +58,13 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "GigId,Cover,Date,Time,DefaultGenre,DefaulCompensation,Name,UseVenueDefaults,VenueId")] Gig gig)
+        public ActionResult Create(Gig gig)
         {
             if (ModelState.IsValid)
             {
                 db.Gigs.Add(gig);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("GigView", new {gigId = gig.GigId });
             }
 
             ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", gig.VenueId);
@@ -127,6 +137,23 @@ namespace GigNow.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public ActionResult GigView(int gigId)
+        {
+            var userId = User.Identity.GetUserId();
+            var Gig = db.Gigs.Find(gigId);
+            var Venue = db.Venues.FirstOrDefault(x => x.VenueId == Gig.VenueId);
+            if(userId == Venue.UserId)
+            {
+                ViewBag.User = "Gig Admin";
+            }
+            GigViewModelVM GVM = new GigViewModelVM
+            {
+                gig = Gig,
+                venue = Venue,
+                bill = db.Slots.Where(x => x.GigId == Gig.GigId).ToList()
+            };
+            return View(GVM);
         }
     }
 }

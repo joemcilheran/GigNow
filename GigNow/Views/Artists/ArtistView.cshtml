@@ -1,0 +1,102 @@
+﻿@model GigNow.Models.ArtistViewModelVM
+
+@{
+    ViewBag.Title = "ArtistView";
+}
+
+<h2>ArtistView</h2>
+
+<div>
+    <h2>@Html.DisplayFor(model => model.artist.Name)</h2>
+
+    <div>
+        <div><img src="@Url.Action("ShowPhoto","Photos", new {PhotoId = Model.photo.PhotoId})" width="400" height="400"></div>
+        <hr />
+        <dl class="dl-horizontal">
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.artist.ContactName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.artist.ContactName)
+            </dd>
+            <dt>
+                <text>Address</text>
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.address.StreetAddress)<text>,</text>@Html.DisplayFor(model => model.address.Apt)<br />
+                @Html.DisplayFor(model => model.city.Name)<text>,</text>@Html.DisplayFor(model => model.state.Name)<text>  </text> @Html.DisplayFor(model => model.zipcode.ZipCode)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.artist.NumberOfMembers)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.artist.NumberOfMembers)<text>members</text>
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.artist.Genre1)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.artist.Genre1)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.artist.Genre2)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.artist.Genre2)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.artist.Genre3)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.artist.Genre3)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.artist.Type)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.artist.Type)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.artist.SiteLink)
+            </dt>
+            <dd>
+                <a href="@Html.DisplayFor(model => model.artist.SiteLink)">@Html.DisplayFor(model => model.artist.SiteLink)</a>
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.artist.FBLink)
+            </dt>
+            <dd>
+                <a href="@Html.DisplayFor(model => model.artist.FBLink)">@Html.DisplayFor(model => model.artist.FBLink)</a>
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.artist.TwitterLink)
+            </dt>
+            <dd>
+                <a href="@Html.DisplayFor(model => model.artist.TwitterLink)">@Html.DisplayFor(model => model.artist.TwitterLink)</a>
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.artist.ExtraLink)
+            </dt>
+            <dd>
+                <a href="@Html.DisplayFor(model => model.artist.ExtraLink)">@Html.DisplayFor(model => model.artist.ExtraLink)</a>
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.artist.ExtraLink2)
+            </dt>
+            <dd>
+                <a href="@Html.DisplayFor(model => model.artist.ExtraLink2)">@Html.DisplayFor(model => model.artist.ExtraLink2)</a>
+            </dd>
+
+
+        </dl>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

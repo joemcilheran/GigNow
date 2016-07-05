@@ -51,7 +51,11 @@ namespace GigNow.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.ListenerViewModelVMs.Add(listenerViewModelVM);
+                db.Listeners.Add(listenerViewModelVM.listener);
+                db.Addresses.Add(listenerViewModelVM.address);
+                db.Zipcodes.Add(listenerViewModelVM.zipcode);
+                db.Cities.Add(listenerViewModelVM.city);
+                db.States.Add(listenerViewModelVM.state); 
                 db.SaveChanges();
                 var userId = User.Identity.GetUserId();
                 listenerViewModelVM.listener.AddressId = listenerViewModelVM.address.AddressId;
