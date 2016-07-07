@@ -71,7 +71,8 @@ C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.Migrations.addeddefaultstogig.resources
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.Migrations.addedartistIdtoslot.resources
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.Migrations.madeFKartistIdinslotnullable.resources
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.Migrations.removedcustomVMsfromdb.resources
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.csproj.GenerateResource.Cache
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.dll
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.pdb
-C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.Migrations.removedcustomVMsfromdb.resources
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.csprojResolveAssemblyReference.cache

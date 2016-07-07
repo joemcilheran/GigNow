@@ -1,0 +1,71 @@
+﻿@model IEnumerable<GigNow.Models.Artist>
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Search Artists</h2>
+
+
+<div>
+    @using (Html.BeginForm())
+    {
+        <p>Search By:</p>
+        <div>@Html.TextBox("artistCity")<text>  City</text></div>
+        <div><p>And/Or</p></div>
+        <div>@Html.TextBox("artistGenre")<text>   Genre</text></div><br />
+        <br />
+        <input type="submit" value="Search" />
+    }
+</div>
+
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre3)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.address.zipcode.city.Name)
+            </th>
+
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "ArtistView", "Artists", new { ArtistId = item.ArtistId }, null)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre3)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.address.zipcode.city.Name)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+
+
+

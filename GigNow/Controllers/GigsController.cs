@@ -198,10 +198,52 @@ namespace GigNow.Controllers
         //{
         //    return View(watchList);
         //}
-        public ActionResult ShowGigList(List<Gig> gigList)
+        public ActionResult ShowGigList(List<Gig> gigList, string gigView)
         {
+            ViewBag.gigView = gigView;
             return View(gigList);
         }
-
+        [HttpGet]
+        public ActionResult Search()
+        {
+            return View(new List<Gig>());
+        }
+        [HttpPost]
+        public ActionResult Search(string gigGenre, string gigCity, DateTime? date)
+        {
+            var gigSearchResultList = new List<Gig>();
+            if (!string.IsNullOrWhiteSpace(gigGenre) && !string.IsNullOrWhiteSpace(gigCity) && date.HasValue)
+            {
+                var genreGigs = (from slot in db.Slots where slot.Genre == gigGenre select slot.Gig);               
+                gigSearchResultList = genreGigs.Where(x => x.Venue.address.zipcode.city.Name == gigCity && x.Date.ToShortDateString() == date.GetValueOrDefault().ToShortDateString()).ToList();
+            }
+            else if (!string.IsNullOrWhiteSpace(gigGenre) && string.IsNullOrWhiteSpace(gigCity) && !date.HasValue)
+            {
+                gigSearchResultList = (from slot in db.Slots where slot.Genre == gigGenre select slot.Gig).ToList();
+            }
+            else if (string.IsNullOrWhiteSpace(gigGenre) && !string.IsNullOrWhiteSpace(gigCity) && !date.HasValue)
+            {
+                gigSearchResultList = db.Gigs.Where(x => x.Venue.address.zipcode.city.Name == gigCity).ToList();
+            }
+            else if (string.IsNullOrWhiteSpace(gigGenre) && string.IsNullOrWhiteSpace(gigCity) && date.HasValue)
+            {
+                gigSearchResultList = db.Gigs.Where(x => x.Date.ToShortDateString() == date.GetValueOrDefault().ToShortDateString()).ToList();
+            }
+            else if (!string.IsNullOrWhiteSpace(gigGenre) && !string.IsNullOrWhiteSpace(gigCity) && !date.HasValue)
+            {
+                var genreGigs = (from slot in db.Slots where slot.Genre == gigGenre select slot.Gig);
+                gigSearchResultList = genreGigs.Where(x => x.Venue.address.zipcode.city.Name == gigCity).ToList();
+            }
+            else if (string.IsNullOrWhiteSpace(gigGenre) && !string.IsNullOrWhiteSpace(gigCity) && date.HasValue)
+            {
+                gigSearchResultList = db.Gigs.Where(x => x.Venue.address.zipcode.city.Name == gigCity && x.Date.ToShortDateString() == date.GetValueOrDefault().ToShortDateString()).ToList();
+            }
+            else if (!string.IsNullOrWhiteSpace(gigGenre) && string.IsNullOrWhiteSpace(gigCity) && date.HasValue)
+            {
+                var genreGigs = (from slot in db.Slots where slot.Genre == gigGenre select slot.Gig);
+                gigSearchResultList = genreGigs.Where(x => x.Date.ToShortDateString() == date.GetValueOrDefault().ToShortDateString()).ToList();
+            }
+            return View(gigSearchResultList);
+        }
     }
 }

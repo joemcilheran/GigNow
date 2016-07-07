@@ -1,0 +1,43 @@
+﻿@model IEnumerable<GigNow.Models.Venue>
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Search Venues</h2>
+<div>
+    @using (Html.BeginForm())
+    {
+        <p>Search By:</p>
+        <div>@Html.TextBox("city")<text>  City</text></div><br />
+        <br />
+        <input type="submit" value="Search" />
+    }
+</div>
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.address.zipcode.city.Name)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "VenueView", "Venues", new { venueId = item.VenueId }, null)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.address.zipcode.city.Name)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+

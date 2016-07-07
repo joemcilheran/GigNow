@@ -53,7 +53,7 @@
     <div>
         @if (Model.GigWatchList.Count > 0)
         {
-            @Html.Action("ShowGigList", "Gigs", new { gigList = Model.GigWatchList })
+            @Html.Action("ShowGigList", "Gigs", new { gigList = Model.GigWatchList, gigView = "false" })
         }
     </div>
     <p>

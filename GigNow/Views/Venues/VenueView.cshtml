@@ -116,7 +116,7 @@
 <div>
     @if (Model.gigList.Count > 0)
     {
-        @Html.Action("ShowGigList", "Gigs", new { gigList = Model.gigList })
+        @Html.Action("ShowGigList", "Gigs", new { gigList = Model.gigList, gigView = "true" })
     }
 </div>
 @if (ViewBag.User == "Venue Admin")

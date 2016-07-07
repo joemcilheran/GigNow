@@ -1,0 +1,66 @@
+﻿@model IEnumerable<GigNow.Models.Gig>
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Search for a Gig</h2>
+
+<div>
+    @using (Html.BeginForm())
+    {
+    <p>Search By:</p>
+        <div>@Html.TextBox("gigCity")<text>City</text></div>
+        <div><p>And/Or</p></div>
+        <div>@Html.TextBox("gigGenre")<text>Genre</text></div>
+        <div><p>And/Or</p></div>
+        <div>@Html.EditorFor(x => new GigNow.Models.Gig().Date)<text>Date</text></div>
+        <input type="submit" value="Search" />
+    }
+</div>
+
+
+
+@if (Model.Count() > 0)
+{
+    <h1>Gigs</h1>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Venue.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Venue.address.zipcode.city.Name)
+            </th>
+
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "GigView", "Gigs", new { gigId = item.GigId }, null)
+                </td>
+                <td>
+                    @item.Date.ToShortDateString()
+                </td>
+                <td>
+                    @Html.ActionLink(item.Venue.Name, "VenueView", "Venues", new { venueId = item.Venue.VenueId }, null)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Venue.address.zipcode.city.Name)
+                </td>
+
+            </tr>
+        }
+    </table>
+}
+
+

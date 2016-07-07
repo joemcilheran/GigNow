@@ -411,6 +411,9 @@
     <Content Include="Views\Gigs\ShowWatchList.cshtml" />
     <Content Include="Views\Artists\ShowWatchList.cshtml" />
     <Content Include="Views\Gigs\ShowGigList.cshtml" />
+    <Content Include="Views\Gigs\Search.cshtml" />
+    <Content Include="Views\Artists\Search.cshtml" />
+    <Content Include="Views\Venues\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

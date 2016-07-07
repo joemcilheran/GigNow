@@ -227,6 +227,21 @@ namespace GigNow.Controllers
             var gigList = db.Gigs.Where(x => x.VenueId == venueId).ToList();
             return gigList;
         }
+        [HttpGet]
+        public ActionResult Search()
+        {
+            return View(new List<Venue>());
+        }
+        [HttpPost]
+        public ActionResult Search(string city)
+        {
+            List<Venue> venueSearchResultList = new List<Venue>();
+            if (!string.IsNullOrWhiteSpace(city))
+            {
+                venueSearchResultList = db.Venues.Where(x => x.address.zipcode.city.Name == city).OrderByDescending(x => x.rating).ToList();
+            }
+            return View(venueSearchResultList);
+        }
 
     }
 }

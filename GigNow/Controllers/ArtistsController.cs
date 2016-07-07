@@ -270,6 +270,30 @@ namespace GigNow.Controllers
             var gigList = db.Gigs.Where(x => gigIds.ToList().Contains(x.GigId)).ToList();
             return gigList;
         }
+        [HttpGet]
+        public ActionResult Search()
+        {
+            return View(new List<Artist>());
+        }
+        [HttpPost]
+        public ActionResult Search(string artistGenre, string artistCity)
+        {
+            List<Artist> artistSearchResultList = new List<Artist>();
+            if(!string.IsNullOrWhiteSpace(artistGenre) && !string.IsNullOrWhiteSpace(artistCity))
+            {
+                var artistsByGenre = db.Artists.Where(x => x.Genre1 == artistGenre || x.Genre1 == artistGenre || x.Genre3 == artistGenre);
+                artistSearchResultList = artistsByGenre.Where(x => x.address.zipcode.city.Name == artistCity).ToList();
+            }
+            if (!string.IsNullOrWhiteSpace(artistGenre) && string.IsNullOrWhiteSpace(artistCity))
+            {
+                artistSearchResultList = db.Artists.Where(x => x.Genre1 == artistGenre || x.Genre1 == artistGenre || x.Genre3 == artistGenre).ToList();
+            }
+            if (string.IsNullOrWhiteSpace(artistGenre) && !string.IsNullOrWhiteSpace(artistCity))
+            {
+                artistSearchResultList = db.Artists.Where(x => x.address.zipcode.city.Name == artistCity).ToList();
+            }
+            return View(artistSearchResultList);
+        }
 
     }
 }
