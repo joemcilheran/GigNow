@@ -13,8 +13,6 @@ namespace GigNow.Models
         public int VideoId { get; set; }
         public string Name { get; set; }
         public byte[] Data { get; set; }
-        [ForeignKey("Artist")]
-        public int? AtistId { get; set; }
-        public Artist Artist { get; set; }
+        public virtual Artist Artist { get; set; }
     }
 }

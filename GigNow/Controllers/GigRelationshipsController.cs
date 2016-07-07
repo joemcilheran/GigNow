@@ -40,16 +40,17 @@ namespace GigNow.Controllers
         // GET: GigRelationships/Create
         public ActionResult Create(int? gigId)
         {
+            var gig = db.Gigs.Find(gigId);
             var userId = User.Identity.GetUserId();
             var Listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
             GigRelationship gigrelationship = new GigRelationship
             {
-                ListenerId = Listener.ListenerID,
-                GigId = gigId
+                Listener = Listener,
+                Gig = gig
             };
             db.GigRelationships.Add(gigrelationship);
             db.SaveChanges();
-            return RedirectToAction("GigView", "Gigs", new { GigId = gigId });
+            return RedirectToAction("GigView", "Gigs", new { GigId = gig.GigId });
         }
 
         // GET: GigRelationships/Edit/5
@@ -64,8 +65,8 @@ namespace GigNow.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.GigId = new SelectList(db.Gigs, "GigId", "DefaultGenre", gigRelationship.GigId);
-            ViewBag.ListenerId = new SelectList(db.Listeners, "ListenerID", "UserId", gigRelationship.ListenerId);
+            ViewBag.GigId = new SelectList(db.Gigs, "GigId", "DefaultGenre", gigRelationship.Gig.GigId);
+            ViewBag.ListenerId = new SelectList(db.Listeners, "ListenerID", "UserId", gigRelationship.Listener.ListenerID);
             return View(gigRelationship);
         }
 
@@ -82,8 +83,8 @@ namespace GigNow.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.GigId = new SelectList(db.Gigs, "GigId", "DefaultGenre", gigRelationship.GigId);
-            ViewBag.ListenerId = new SelectList(db.Listeners, "ListenerID", "UserId", gigRelationship.ListenerId);
+            ViewBag.GigId = new SelectList(db.Gigs, "GigId", "DefaultGenre", gigRelationship.Gig.GigId);
+            ViewBag.ListenerId = new SelectList(db.Listeners, "ListenerID", "UserId", gigRelationship.Listener.ListenerID);
             return View(gigRelationship);
         }
 

@@ -32,9 +32,8 @@ namespace GigNow.Controllers
         {
             var userId = User.Identity.GetUserId();
             var s = UserManager.GetRoles(userId);
-            var gigId = bill[0].GigId;
-            var Gig = db.Gigs.Find(gigId);
-            var Venue = db.Venues.FirstOrDefault(x => x.VenueId == Gig.VenueId);
+            var Gig = bill[0].Gig;
+            var Venue = Gig.Venue;
             string role = s[0].ToString();
             if (userId == Venue.UserId)
             {
@@ -72,7 +71,7 @@ namespace GigNow.Controllers
             var Gig = db.Gigs.Find(gigId);
             Slot slot = new Slot
             {
-                GigId = gigId,
+                Gig = Gig,
                 Compensation = Gig.DefaultCompensation,
                 Perks = Gig.DefaultPerks,
                 Genre = Gig.DefaultGenre,
@@ -92,10 +91,10 @@ namespace GigNow.Controllers
             {
                 db.Slots.Add(slot);
                 db.SaveChanges();
-                return RedirectToAction("GigView","Gigs", new {gigId = slot.GigId });
+                return RedirectToAction("GigView","Gigs", new {gigId = slot.Gig.GigId });
             }
 
-            ViewBag.GigId = new SelectList(db.Gigs, "GigId", "DefaultGenre", slot.GigId);
+            ViewBag.GigId = new SelectList(db.Gigs, "GigId", "DefaultGenre", slot.Gig.GigId);
             return View(slot);
         }
 
@@ -111,7 +110,7 @@ namespace GigNow.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.GigId = new SelectList(db.Gigs, "GigId", "DefaultGenre", slot.GigId);
+            ViewBag.GigId = new SelectList(db.Gigs, "GigId", "DefaultGenre", slot.Gig.GigId);
             return View(slot);
         }
 
@@ -128,7 +127,7 @@ namespace GigNow.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.GigId = new SelectList(db.Gigs, "GigId", "DefaultGenre", slot.GigId);
+            ViewBag.GigId = new SelectList(db.Gigs, "GigId", "DefaultGenre", slot.Gig.GigId);
             return View(slot);
         }
 

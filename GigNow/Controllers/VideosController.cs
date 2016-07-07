@@ -59,7 +59,7 @@ namespace GigNow.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AtistId = new SelectList(db.Artists, "ArtistId", "Name", video.AtistId);
+            ViewBag.AtistId = new SelectList(db.Artists, "ArtistId", "Name", video.Artist.ArtistId);
             return View(video);
         }
 
@@ -75,7 +75,7 @@ namespace GigNow.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AtistId = new SelectList(db.Artists, "ArtistId", "Name", video.AtistId);
+            ViewBag.AtistId = new SelectList(db.Artists, "ArtistId", "Name", video.Artist);
             return View(video);
         }
 
@@ -92,7 +92,7 @@ namespace GigNow.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AtistId = new SelectList(db.Artists, "ArtistId", "Name", video.AtistId);
+            ViewBag.AtistId = new SelectList(db.Artists, "ArtistId", "Name", video.Artist.ArtistId);
             return View(video);
         }
 

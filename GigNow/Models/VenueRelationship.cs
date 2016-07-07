@@ -11,12 +11,8 @@ namespace GigNow.Models
     {
         [Key]
         public int VenueRelationshipId { get; set; }
-        [ForeignKey("Listener")]
-        public int? ListenerId { get; set; }
-        public Listener Listener { get; set; }
-        [ForeignKey("Venue")]
-        public int? VenueId { get; set; }
-        public Venue Venue { get; set; }
+        public virtual Listener Listener { get; set; }
+        public virtual Venue Venue { get; set; }
 
     }
 }

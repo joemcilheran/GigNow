@@ -59,11 +59,11 @@ namespace GigNow.Controllers
                 db.States.Add(listenerViewModelVM.state);
                 db.SaveChanges();
                 var userId = User.Identity.GetUserId();
-                listenerViewModelVM.listener.AddressId = listenerViewModelVM.address.AddressId;
+                listenerViewModelVM.listener.address = listenerViewModelVM.address;
                 listenerViewModelVM.listener.UserId = userId;
-                listenerViewModelVM.address.ZipCodeId = listenerViewModelVM.zipcode.ZipcodeId;
-                listenerViewModelVM.zipcode.CityId = listenerViewModelVM.city.CityId;
-                listenerViewModelVM.city.StateId = listenerViewModelVM.state.StateId;
+                listenerViewModelVM.address.zipcode = listenerViewModelVM.zipcode;
+                listenerViewModelVM.zipcode.city = listenerViewModelVM.city;
+                listenerViewModelVM.city.state = listenerViewModelVM.state;
                 db.SaveChanges();
                 return RedirectToAction("ListenerView", new {ListerId = listenerViewModelVM.listener.ListenerID});
             }
@@ -83,7 +83,7 @@ namespace GigNow.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", listener.AddressId);
+            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", listener.address.AddressId);
             
             return View(listener);
         }
@@ -101,7 +101,7 @@ namespace GigNow.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", listener.AddressId);
+            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", listener.address.AddressId);
             
             return View(listener);
         }
@@ -152,10 +152,10 @@ namespace GigNow.Controllers
             {
                 ViewBag.User = "Other";
             }
-            var Address = db.Addresses.Find(Listener.AddressId);
-            var Zipcode = db.Zipcodes.Find(Address.ZipCodeId);
-            var City = db.Cities.Find(Zipcode.CityId);
-            var State = db.States.Find(City.StateId);
+            var Address = db.Addresses.Find(Listener.address.AddressId);
+            var Zipcode = db.Zipcodes.Find(Address.zipcode.ZipcodeId);
+            var City = db.Cities.Find(Zipcode.city.CityId);
+            var State = db.States.Find(City.state.StateId);
             ListenerViewModelVM LVM = new ListenerViewModelVM
             {
                 GigWatchList = generateGigWatchList(Listener.ListenerID),
@@ -171,21 +171,21 @@ namespace GigNow.Controllers
         }
         public List<Gig> generateGigWatchList(int? listenerId)
         {
-            var gigIds = from gigRelationship in db.GigRelationships where gigRelationship.ListenerId == listenerId select gigRelationship.GigId;
+            var gigIds = from gigRelationship in db.GigRelationships where gigRelationship.Listener.ListenerID == listenerId select gigRelationship.Gig.GigId;
             List<Gig> gigWatchList = new List<Gig>();
             gigWatchList = db.Gigs.Where(x => gigIds.ToList().Contains(x.GigId)).ToList();
             return gigWatchList;
         }
         public List<Venue> generateVenueWatchList(int? listenerId)
         {
-            var venueIds = from venueRelationship in db.VenueRelationships where venueRelationship.ListenerId == listenerId select venueRelationship.VenueId;
+            var venueIds = from venueRelationship in db.VenueRelationships where venueRelationship.Listener.ListenerID == listenerId select venueRelationship.Venue.VenueId;
             List<Venue> venueWatchList = new List<Venue>();
             venueWatchList = db.Venues.Where(x => venueIds.ToList().Contains(x.VenueId)).ToList();
             return venueWatchList;
         }
         public List<Artist> generateArtistWatchList(int? listenerId)
         {
-            var artistIds = from artistRelationship in db.ArtistRelationships where artistRelationship.ListenerId == listenerId select artistRelationship.ArtistId;
+            var artistIds = from artistRelationship in db.ArtistRelationships where artistRelationship.Listener.ListenerID == listenerId select artistRelationship.Artist.ArtistId;
             List<Artist> artistWatchList = new List<Artist>();
             artistWatchList = db.Artists.Where(x => artistIds.ToList().Contains(x.ArtistId)).ToList();
             return artistWatchList;

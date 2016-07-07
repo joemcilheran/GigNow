@@ -12,9 +12,7 @@ namespace GigNow.Models
         [Key]
         public int ArtistId { get; set; }
         public string Name { get; set; }
-        [ForeignKey("address")]
-        public int? AddressId { get; set; }
-        public Address address { get; set; }
+        public virtual Address address { get; set; }
         public string ContactName { get; set; }
         public string Genre1 { get; set; }
         public string Genre2 { get; set; }

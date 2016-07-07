@@ -11,9 +11,7 @@ namespace GigNow.Models
     {
         [Key]
         public int ListenerID { get; set; }
-        [ForeignKey("address")]
-        public int? AddressId { get; set; }
-        public Address address { get; set; }
+        public virtual Address address { get; set; }
         [ForeignKey("AppUser")]
         public string UserId { get; set; }
         public ApplicationUser AppUser { get; set; }

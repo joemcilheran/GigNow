@@ -72,17 +72,17 @@ namespace GigNow.Controllers
                 db.Cities.Add(venueViewModelVM.city);
                 db.States.Add(venueViewModelVM.state);
                 db.SaveChanges();
-                venueViewModelVM.venue.AddressId = venueViewModelVM.address.AddressId;
+                venueViewModelVM.venue.address = venueViewModelVM.address;
                 venueViewModelVM.venue.UserId = userId;
-                venueViewModelVM.address.ZipCodeId = venueViewModelVM.zipcode.ZipcodeId;
-                venueViewModelVM.zipcode.CityId = venueViewModelVM.city.CityId;
-                venueViewModelVM.city.StateId = venueViewModelVM.state.StateId;
+                venueViewModelVM.address.zipcode = venueViewModelVM.zipcode;
+                venueViewModelVM.zipcode.city = venueViewModelVM.city;
+                venueViewModelVM.city.state = venueViewModelVM.state;
                 if (upload != null && upload.ContentLength > 0)
                 {
                     var photo = new Photo
                     {
                         Name = System.IO.Path.GetFileName(upload.FileName),
-                        VenueId = venueViewModelVM.venue.VenueId
+                        Venue = venueViewModelVM.venue
                     };
                     using (var reader = new System.IO.BinaryReader(upload.InputStream))
                     {
@@ -111,7 +111,7 @@ namespace GigNow.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", venue.AddressId);
+            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", venue.address.AddressId);
             return View(venue);
         }
 
@@ -128,7 +128,7 @@ namespace GigNow.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", venue.AddressId);
+            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", venue.address.AddressId);
             return View(venue);
         }
 
@@ -188,7 +188,7 @@ namespace GigNow.Controllers
             {
                 ViewBag.User = "Listener";
                 var listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
-                var relationshipList = db.VenueRelationships.Where(x => x.ListenerId == listener.ListenerID).ToList();
+                var relationshipList = db.VenueRelationships.Where(x => x.Listener == listener).ToList();
                 if (relationshipList.Count == 0)
                 {
                     ViewBag.Watched = "false";
@@ -202,14 +202,14 @@ namespace GigNow.Controllers
             {
                 ViewBag.User = "other";
             }
-            var Address = db.Addresses.Find(Venue.AddressId);
-            var Zipcode = db.Zipcodes.Find(Address.ZipCodeId);
-            var City = db.Cities.Find(Zipcode.CityId);
-            var State = db.States.Find(City.StateId);
+            var Address = db.Addresses.Find(Venue.address.AddressId);
+            var Zipcode = db.Zipcodes.Find(Address.zipcode.ZipcodeId);
+            var City = db.Cities.Find(Zipcode.city.CityId);
+            var State = db.States.Find(City.state.StateId);
             VenueViewModelVM VVM = new VenueViewModelVM
             {
                 gigList = generateGigList(Venue.VenueId),
-                photo = db.Photos.FirstOrDefault(x => x.VenueId == Venue.VenueId),
+                photo = db.Photos.FirstOrDefault(x => x.Venue == Venue),
                 venue = Venue,
                 address = Address,
                 zipcode = Zipcode,
@@ -224,7 +224,8 @@ namespace GigNow.Controllers
         }
         public List<Gig> generateGigList(int? venueId)
         {
-            var gigList = db.Gigs.Where(x => x.VenueId == venueId).ToList();
+            var venue = db.Venues.Find(venueId);
+            var gigList = db.Gigs.Where(x => x.Venue == venue).ToList();
             return gigList;
         }
         [HttpGet]

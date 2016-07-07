@@ -57,7 +57,7 @@ namespace GigNow.Controllers
             var venue = db.Venues.FirstOrDefault(x => x.UserId == userId);
             Gig gig = new Gig
             {
-                VenueId = venue.VenueId,
+                Venue = venue,
                 DefaultArtistType = venue.DefaultArtistType,
                 DefaultCompensation = venue.DefaultCompensation,
                 DefaultGenre = venue.DefaultGenre,
@@ -81,7 +81,7 @@ namespace GigNow.Controllers
                 return RedirectToAction("GigView", new {gigId = gig.GigId });
             }
 
-            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", gig.VenueId);
+            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", gig.Venue.VenueId);
             return View(gig);
         }
 
@@ -97,7 +97,7 @@ namespace GigNow.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", gig.VenueId);
+            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", gig.Venue.VenueId);
             return View(gig);
         }
 
@@ -114,7 +114,7 @@ namespace GigNow.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", gig.VenueId);
+            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", gig.Venue.VenueId);
             return View(gig);
         }
 
@@ -159,7 +159,7 @@ namespace GigNow.Controllers
             var s = UserManager.GetRoles(userId);
             string role = s[0].ToString();
             var Gig = db.Gigs.Find(gigId);
-            var Venue = db.Venues.FirstOrDefault(x => x.VenueId == Gig.VenueId);
+            var Venue = db.Venues.FirstOrDefault(x => x.VenueId == Gig.Venue.VenueId);
             if(userId == Venue.UserId)
             {
                 ViewBag.User = "Gig Admin";
@@ -172,7 +172,7 @@ namespace GigNow.Controllers
             {
                 ViewBag.User = "Listener";
                 var listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
-                var relationshipList = db.GigRelationships.Where(x => x.ListenerId == listener.ListenerID).ToList();
+                var relationshipList = db.GigRelationships.Where(x => x.Listener == listener).ToList();
                 if (relationshipList.Count == 0)
                 {
                     ViewBag.Watched = "false";
@@ -190,7 +190,7 @@ namespace GigNow.Controllers
              {
                 gig = Gig,
                 venue = Venue,
-                bill = db.Slots.Where(x => x.GigId == Gig.GigId).ToList()
+                bill = db.Slots.Where(x => x.Gig == Gig).ToList()
             };
             return View(GVM);
         }

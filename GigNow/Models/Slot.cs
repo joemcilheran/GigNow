@@ -17,11 +17,7 @@ namespace GigNow.Models
         public string Perks { get; set; }
         public string Order { get; set; }
         public int? Length { get; set; }
-        [ForeignKey("Artist")]
-        public int?  ArtistId { get; set; }
-        public Artist Artist { get; set; }
-        [ForeignKey("Gig")]
-        public int? GigId { get; set; }
-        public Gig Gig { get; set; }
+        public virtual Artist Artist { get; set; }
+        public virtual Gig Gig { get; set; }
     }
 }

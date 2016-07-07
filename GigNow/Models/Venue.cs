@@ -12,9 +12,7 @@ namespace GigNow.Models
         [Key]
         public int VenueId { get; set; }
         public string Name { get; set; }
-        [ForeignKey("address")]
-        public int? AddressId { get; set; }
-        public Address address { get; set; }
+        public virtual Address address { get; set; }
         public int? Capacity { get; set; }
         public int? StageSize { get; set; }
         public string ContactName { get; set; }
@@ -27,7 +25,6 @@ namespace GigNow.Models
         public string TwitterLink { get; set; }
         public string ExtraLink { get; set; }
         public string ExtraLink2 { get; set; }
-
         public bool SoundSystem { get; set; }
         public string LoadInInstructions { get; set; }
         public int? rating { get; set; }

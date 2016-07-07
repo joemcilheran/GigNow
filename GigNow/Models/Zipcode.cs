@@ -12,8 +12,6 @@ namespace GigNow.Models
         [Key]
         public int ZipcodeId { get; set; }
         public int? ZipCode { get; set; }
-        [ForeignKey("city")]
-        public int? CityId { get; set; }
-        public City city { get; set; }
+        public virtual City city { get; set; }
     }
 }

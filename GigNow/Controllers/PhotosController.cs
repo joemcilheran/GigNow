@@ -59,7 +59,7 @@ namespace GigNow.Controllers
             }
 
             ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", photo.ArtistId);
-            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", photo.VenueId);
+            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", photo.Venue.VenueId);
             return View(photo);
         }
 
@@ -76,7 +76,7 @@ namespace GigNow.Controllers
                 return HttpNotFound();
             }
             ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", photo.ArtistId);
-            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", photo.VenueId);
+            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", photo.Venue.VenueId);
             return View(photo);
         }
 
@@ -94,7 +94,7 @@ namespace GigNow.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", photo.ArtistId);
-            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", photo.VenueId);
+            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", photo.Venue.VenueId);
             return View(photo);
         }
 

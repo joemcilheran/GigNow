@@ -22,9 +22,7 @@ namespace GigNow.Models
         public string DefaultGenre { get; set; }
         public string DefaultPerks { get; set; }
         public string LoadInInsrtuctions { get; set; }
-        [ForeignKey("Venue")]
-        public int? VenueId { get; set; }
-        public Venue Venue { get; set; }
+        public virtual Venue Venue { get; set; }
 
     }
 }

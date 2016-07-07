@@ -12,8 +12,6 @@ namespace GigNow.Models
         [Key]
         public int CityId { get; set; }
         public string Name { get; set; }
-        [ForeignKey("state")]
-        public int? StateId { get; set; }
-        public State state { get; set; }
+        public virtual State state { get; set; }
     }
 }

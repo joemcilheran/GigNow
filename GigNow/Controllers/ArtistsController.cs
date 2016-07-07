@@ -71,11 +71,11 @@ namespace GigNow.Controllers
                 db.Cities.Add(artistViewModelVM.city);
                 db.States.Add(artistViewModelVM.state);
                 db.SaveChanges();
-                artistViewModelVM.artist.AddressId = artistViewModelVM.address.AddressId;
+                artistViewModelVM.artist.address = artistViewModelVM.address;
                 artistViewModelVM.artist.UserId = userId;
-                artistViewModelVM.address.ZipCodeId = artistViewModelVM.zipcode.ZipcodeId;
-                artistViewModelVM.zipcode.CityId = artistViewModelVM.city.CityId;
-                artistViewModelVM.city.StateId = artistViewModelVM.state.StateId;
+                artistViewModelVM.address.zipcode = artistViewModelVM.zipcode;
+                artistViewModelVM.zipcode.city = artistViewModelVM.city;
+                artistViewModelVM.city.state = artistViewModelVM.state;
                 if (upload != null && upload.ContentLength > 0)
                 {
                     var photo = new Photo
@@ -109,7 +109,7 @@ namespace GigNow.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", artist.AddressId);
+            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", artist.address.AddressId);
            
             return View(artist);
         }
@@ -127,7 +127,7 @@ namespace GigNow.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", artist.AddressId);
+            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", artist.address.AddressId);
            
             return View(artist);
         }
@@ -184,12 +184,13 @@ namespace GigNow.Controllers
         }
         public void saveAudio(HttpPostedFileBase audio, int artistId)
         {
+            var artist = db.Artists.Find(artistId);
             if (audio != null && audio.ContentLength > 0)
             {
                 Track track = new Track
                 {
                     Name = System.IO.Path.GetFileName(audio.FileName),
-                    ArtistId = artistId
+                    Artist = artist
                 };
                 using (var reader = new System.IO.BinaryReader(audio.InputStream))
                 {
@@ -201,12 +202,13 @@ namespace GigNow.Controllers
         }
         public void saveVideo(HttpPostedFileBase upload, int artistId)
         {
+            var artist = db.Artists.Find(artistId);
             if (upload != null && upload.ContentLength > 0)
             {
                 Video video = new Video
                 {
                     Name = System.IO.Path.GetFileName(upload.FileName),
-                    AtistId = artistId
+                    Artist = artist
                 };
                 using (var reader = new System.IO.BinaryReader(upload.InputStream))
                 {
@@ -230,7 +232,7 @@ namespace GigNow.Controllers
             {
                 ViewBag.User = "Listener";
                 var listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
-                var relationshipList = db.ArtistRelationships.Where(x => x.ListenerId == listener.ListenerID).ToList(); 
+                var relationshipList = db.ArtistRelationships.Where(x => x.Listener == listener).ToList(); 
                 if(relationshipList.Count == 0)
                 {
                     ViewBag.Watched = "false";
@@ -244,14 +246,14 @@ namespace GigNow.Controllers
             {
                 ViewBag.User = "Other";
             }
-            var Address = db.Addresses.Find(Artist.AddressId);
-            var Zipcode = db.Zipcodes.Find(Address.ZipCodeId);
-            var City = db.Cities.Find(Zipcode.CityId);
-            var State = db.States.Find(City.StateId);
+            var Address = db.Addresses.Find(Artist.address.AddressId);
+            var Zipcode = db.Zipcodes.Find(Address.zipcode.ZipcodeId);
+            var City = db.Cities.Find(Zipcode.city.CityId);
+            var State = db.States.Find(City.state.StateId);
             ArtistViewModelVM AVM = new ArtistViewModelVM
             {
                 gigList = generateGigList(Artist.ArtistId),
-                photo = db.Photos.FirstOrDefault(x => x.VenueId == Artist.ArtistId),
+                photo = db.Photos.FirstOrDefault(x => x.Artist == Artist),
                 artist = Artist,
                 address = Address,
                 zipcode = Zipcode,
@@ -266,8 +268,8 @@ namespace GigNow.Controllers
         }
         public List<Gig> generateGigList(int? artistId)
         {
-            var gigIds = from slot in db.Slots where slot.ArtistId == artistId select slot.GigId;
-            var gigList = db.Gigs.Where(x => gigIds.ToList().Contains(x.GigId)).ToList();
+            var artist = db.Artists.Find(artistId);
+            var gigList = (from slot in db.Slots where slot.Artist == artist select slot.Gig).ToList();
             return gigList;
         }
         [HttpGet]

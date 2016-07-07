@@ -39,7 +39,7 @@ namespace GigNow.Controllers
         // GET: Addresses/Create
         public ActionResult Create()
         {
-            ViewBag.ZipCodeId = new SelectList(db.Zipcodes, "ZipcodeId", "ZipcodeId");
+            ViewBag.ZipCodeId = new SelectList(db.Zipcodes, "Zipcode", "Zipcode");
             return View();
         }
 
@@ -48,7 +48,7 @@ namespace GigNow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AddressId,StreetAddress,Apt,ZipCodeId")] Address address)
+        public ActionResult Create([Bind(Include = "Address,StreetAddress,Apt,ZipCode")] Address address)
         {
             if (ModelState.IsValid)
             {
@@ -57,7 +57,7 @@ namespace GigNow.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ZipCodeId = new SelectList(db.Zipcodes, "ZipcodeId", "ZipcodeId", address.ZipCodeId);
+            ViewBag.ZipCodeId = new SelectList(db.Zipcodes, "ZipcodeId", "ZipcodeId", address.zipcode);
             return View(address);
         }
 
@@ -73,7 +73,7 @@ namespace GigNow.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ZipCodeId = new SelectList(db.Zipcodes, "ZipcodeId", "ZipcodeId", address.ZipCodeId);
+            ViewBag.ZipCodeId = new SelectList(db.Zipcodes, "ZipcodeId", "ZipcodeId", address.zipcode);
             return View(address);
         }
 
@@ -90,7 +90,7 @@ namespace GigNow.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ZipCodeId = new SelectList(db.Zipcodes, "ZipcodeId", "ZipcodeId", address.ZipCodeId);
+            ViewBag.ZipCodeId = new SelectList(db.Zipcodes, "ZipcodeId", "ZipcodeId", address.zipcode);
             return View(address);
         }
 

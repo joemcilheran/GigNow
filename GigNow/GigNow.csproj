@@ -221,6 +221,10 @@
     <Compile Include="Migrations\201607062005072_removed custom VMs from db.Designer.cs">
       <DependentUpon>201607062005072_removed custom VMs from db.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607072259459_turn FK into virtual objects.cs" />
+    <Compile Include="Migrations\201607072259459_turn FK into virtual objects.Designer.cs">
+      <DependentUpon>201607072259459_turn FK into virtual objects.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
@@ -451,6 +455,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607062005072_removed custom VMs from db.resx">
       <DependentUpon>201607062005072_removed custom VMs from db.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607072259459_turn FK into virtual objects.resx">
+      <DependentUpon>201607072259459_turn FK into virtual objects.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

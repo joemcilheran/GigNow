@@ -16,8 +16,6 @@ namespace GigNow.Models
         [ForeignKey("Artist")]
         public int? ArtistId { get; set; }
         public Artist Artist { get; set; }
-        [ForeignKey("Venue")]
-        public int? VenueId { get; set; }
-        public Venue Venue { get; set; }
+        public virtual Venue Venue { get; set; }
     }
 }

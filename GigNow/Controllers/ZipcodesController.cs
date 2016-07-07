@@ -57,7 +57,7 @@ namespace GigNow.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", zipcode.CityId);
+            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", zipcode.city.CityId);
             return View(zipcode);
         }
 
@@ -73,7 +73,7 @@ namespace GigNow.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", zipcode.CityId);
+            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", zipcode.city.CityId);
             return View(zipcode);
         }
 
@@ -90,7 +90,7 @@ namespace GigNow.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", zipcode.CityId);
+            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", zipcode.city.CityId);
             return View(zipcode);
         }
 

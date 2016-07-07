@@ -41,11 +41,12 @@ namespace GigNow.Controllers
         public ActionResult Create(int? venueId)
         {
             var userId = User.Identity.GetUserId();
+            var venue = db.Venues.Find(venueId);
             var Listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
             VenueRelationship venuerelationship = new VenueRelationship
             {
-                ListenerId = Listener.ListenerID,
-                VenueId = venueId
+                Listener = Listener,
+                Venue = venue
             };
             db.VenueRelationships.Add(venuerelationship);
             db.SaveChanges();
@@ -64,8 +65,8 @@ namespace GigNow.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ListenerId = new SelectList(db.Listeners, "ListenerID", "UserId", venueRelationship.ListenerId);
-            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", venueRelationship.VenueId);
+            ViewBag.ListenerId = new SelectList(db.Listeners, "ListenerID", "UserId", venueRelationship.Listener.ListenerID);
+            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", venueRelationship.Venue.VenueId);
             return View(venueRelationship);
         }
 
@@ -82,8 +83,8 @@ namespace GigNow.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ListenerId = new SelectList(db.Listeners, "ListenerID", "UserId", venueRelationship.ListenerId);
-            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", venueRelationship.VenueId);
+            ViewBag.ListenerId = new SelectList(db.Listeners, "ListenerID", "UserId", venueRelationship.Venue.VenueId);
+            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", venueRelationship.Venue.VenueId);
             return View(venueRelationship);
         }
 

@@ -39,12 +39,13 @@ namespace GigNow.Controllers
 
         public ActionResult Create(int? artistId)
         {
+            var artist = db.Artists.Find(artistId);
             var userId = User.Identity.GetUserId();
             var Listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
             ArtistRelationship artistRelationship = new ArtistRelationship
             { 
-                ArtistId = artistId,
-                ListenerId = Listener.ListenerID
+                Artist = artist,
+                Listener = Listener
             };
             db.ArtistRelationships.Add(artistRelationship);
             db.SaveChanges();
@@ -64,8 +65,8 @@ namespace GigNow.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", artistRelationship.ArtistId);
-            ViewBag.ListenerId = new SelectList(db.Listeners, "ListenerID", "UserId", artistRelationship.ListenerId);
+            ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", artistRelationship.Artist.ArtistId);
+            ViewBag.ListenerId = new SelectList(db.Listeners, "ListenerID", "UserId", artistRelationship.Listener.ListenerID);
             return View(artistRelationship);
         }
 
@@ -82,8 +83,8 @@ namespace GigNow.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", artistRelationship.ArtistId);
-            ViewBag.ListenerId = new SelectList(db.Listeners, "ListenerID", "UserId", artistRelationship.ListenerId);
+            ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", artistRelationship.Artist.ArtistId);
+            ViewBag.ListenerId = new SelectList(db.Listeners, "ListenerID", "UserId", artistRelationship.Listener.ListenerID);
             return View(artistRelationship);
         }
 
