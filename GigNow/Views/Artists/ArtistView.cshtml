@@ -14,7 +14,8 @@
         <hr />
         <dl class="dl-horizontal">
 
-
+           @if (ViewBag.User != "Listener")
+           {
             <dt>
                 @Html.DisplayNameFor(model => model.artist.ContactName)
             </dt>
@@ -22,14 +23,29 @@
             <dd>
                 @Html.DisplayFor(model => model.artist.ContactName)
             </dd>
-            <dt>
-                <text>Address</text>
-            </dt>
+           }
 
-            <dd>
-                @Html.DisplayFor(model => model.address.StreetAddress)<text>,</text>@Html.DisplayFor(model => model.address.Apt)<br />
-                @Html.DisplayFor(model => model.city.Name)<text>,</text>@Html.DisplayFor(model => model.state.Name)<text>  </text> @Html.DisplayFor(model => model.zipcode.ZipCode)
-            </dd>
+            @if (ViewBag.User == "Artist Manager")
+            {
+                <dt>
+                    <text>Address</text>
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.address.StreetAddress)<text>,</text>@Html.DisplayFor(model => model.address.Apt)<br />
+                    @Html.DisplayFor(model => model.city.Name)<text>,</text>@Html.DisplayFor(model => model.state.Name)<text>  </text> @Html.DisplayFor(model => model.zipcode.ZipCode)
+                </dd>
+            }
+            else
+            {
+                <dt>
+                   @Html.DisplayNameFor(model => model.city.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.city.Name)
+                </dd>
+            }
+
             <dt>
                 @Html.DisplayNameFor(model => model.artist.NumberOfMembers)
             </dt>
@@ -91,12 +107,33 @@
             <dd>
                 <a href="@Html.DisplayFor(model => model.artist.ExtraLink2)">@Html.DisplayFor(model => model.artist.ExtraLink2)</a>
             </dd>
-
-
         </dl>
     </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<div>
+    @if(Model.gigList.Count > 0)
+    {
+        @Html.Action("ShowGigList", "Gigs", new {gigList = Model.gigList})
+    }
+</div>
+
+@if (ViewBag.User == "Listener")
+{
+    if (ViewBag.Watched == "true")
+    {
+        <h5>You are Wathing @Html.DisplayFor(model => model.artist.Name)</h5>
+
+    }
+    else
+    {
+        @Html.ActionLink("Watch this Artist", "Create", "ArtistRelationships", new { ArtistId = Model.artist.ArtistId }, null)
+    }
+
+}
+else if (ViewBag.User == "Artist Manager")
+{
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { artistViewModelVM = Model }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

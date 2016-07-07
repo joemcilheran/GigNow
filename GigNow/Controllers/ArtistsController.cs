@@ -8,13 +8,25 @@ using System.Web;
 using System.Web.Mvc;
 using GigNow.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace GigNow.Controllers
 {
     public class ArtistsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         // GET: Artists
         public ActionResult Index()
         {
@@ -204,17 +216,41 @@ namespace GigNow.Controllers
                 db.SaveChanges();
             }
         }
-        public ActionResult ArtistView()
+        public ActionResult ArtistView(int? ArtistId)
         {
             var userId = User.Identity.GetUserId();
-            var Artist = db.Artists.FirstOrDefault(x => x.UserId == userId);
+            var Artist = db.Artists.Find(ArtistId);
+            var s = UserManager.GetRoles(userId);
+            string role = s[0].ToString();
+            if (userId == Artist.UserId)
+            {
+                ViewBag.User = "Artist Manager";
+            }
+            else if (role == "Listener")
+            {
+                ViewBag.User = "Listener";
+                var listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
+                var relationshipList = db.ArtistRelationships.Where(x => x.ListenerId == listener.ListenerID).ToList(); 
+                if(relationshipList.Count == 0)
+                {
+                    ViewBag.Watched = "false";
+                }
+                else
+                {
+                    ViewBag.Watched = "true";
+                }
+            }
+            else
+            {
+                ViewBag.User = "Other";
+            }
             var Address = db.Addresses.Find(Artist.AddressId);
             var Zipcode = db.Zipcodes.Find(Address.ZipCodeId);
             var City = db.Cities.Find(Zipcode.CityId);
             var State = db.States.Find(City.StateId);
             ArtistViewModelVM AVM = new ArtistViewModelVM
             {
-                Id = 1,
+                gigList = generateGigList(Artist.ArtistId),
                 photo = db.Photos.FirstOrDefault(x => x.VenueId == Artist.ArtistId),
                 artist = Artist,
                 address = Address,
@@ -223,6 +259,16 @@ namespace GigNow.Controllers
                 state = State,
             };
             return View(AVM);
+        }
+        public ActionResult ShowWatchList(List<Artist> watchList)
+        {
+            return View(watchList);
+        }
+        public List<Gig> generateGigList(int? artistId)
+        {
+            var gigIds = from slot in db.Slots where slot.ArtistId == artistId select slot.GigId;
+            var gigList = db.Gigs.Where(x => gigIds.ToList().Contains(x.GigId)).ToList();
+            return gigList;
         }
 
     }

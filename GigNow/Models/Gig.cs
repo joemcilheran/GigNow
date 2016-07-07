@@ -14,6 +14,7 @@ namespace GigNow.Models
         public int Cover { get; set; }
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
+        [DataType(DataType.Time)]
         public DateTime Time { get; set; }
         public string Name { get; set; }
         public string DefaultArtistType { get; set; }

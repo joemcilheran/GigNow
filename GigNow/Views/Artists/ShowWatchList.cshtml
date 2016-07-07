@@ -1,0 +1,9 @@
+﻿@model IEnumerable<GigNow.Models.Artist>
+
+
+
+@foreach (var item in Model)
+{
+    @Html.ActionLink(item.Name, "ArtistView", "Artists", new {artistId = item.ArtistId},null)
+}
+

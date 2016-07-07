@@ -1,0 +1,67 @@
+﻿@model GigNow.Models.ListenerViewModelVM
+
+@{
+    ViewBag.Title = "ListenerView";
+}
+
+@if (ViewBag.User == "Listener")
+{
+    <div>
+        <h4>Your Listener Profile</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                <text>Address</text>
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.address.StreetAddress)<text>,</text>@Html.DisplayFor(model => model.address.Apt)<br />
+                @Html.DisplayFor(model => model.city.Name)<text>,</text>@Html.DisplayFor(model => model.state.Name)<text>  </text> @Html.DisplayFor(model => model.zipcode.ZipCode)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.listener.Genre1)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.listener.Genre1)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.listener.Genre2)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.listener.Genre2)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.listener.Genre3)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.listener.Genre3)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        @if (Model.ArtistWatchList.Count > 0)
+        {
+            @Html.Action("ShowWatchList", "Artists", new { watchList = Model.ArtistWatchList })
+        }
+    </div>
+    <div>
+        @if (Model.VenueWatchList.Count > 0)
+        {
+            @Html.Action("ShowWatchList", "Venues", new { watchList = Model.VenueWatchList })
+        }
+    </div>
+    <div>
+        @if (Model.GigWatchList.Count > 0)
+        {
+            @Html.Action("ShowGigList", "Gigs", new { gigList = Model.GigWatchList })
+        }
+    </div>
+    <p>
+        @Html.ActionLink("Edit your Listener Profile", "Edit", new { listenerViewModel = Model }) |
+    </p>
+}
+else
+{
+    <h2>Whoops! You don't belong here!</h2>
+}
+

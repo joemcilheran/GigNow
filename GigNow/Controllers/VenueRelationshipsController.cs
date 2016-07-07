@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GigNow.Models;
+using Microsoft.AspNet.Identity;
 
 namespace GigNow.Controllers
 {
@@ -37,30 +38,18 @@ namespace GigNow.Controllers
         }
 
         // GET: VenueRelationships/Create
-        public ActionResult Create()
+        public ActionResult Create(int? venueId)
         {
-            ViewBag.ListenerId = new SelectList(db.Listeners, "ListenerID", "UserId");
-            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name");
-            return View();
-        }
-
-        // POST: VenueRelationships/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "VenueRelationshipId,ListenerId,VenueId")] VenueRelationship venueRelationship)
-        {
-            if (ModelState.IsValid)
+            var userId = User.Identity.GetUserId();
+            var Listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
+            VenueRelationship venuerelationship = new VenueRelationship
             {
-                db.VenueRelationships.Add(venueRelationship);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.ListenerId = new SelectList(db.Listeners, "ListenerID", "UserId", venueRelationship.ListenerId);
-            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", venueRelationship.VenueId);
-            return View(venueRelationship);
+                ListenerId = Listener.ListenerID,
+                VenueId = venueId
+            };
+            db.VenueRelationships.Add(venuerelationship);
+            db.SaveChanges();
+            return RedirectToAction("VenueView", "Venues", new { VenueId = venueId });
         }
 
         // GET: VenueRelationships/Edit/5

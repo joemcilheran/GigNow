@@ -8,12 +8,25 @@ using System.Web;
 using System.Web.Mvc;
 using GigNow.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace GigNow.Controllers
 {
     public class GigsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         // GET: Gigs
         public ActionResult Index()
@@ -48,7 +61,8 @@ namespace GigNow.Controllers
                 DefaultArtistType = venue.DefaultArtistType,
                 DefaultCompensation = venue.DefaultCompensation,
                 DefaultGenre = venue.DefaultGenre,
-                DefaultPerks = venue.DefaultPerks
+                DefaultPerks = venue.DefaultPerks,
+                LoadInInsrtuctions = venue.LoadInInstructions
             };
             return View(gig);
         }
@@ -138,22 +152,56 @@ namespace GigNow.Controllers
             }
             base.Dispose(disposing);
         }
-        public ActionResult GigView(int gigId)
+        public ActionResult GigView(int? gigId)
         {
+            
             var userId = User.Identity.GetUserId();
+            var s = UserManager.GetRoles(userId);
+            string role = s[0].ToString();
             var Gig = db.Gigs.Find(gigId);
             var Venue = db.Venues.FirstOrDefault(x => x.VenueId == Gig.VenueId);
             if(userId == Venue.UserId)
             {
                 ViewBag.User = "Gig Admin";
             }
-            GigViewModelVM GVM = new GigViewModelVM
+            else if(role == "Artist Manager")
             {
+                ViewBag.User = "Artist";
+            }
+            else if(role == "Listener")
+            {
+                ViewBag.User = "Listener";
+                var listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
+                var relationshipList = db.GigRelationships.Where(x => x.ListenerId == listener.ListenerID).ToList();
+                if (relationshipList.Count == 0)
+                {
+                    ViewBag.Watched = "false";
+                }
+                else
+                {
+                    ViewBag.Watched = "true";
+                }
+            }
+            else
+            {
+                ViewBag.User = "other";
+            }
+            GigViewModelVM GVM = new GigViewModelVM
+             {
                 gig = Gig,
                 venue = Venue,
                 bill = db.Slots.Where(x => x.GigId == Gig.GigId).ToList()
             };
             return View(GVM);
         }
+        //public ActionResult ShowWatchList(List<Gig> watchList)
+        //{
+        //    return View(watchList);
+        //}
+        public ActionResult ShowGigList(List<Gig> gigList)
+        {
+            return View(gigList);
+        }
+
     }
 }

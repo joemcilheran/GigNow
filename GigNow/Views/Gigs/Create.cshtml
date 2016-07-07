@@ -75,6 +75,13 @@
                 @Html.ValidationMessageFor(model => model.DefaultPerks, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.LoadInInsrtuctions, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LoadInInsrtuctions, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LoadInInsrtuctions, "", new { @class = "text-danger" })
+            </div>
+        </div>
         <div>
             @Html.HiddenFor(model => model.VenueId)
         </div>

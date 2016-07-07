@@ -18,7 +18,7 @@ namespace GigNow.Models
         public string Order { get; set; }
         public int? Length { get; set; }
         [ForeignKey("Artist")]
-        public int? ArtistId { get; set; }
+        public int?  ArtistId { get; set; }
         public Artist Artist { get; set; }
         [ForeignKey("Gig")]
         public int? GigId { get; set; }

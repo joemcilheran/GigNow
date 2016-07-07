@@ -8,13 +8,25 @@ using System.Web;
 using System.Web.Mvc;
 using GigNow.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace GigNow.Controllers
 {
     public class VenuesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         // GET: Venues
         public ActionResult Index()
         {
@@ -158,13 +170,37 @@ namespace GigNow.Controllers
         {
             return View();
         }
-        public ActionResult VenueView(int VenueId)
+        public ActionResult VenueView(int? VenueId)
         {
             var userId = User.Identity.GetUserId();
             var Venue = db.Venues.Find(VenueId);
-            if(Venue.UserId == userId)
+            var s = UserManager.GetRoles(userId);
+            string role = s[0].ToString();
+            if (Venue.UserId == userId)
             {
                 ViewBag.User = "Venue Admin";
+            }
+            else if (role == "Artist Manager")
+            {
+                ViewBag.User = "Artist";
+            }
+            else if(role == "Listener")
+            {
+                ViewBag.User = "Listener";
+                var listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
+                var relationshipList = db.VenueRelationships.Where(x => x.ListenerId == listener.ListenerID).ToList();
+                if (relationshipList.Count == 0)
+                {
+                    ViewBag.Watched = "false";
+                }
+                else
+                {
+                    ViewBag.Watched = "true";
+                }
+            }
+            else
+            {
+                ViewBag.User = "other";
             }
             var Address = db.Addresses.Find(Venue.AddressId);
             var Zipcode = db.Zipcodes.Find(Address.ZipCodeId);
@@ -172,7 +208,7 @@ namespace GigNow.Controllers
             var State = db.States.Find(City.StateId);
             VenueViewModelVM VVM = new VenueViewModelVM
             {
-                Id = 1,
+                gigList = generateGigList(Venue.VenueId),
                 photo = db.Photos.FirstOrDefault(x => x.VenueId == Venue.VenueId),
                 venue = Venue,
                 address = Address,
@@ -182,5 +218,15 @@ namespace GigNow.Controllers
             };
             return View(VVM);
         }
+        public ActionResult ShowWatchList(List<Venue> watchList)
+        {
+            return View(watchList);
+        }
+        public List<Gig> generateGigList(int? venueId)
+        {
+            var gigList = db.Gigs.Where(x => x.VenueId == venueId).ToList();
+            return gigList;
+        }
+
     }
 }

@@ -7,16 +7,47 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GigNow.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace GigNow.Controllers
 {
     public class SlotsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         // GET: Slots
         public ActionResult Index(List<Slot> bill)
         {
+            var userId = User.Identity.GetUserId();
+            var s = UserManager.GetRoles(userId);
+            var gigId = bill[0].GigId;
+            var Gig = db.Gigs.Find(gigId);
+            var Venue = db.Venues.FirstOrDefault(x => x.VenueId == Gig.VenueId);
+            string role = s[0].ToString();
+            if (userId == Venue.UserId)
+            {
+                ViewBag.User = "Gig Admin";
+            }
+            else if (role == "Artist Manager")
+            {
+                ViewBag.User = "Artist";
+            }
+            else
+            {
+                ViewBag.User = "Listener";
+            }
             return View(bill);
         }
 
@@ -111,7 +142,7 @@ namespace GigNow.Controllers
             Slot slot = db.Slots.Find(id);
             if (slot == null)
             {
-                return HttpNotFound();
+                return HttpNotFound(); 
             }
             return View(slot);
         }

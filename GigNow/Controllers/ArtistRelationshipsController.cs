@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GigNow.Models;
+using Microsoft.AspNet.Identity;
 
 namespace GigNow.Controllers
 {
@@ -36,32 +37,20 @@ namespace GigNow.Controllers
             return View(artistRelationship);
         }
 
-        // GET: ArtistRelationships/Create
-        public ActionResult Create()
+        public ActionResult Create(int? artistId)
         {
-            ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name");
-            ViewBag.ListenerId = new SelectList(db.Listeners, "ListenerID", "UserId");
-            return View();
+            var userId = User.Identity.GetUserId();
+            var Listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
+            ArtistRelationship artistRelationship = new ArtistRelationship
+            { 
+                ArtistId = artistId,
+                ListenerId = Listener.ListenerID
+            };
+            db.ArtistRelationships.Add(artistRelationship);
+            db.SaveChanges();
+            return RedirectToAction("ArtistView", "Artists", new { ArtistId = artistId });
         }
 
-        // POST: ArtistRelationships/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ArtistRelationshipId,ListenerId,ArtistId")] ArtistRelationship artistRelationship)
-        {
-            if (ModelState.IsValid)
-            {
-                db.ArtistRelationships.Add(artistRelationship);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", artistRelationship.ArtistId);
-            ViewBag.ListenerId = new SelectList(db.Listeners, "ListenerID", "UserId", artistRelationship.ListenerId);
-            return View(artistRelationship);
-        }
 
         // GET: ArtistRelationships/Edit/5
         public ActionResult Edit(int? id)

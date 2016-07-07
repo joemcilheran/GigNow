@@ -171,13 +171,11 @@
     <Compile Include="Controllers\AddressesController.cs" />
     <Compile Include="Controllers\ArtistRelationshipsController.cs" />
     <Compile Include="Controllers\ArtistsController.cs" />
-    <Compile Include="Controllers\ArtistViewModelVMsController.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\GigRelationshipsController.cs" />
     <Compile Include="Controllers\GigsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ListenersController.cs" />
-    <Compile Include="Controllers\ListenerViewModelVMsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Controllers\PhotosController.cs" />
@@ -186,7 +184,6 @@
     <Compile Include="Controllers\TracksController.cs" />
     <Compile Include="Controllers\VenueRelationshipsController.cs" />
     <Compile Include="Controllers\VenuesController.cs" />
-    <Compile Include="Controllers\VenueViewModelVMsController.cs" />
     <Compile Include="Controllers\VideosController.cs" />
     <Compile Include="Controllers\ZipcodesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -219,6 +216,10 @@
     <Compile Include="Migrations\201607051927549_made FK artistId in slot nullable.cs" />
     <Compile Include="Migrations\201607051927549_made FK artistId in slot nullable.Designer.cs">
       <DependentUpon>201607051927549_made FK artistId in slot nullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607062005072_removed custom VMs from db.cs" />
+    <Compile Include="Migrations\201607062005072_removed custom VMs from db.Designer.cs">
+      <DependentUpon>201607062005072_removed custom VMs from db.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -255,24 +256,25 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\DatePickerReady.js" />
-    <Content Include="Scripts\jquery-1.5.2.js" />
-    <Content Include="Scripts\jquery-1.5.2.min.js" />
-    <Content Include="Scripts\jquery.ui.core.js" />
-    <Content Include="Scripts\jquery.ui.core.min.js" />
-    <Content Include="Scripts\jquery.ui.datepicker.js" />
-    <Content Include="Scripts\jquery.ui.datepicker.min.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Account\Scripts\bootstrap.js" />
+    <Content Include="Views\Account\Scripts\bootstrap.min.js" />
+    <None Include="Views\Account\Scripts\jquery-3.0.0-vsdoc.js" />
+    <Content Include="Views\Account\Scripts\jquery-3.0.0.js" />
+    <Content Include="Views\Account\Scripts\jquery-3.0.0.min.js" />
+    <Content Include="Views\Account\Scripts\jquery-3.0.0.slim.js" />
+    <Content Include="Views\Account\Scripts\jquery-3.0.0.slim.min.js" />
+    <Content Include="Views\Account\Scripts\jquery-3.0.0.slim.min.map" />
+    <Content Include="Views\Account\Scripts\jquery-3.0.0.min.map" />
+    <None Include="Views\Account\Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Views\Account\Scripts\DatePickerReady.js" />
+    <Content Include="Views\Account\Scripts\jquery.validate.js" />
+    <Content Include="Views\Account\Scripts\jquery.validate.min.js" />
+    <Content Include="Views\Account\Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Views\Account\Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Views\Account\Scripts\modernizr-2.6.2.js" />
+    <Content Include="Views\Account\Scripts\respond.js" />
+    <Content Include="Views\Account\Scripts\respond.min.js" />
+    <Content Include="Views\Account\Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -305,11 +307,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\ArtistRelationships\Create.cshtml" />
-    <Content Include="Views\ArtistRelationships\Delete.cshtml" />
-    <Content Include="Views\ArtistRelationships\Details.cshtml" />
-    <Content Include="Views\ArtistRelationships\Edit.cshtml" />
-    <Content Include="Views\ArtistRelationships\Index.cshtml" />
     <Content Include="Views\Gigs\Create.cshtml" />
     <Content Include="Views\Gigs\Delete.cshtml" />
     <Content Include="Views\Gigs\Details.cshtml" />
@@ -409,6 +406,11 @@
     <Content Include="Views\Slots\Index.cshtml" />
     <Content Include="Views\Slots\Create.cshtml" />
     <Content Include="Views\Shared\Date.cshtml" />
+    <Content Include="Views\Listeners\ListenerView.cshtml" />
+    <Content Include="Views\Venues\ShowWatchList.cshtml" />
+    <Content Include="Views\Gigs\ShowWatchList.cshtml" />
+    <Content Include="Views\Artists\ShowWatchList.cshtml" />
+    <Content Include="Views\Gigs\ShowGigList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -417,7 +419,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
@@ -441,6 +445,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607051927549_made FK artistId in slot nullable.resx">
       <DependentUpon>201607051927549_made FK artistId in slot nullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607062005072_removed custom VMs from db.resx">
+      <DependentUpon>201607062005072_removed custom VMs from db.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -11,7 +11,7 @@
         </dt>
 
         <dd>
-            @Html.ActionLink((Model.venue.Name),"VenueView", new {venueId = Model.venue.VenueId})
+            @Html.ActionLink((Model.venue.Name),"VenueView", "Venues", new {VenueId = Model.venue.VenueId }, null)
         </dd>
 
         <dt>
@@ -37,13 +37,17 @@
         <dd>
             @Html.DisplayFor(model => model.gig.Time)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.gig.LoadInInsrtuctions)
-        </dt>
+        @if (ViewBag.User == "Gig Admin" || ViewBag.User == "Artist")
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.gig.LoadInInsrtuctions)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.gig.LoadInInsrtuctions)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.gig.LoadInInsrtuctions)
+            </dd>
+        }
+
 
         @if (ViewBag.User == "Gig Admin")
         {
@@ -92,7 +96,19 @@
     }
     @if(ViewBag.User == "Gig Admin")
     {
-        @Html.ActionLink("Add a slot","Create","Slots", new {gigId = Model.gig.GigId})
+        @Html.ActionLink("Add a slot","Create","Slots", new {gigId = Model.gig.GigId}, null)
+    }
+    @if (ViewBag.User == "Listener")
+    {
+        if (ViewBag.Watched == "true")
+        {
+            <h5>You are Wathing @Html.DisplayFor(model => model.gig.Name)</h5>
+
+        }
+        else
+        {
+            @Html.ActionLink("Watch this Gig", "Create", "GigRelationships", new { gigId = Model.gig.GigId }, null)        
+        }
     }
 
 

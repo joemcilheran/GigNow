@@ -1,0 +1,45 @@
+﻿@model IEnumerable<GigNow.Models.Gig>
+
+
+<h1>Gigs</h1>
+@foreach (var item in Model)
+{
+   <div>
+        @Html.ActionLink(item.Name, "GigView", "Gigs", new { gigId = item.GigId }, null)   @item.Date.ToShortDateString()
+        
+    </div>
+}
+<table class="table">
+    <tr>
+        <th>
+        ///    @Html.DisplayNameFor(model => model.Name.ZipcodeId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StreetAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Apt)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.zipcode.ZipcodeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StreetAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apt)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.AddressId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.AddressId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.AddressId })
+            </td>
+        </tr>
+    }
+</table>

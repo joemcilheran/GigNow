@@ -1,0 +1,8 @@
+﻿@model IEnumerable<GigNow.Models.Venue>
+
+
+
+@foreach (var item in Model)
+{
+    @Html.ActionLink(item.Name, "VenueView", "Venues", new { venueId = item.VenueId }, null)
+}

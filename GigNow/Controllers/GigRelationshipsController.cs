@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GigNow.Models;
+using Microsoft.AspNet.Identity;
 
 namespace GigNow.Controllers
 {
@@ -37,30 +38,18 @@ namespace GigNow.Controllers
         }
 
         // GET: GigRelationships/Create
-        public ActionResult Create()
+        public ActionResult Create(int? gigId)
         {
-            ViewBag.GigId = new SelectList(db.Gigs, "GigId", "DefaultGenre");
-            ViewBag.ListenerId = new SelectList(db.Listeners, "ListenerID", "UserId");
-            return View();
-        }
-
-        // POST: GigRelationships/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "GigRelationshipId,ListenerId,GigId")] GigRelationship gigRelationship)
-        {
-            if (ModelState.IsValid)
+            var userId = User.Identity.GetUserId();
+            var Listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
+            GigRelationship gigrelationship = new GigRelationship
             {
-                db.GigRelationships.Add(gigRelationship);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.GigId = new SelectList(db.Gigs, "GigId", "DefaultGenre", gigRelationship.GigId);
-            ViewBag.ListenerId = new SelectList(db.Listeners, "ListenerID", "UserId", gigRelationship.ListenerId);
-            return View(gigRelationship);
+                ListenerId = Listener.ListenerID,
+                GigId = gigId
+            };
+            db.GigRelationships.Add(gigrelationship);
+            db.SaveChanges();
+            return RedirectToAction("GigView", "Gigs", new { GigId = gigId });
         }
 
         // GET: GigRelationships/Edit/5
