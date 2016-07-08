@@ -169,12 +169,14 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AddressesController.cs" />
+    <Compile Include="Controllers\ArtistNotificationsController.cs" />
     <Compile Include="Controllers\ArtistRelationshipsController.cs" />
     <Compile Include="Controllers\ArtistsController.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\GigRelationshipsController.cs" />
     <Compile Include="Controllers\GigsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ListenerNotificationsController.cs" />
     <Compile Include="Controllers\ListenersController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
@@ -182,6 +184,7 @@
     <Compile Include="Controllers\SlotsController.cs" />
     <Compile Include="Controllers\StatesController.cs" />
     <Compile Include="Controllers\TracksController.cs" />
+    <Compile Include="Controllers\VenueNotificationsController.cs" />
     <Compile Include="Controllers\VenueRelationshipsController.cs" />
     <Compile Include="Controllers\VenuesController.cs" />
     <Compile Include="Controllers\VideosController.cs" />
@@ -225,10 +228,24 @@
     <Compile Include="Migrations\201607072259459_turn FK into virtual objects.Designer.cs">
       <DependentUpon>201607072259459_turn FK into virtual objects.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607081632370_added notifications m\v\c.cs" />
+    <Compile Include="Migrations\201607081655188_added notification mvc.cs" />
+    <Compile Include="Migrations\201607081655188_added notification mvc.Designer.cs">
+      <DependentUpon>201607081655188_added notification mvc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607081740305_added message and type to notif.cs" />
+    <Compile Include="Migrations\201607081740305_added message and type to notif.Designer.cs">
+      <DependentUpon>201607081740305_added message and type to notif.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607082243105_endofday.cs" />
+    <Compile Include="Migrations\201607082243105_endofday.Designer.cs">
+      <DependentUpon>201607082243105_endofday.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Artist.cs" />
+    <Compile Include="Models\ArtistNotification.cs" />
     <Compile Include="Models\ArtistRelationship.cs" />
     <Compile Include="Models\ArtistViewModelVM.cs" />
     <Compile Include="Models\City.cs" />
@@ -237,6 +254,7 @@
     <Compile Include="Models\GigViewModelVM.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Listener.cs" />
+    <Compile Include="Models\ListenerNotification.cs" />
     <Compile Include="Models\ListenerViewModelVM.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
@@ -245,6 +263,7 @@
     <Compile Include="Models\State.cs" />
     <Compile Include="Models\Track.cs" />
     <Compile Include="Models\Venue.cs" />
+    <Compile Include="Models\VenueNotification.cs" />
     <Compile Include="Models\VenueRelationship.cs" />
     <Compile Include="Models\VenueViewModelVM.cs" />
     <Compile Include="Models\Video.cs" />
@@ -254,6 +273,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-GigNow-20160629084054.mdf" />
+    <Content Include="App_Data\aspnet-GigNow-20160629084054_log.ldf">
+      <DependentUpon>aspnet-GigNow-20160629084054.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -418,9 +441,28 @@
     <Content Include="Views\Gigs\Search.cshtml" />
     <Content Include="Views\Artists\Search.cshtml" />
     <Content Include="Views\Venues\Search.cshtml" />
+    <Content Include="Views\ArtistNotifications\Create.cshtml" />
+    <Content Include="Views\ArtistNotifications\Delete.cshtml" />
+    <Content Include="Views\ArtistNotifications\Details.cshtml" />
+    <Content Include="Views\ArtistNotifications\Edit.cshtml" />
+    <Content Include="Views\ArtistNotifications\Index.cshtml" />
+    <Content Include="Views\ListenerNotifications\Create.cshtml" />
+    <Content Include="Views\ListenerNotifications\Delete.cshtml" />
+    <Content Include="Views\ListenerNotifications\Details.cshtml" />
+    <Content Include="Views\ListenerNotifications\Edit.cshtml" />
+    <Content Include="Views\ListenerNotifications\Index.cshtml" />
+    <Content Include="Views\VenueNotifications\Create.cshtml" />
+    <Content Include="Views\VenueNotifications\Delete.cshtml" />
+    <Content Include="Views\VenueNotifications\Details.cshtml" />
+    <Content Include="Views\VenueNotifications\Edit.cshtml" />
+    <Content Include="Views\VenueNotifications\Index.cshtml" />
+    <Content Include="Views\ArtistNotifications\Inbox.cshtml" />
+    <Content Include="Views\VenueNotifications\Inbox.cshtml" />
+    <Content Include="Views\ListenerNotifications\Inbox.cshtml" />
+    <Content Include="Views\VenueNotifications\CounterOffer.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="Migrations\201607081616540_added notification models and controllers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -458,6 +500,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607072259459_turn FK into virtual objects.resx">
       <DependentUpon>201607072259459_turn FK into virtual objects.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607081655188_added notification mvc.resx">
+      <DependentUpon>201607081655188_added notification mvc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607081740305_added message and type to notif.resx">
+      <DependentUpon>201607081740305_added message and type to notif.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607082243105_endofday.resx">
+      <DependentUpon>201607082243105_endofday.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,0 +1,24 @@
+﻿@model GigNow.Models.ArtistNotification
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div align="center"><h2>@Model.message</h2></div>
+
+<div class="row">
+    <div class="col-md-4">
+        @Html.Action("GigView", "Gigs",new {gigId = Model.slot.Gig.GigId })
+    </div>
+    <div class="col-md-4">
+        @Html.Action("VenueView", "Venues", new {venueId = Model.slot.Gig.Venue.VenueId })
+    </div>
+    <div class="col-md-4">
+        @Html.Action("Details", "Slots", new { slotId = Model.slot.SlotId })
+    </div>
+</div>
+<h3>
+    @Html.ActionLink("Apply to slot", "Apply","VenueNotificaions", new { id = Model.ArtistNotificationId },null) |
+    @Html.ActionLink("Decline", "MarkAsReadThenArtist", "ArtistNotifications", new {artistNotificationid = Model.ArtistNotificationId}) |
+    @Html.ActionLink("Respond with counter-offer", "CounterOffer", "VenueNotifications", new {id = Model.ArtistNotificationId},null)
+</h3>

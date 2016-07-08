@@ -1,0 +1,35 @@
+﻿@model GigNow.Models.VenueNotification
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div align="center"><h2>@Model.message</h2></div>
+
+<div class="row">
+    <div class="col-md-4">
+        @Html.Action("GigView", "Gigs",new {gigId = Model.slot.Gig.GigId })
+    </div>
+    <div class="col-md-4">
+        @Html.Action("ArtistView", "Artists", new {artistId = Model.artist.ArtistId })
+    </div>
+    <div class="col-md-4">
+        @Html.Action("Details", "Slots", new { slotId = Model.slot.SlotId })
+    </div>
+</div>
+@if (Model.type == "Slot Application")
+{
+    <h3>
+        @Html.ActionLink("Book this Artist","AcceptApplication","AristNotifications", new {venueNotificationid = Model.VenueNotificationId },null)
+        @Html.ActionLink("Decline Application", "DeclineApplicaiton", "AristNotifications", new { venueNotificationid = Model.VenueNotificationId }, null)
+    </h3>
+}
+else if (Model.type == "Counter-Offer")
+{
+    <h3>
+        @Html.ActionLink("Accept Counter-Offer and Book this Artist", "AcceptCounterOffer", "AristNotifications", new { venueNotificationid = Model.VenueNotificationId }, null)
+        @Html.ActionLink("Decline Counter-Offer", "DeclineCounterOffer", "AristNotifications", new { venueNotificationid = Model.VenueNotificationId }, null)
+    </h3>
+}
+
+

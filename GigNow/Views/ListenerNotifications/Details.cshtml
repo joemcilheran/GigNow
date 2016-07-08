@@ -1,0 +1,23 @@
+﻿@model GigNow.Models.ListenerNotification
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        @Html.Action("Search", "Gigs")
+    </div>
+    <div class="col-md-4">
+        @Html.Action("Search", "Artists")
+    </div>
+    <div class="col-md-4">
+        @Html.Action("Search", "Venues")
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ListenerNotificationId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

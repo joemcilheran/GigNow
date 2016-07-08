@@ -1,0 +1,42 @@
+﻿@model IEnumerable<GigNow.Models.ArtistNotification>
+
+<div align="center"><h2>InBox</h2></div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.message)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.type)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.message)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.type)
+        </td>
+        @if(item.type == "Slot Opening" || item.type == "Counter-Offer Declined")
+        <td>
+            @Html.ActionLink("View Full Message", "Details", "ArtistNotifications", new { ArtistNotificationId=item.ArtistNotificationId },null)
+        </td>
+        else if (item.type == "Counter-Offer Accepted" || item.type == "Application Accepted")
+        {
+            <td>
+                @Html.ActionLink("View Gig", "MarkAsReadThenGig", "ArtistNotifications", new { ArtistNotificationId = item.ArtistNotificationId }, null)
+            </td>
+        }
+        else
+        {
+            <td>
+                @Html.ActionLink("Mark as Read", "MarkAsReadThenArtist", "ArtistNotifications", new { ArtistNotificationId = item.ArtistNotificationId }, null)
+            </td>
+        }
+    </tr>
+}
+
+</table>

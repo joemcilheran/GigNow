@@ -154,43 +154,50 @@ namespace GigNow.Controllers
         }
         public ActionResult GigView(int? gigId)
         {
-            
-            var userId = User.Identity.GetUserId();
-            var s = UserManager.GetRoles(userId);
-            string role = s[0].ToString();
             var Gig = db.Gigs.Find(gigId);
             var Venue = db.Venues.FirstOrDefault(x => x.VenueId == Gig.Venue.VenueId);
-            if(userId == Venue.UserId)
+            if (Request.IsAuthenticated)
             {
-                ViewBag.User = "Gig Admin";
-            }
-            else if(role == "Artist Manager")
-            {
-                ViewBag.User = "Artist";
-            }
-            else if(role == "Listener")
-            {
-                ViewBag.User = "Listener";
-                var listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
-                var relationshipList = db.GigRelationships.Where(x => x.Listener == listener).ToList();
-                if (relationshipList.Count == 0)
+                var userId = User.Identity.GetUserId();
+                var s = UserManager.GetRoles(userId);
+                string role = s[0].ToString();
+                if (userId == Venue.UserId)
                 {
-                    ViewBag.Watched = "false";
+                    ViewBag.User = "Gig Admin";
+                }
+                else if (role == "Artist Manager")
+                {
+                    ViewBag.User = "Artist";
+                }
+                else if (role == "Listener")
+                {
+                    ViewBag.User = "Listener";
+                    var listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
+                    var relationshipList = db.GigRelationships.Where(x => x.Listener.ListenerID == listener.ListenerID).ToList();
+                    if (relationshipList.Count == 0)
+                    {
+                        ViewBag.Watched = "false";
+                    }
+                    else
+                    {
+                        ViewBag.Watched = "true";
+                    }
                 }
                 else
                 {
-                    ViewBag.Watched = "true";
+                    ViewBag.User = "other";
                 }
             }
             else
             {
-                ViewBag.User = "other";
+                ViewBag.User = "Visiter";
             }
+
             GigViewModelVM GVM = new GigViewModelVM
              {
                 gig = Gig,
                 venue = Venue,
-                bill = db.Slots.Where(x => x.Gig == Gig).ToList()
+                bill = db.Slots.Where(x => x.Gig.GigId == Gig.GigId).ToList()
             };
             return View(GVM);
         }
@@ -211,11 +218,13 @@ namespace GigNow.Controllers
         [HttpPost]
         public ActionResult Search(string gigGenre, string gigCity, DateTime? date)
         {
+
             var gigSearchResultList = new List<Gig>();
             if (!string.IsNullOrWhiteSpace(gigGenre) && !string.IsNullOrWhiteSpace(gigCity) && date.HasValue)
             {
+                var searchDate = date.GetValueOrDefault();
                 var genreGigs = (from slot in db.Slots where slot.Genre == gigGenre select slot.Gig);               
-                gigSearchResultList = genreGigs.Where(x => x.Venue.address.zipcode.city.Name == gigCity && x.Date.ToShortDateString() == date.GetValueOrDefault().ToShortDateString()).ToList();
+                gigSearchResultList = genreGigs.Where(x => x.Venue.address.zipcode.city.Name == gigCity && x.Date == searchDate).ToList();
             }
             else if (!string.IsNullOrWhiteSpace(gigGenre) && string.IsNullOrWhiteSpace(gigCity) && !date.HasValue)
             {
@@ -227,7 +236,8 @@ namespace GigNow.Controllers
             }
             else if (string.IsNullOrWhiteSpace(gigGenre) && string.IsNullOrWhiteSpace(gigCity) && date.HasValue)
             {
-                gigSearchResultList = db.Gigs.Where(x => x.Date.ToShortDateString() == date.GetValueOrDefault().ToShortDateString()).ToList();
+                var searchDate = date.GetValueOrDefault();
+                gigSearchResultList = db.Gigs.Where(x => x.Date == searchDate).ToList();
             }
             else if (!string.IsNullOrWhiteSpace(gigGenre) && !string.IsNullOrWhiteSpace(gigCity) && !date.HasValue)
             {
@@ -236,14 +246,61 @@ namespace GigNow.Controllers
             }
             else if (string.IsNullOrWhiteSpace(gigGenre) && !string.IsNullOrWhiteSpace(gigCity) && date.HasValue)
             {
-                gigSearchResultList = db.Gigs.Where(x => x.Venue.address.zipcode.city.Name == gigCity && x.Date.ToShortDateString() == date.GetValueOrDefault().ToShortDateString()).ToList();
+                var searchDate = date.GetValueOrDefault();
+                gigSearchResultList = db.Gigs.Where(x => x.Venue.address.zipcode.city.Name == gigCity && x.Date == searchDate).ToList();
             }
             else if (!string.IsNullOrWhiteSpace(gigGenre) && string.IsNullOrWhiteSpace(gigCity) && date.HasValue)
             {
+                var searchDate = date.GetValueOrDefault();
                 var genreGigs = (from slot in db.Slots where slot.Genre == gigGenre select slot.Gig);
-                gigSearchResultList = genreGigs.Where(x => x.Date.ToShortDateString() == date.GetValueOrDefault().ToShortDateString()).ToList();
+                gigSearchResultList = genreGigs.Where(x => x.Date == searchDate).ToList();
             }
             return View(gigSearchResultList);
+        }
+        public ActionResult Finish(int? gigId)
+        {
+            var thisGig = db.Gigs.Find(gigId);
+            var connectedListeners = (from venueRelationship in db.VenueRelationships where venueRelationship.Venue.VenueId == thisGig.Venue.VenueId select venueRelationship.Listener).ToList();
+            CreateGigNotifications(connectedListeners, thisGig);
+            var slotList = db.Slots.Where(x => x.Gig.GigId == gigId).ToList();
+            CreateSlotOpeningsNotification(slotList, thisGig); 
+            return RedirectToAction("Venueview", "Venues", new { venueId =  thisGig.Venue.VenueId});
+        }
+        public void CreateGigNotifications(List<Listener> connectedListeners, Gig thisGig)
+        {
+            foreach (Listener thisListener in connectedListeners)
+            {
+                ListenerNotification listenerNotification = new ListenerNotification
+                {
+                    listener = thisListener,
+                    gig = thisGig,
+                    type = "gigNotification",
+                    message = (thisGig.Venue.Name + " created a new gig on " + thisGig.Date.ToShortDateString() + " at " + thisGig.Time.ToShortTimeString()),
+                    read = false
+                };
+                db.ListenerNotifications.Add(listenerNotification);
+                db.SaveChanges();
+            }
+        }
+        public void CreateSlotOpeningsNotification(List<Slot>slotList, Gig thisGig)
+        {
+            foreach (Slot thisSlot in slotList)
+            {
+                var artistsList = db.Artists.Where(x => x.Genre1 == thisSlot.Genre || x.Genre2 == thisSlot.Genre || x.Genre3 == thisSlot.Genre).Where(x => x.Type == thisSlot.ArtistType).ToList();
+                foreach (Artist thisArtist in artistsList)
+                {
+                    ArtistNotification artistNotification = new ArtistNotification
+                    {
+                        artist = thisArtist,
+                        slot = thisSlot,
+                        type = "Slot Opening",
+                        message = ("Slot available for" + thisGig.Name + " at " + thisGig.Venue.Name + " on " + thisGig.Date.ToShortDateString() + " at " + thisGig.Time.ToShortTimeString()),
+                        read = false
+                    };
+                    db.ArtistNotifications.Add(artistNotification);
+                    db.SaveChanges();
+                }
+            }
         }
     }
 }

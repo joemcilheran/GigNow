@@ -1,0 +1,21 @@
+﻿@model GigNow.Models.ArtistNotification
+
+@{
+    ViewBag.Title = "CounterOffer";
+}
+
+<h2>CounterOffer for slot in @Model.slot.Gig.Name<text> at </text>@Model.slot.Gig.Venue.Name<text> on </text>@Model.slot.Gig.Date.ToShortDateString()</h2>
+
+<div>
+    @using (Html.BeginForm())
+    {
+        <p>Original Offer:</p>
+        <div><p>@Model.slot.Compensation<text> Dollars for </text>@Model.slot.Length<text> Minutes</text></p></div>
+        <div><p>Your Offer:</p></div>
+        <div>@Html.TextBox("counterOffer")<text> Dollars</text></div><br />
+        <br />
+        <div>@Html.HiddenFor(model => model.slot.SlotId)</div>
+        <div>@Html.HiddenFor(model => model.artist.ArtistId)</div>
+        <input type="submit" value="Submit Counter-Offer" />
+    }
+</div>

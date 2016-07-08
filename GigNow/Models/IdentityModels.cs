@@ -64,5 +64,10 @@ namespace GigNow.Models
 
         public System.Data.Entity.DbSet<GigNow.Models.VenueRelationship> VenueRelationships { get; set; }
 
+        public System.Data.Entity.DbSet<GigNow.Models.ArtistNotification> ArtistNotifications { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.ListenerNotification> ListenerNotifications { get; set; }
+
+        public System.Data.Entity.DbSet<GigNow.Models.VenueNotification> VenueNotifications { get; set; }
     }
 }

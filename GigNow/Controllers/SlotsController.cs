@@ -30,22 +30,30 @@ namespace GigNow.Controllers
         // GET: Slots
         public ActionResult Index(List<Slot> bill)
         {
-            var userId = User.Identity.GetUserId();
-            var s = UserManager.GetRoles(userId);
             var Gig = bill[0].Gig;
             var Venue = Gig.Venue;
-            string role = s[0].ToString();
-            if (userId == Venue.UserId)
+            if (Request.IsAuthenticated)
             {
-                ViewBag.User = "Gig Admin";
+                var userId = User.Identity.GetUserId();
+                var s = UserManager.GetRoles(userId);
+                string role = s[0].ToString();
+                if (userId == Venue.UserId)
+                {
+                    ViewBag.User = "Gig Admin";
+                }
+                else if (role == "Artist Manager")
+                {
+                    ViewBag.User = "Artist";
+                }
+                else
+                {
+                    ViewBag.User = "Listener";
+                }
             }
-            else if (role == "Artist Manager")
-            {
-                ViewBag.User = "Artist";
-            }
+
             else
             {
-                ViewBag.User = "Listener";
+                ViewBag.User = "Visiter";
             }
             return View(bill);
         }

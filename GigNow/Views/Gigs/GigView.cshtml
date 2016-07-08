@@ -97,6 +97,7 @@
     @if(ViewBag.User == "Gig Admin")
     {
         @Html.ActionLink("Add a slot","Create","Slots", new {gigId = Model.gig.GigId}, null)
+        @Html.ActionLink("Publish Gig", "Finish", "Gigs", new {gigId = Model.gig.GigId},null)
     }
     @if (ViewBag.User == "Listener")
     {

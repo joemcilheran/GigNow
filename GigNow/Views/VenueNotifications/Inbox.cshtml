@@ -1,0 +1,28 @@
+﻿@model IEnumerable<GigNow.Models.VenueNotification>
+<div align="center"><h2>InBox</h2></div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.message)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.type)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.message)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.type)
+        </td>
+        <td>
+            @Html.ActionLink("View Full Message", "Details","VenueNotifications", new { id=item.VenueNotificationId },null)
+        </td>
+    </tr>
+}
+
+</table>
