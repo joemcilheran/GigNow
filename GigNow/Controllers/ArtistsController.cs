@@ -221,6 +221,8 @@ namespace GigNow.Controllers
         public ActionResult ArtistView(int? ArtistId)
         {
             var Artist = db.Artists.Find(ArtistId);
+            var thisgigList = generateGigList(Artist.ArtistId);
+            ViewBag.MapUrl = generateGigMapUrl(thisgigList, ArtistId);
             if (Request.IsAuthenticated)
             {
                 var userId = User.Identity.GetUserId();
@@ -260,7 +262,7 @@ namespace GigNow.Controllers
             var State = db.States.Find(City.state.StateId);
             ArtistViewModelVM AVM = new ArtistViewModelVM
             {
-                gigList = generateGigList(Artist.ArtistId),
+                gigList = thisgigList,
                 photo = db.Photos.FirstOrDefault(x => x.Artist.ArtistId == Artist.ArtistId),
                 artist = Artist,
                 address = Address,
@@ -276,8 +278,26 @@ namespace GigNow.Controllers
         }
         public List<Gig> generateGigList(int? artistId)
         {
-            var gigList = (from slot in db.Slots where slot.Artist.ArtistId == artistId select slot.Gig).ToList();
-            return gigList;
+            var gigList = (from slot in db.Slots where slot.Artist.ArtistId == artistId select slot.Gig);
+            var currentGigList = gigList.Where(x => x.Date >= DateTime.Today).ToList();
+            return currentGigList;
+        }
+        public string generateGigMapUrl(List<Gig> gigList, int? artistId)
+        {
+            var artist = db.Artists.Find(artistId);
+            var googleAddress = artist.address.StreetAddress.Replace(' ', '+');
+            var googleCity = artist.address.zipcode.city.Name.Replace(' ', '+');
+            var artistAddress = (googleAddress + "+" + artist.address.Apt + ",+" + googleCity + ",+" + artist.address.zipcode.city.state.Name + "+" + artist.address.zipcode.ZipCode);
+            string gigMapUrl = ("https://maps.googleapis.com/maps/api/staticmap?size=400x400&maptype=roadmap&markers=color:blue%7Clabel:A%7C"+artistAddress+"&markers=color:red");
+            foreach(Gig thisGig in gigList)
+            {
+                var googleVAddress = thisGig.Venue.address.StreetAddress.Replace(' ', '+');
+                var googleVCity = thisGig.Venue.address.zipcode.city.Name.Replace(' ', '+');
+                var Destination = (googleVAddress + "+" + thisGig.Venue.address.Apt + ",+" + googleVCity + ",+" + thisGig.Venue.address.zipcode.city.state.Name + "+" + thisGig.Venue.address.zipcode.ZipCode);
+                gigMapUrl = (gigMapUrl + "%7C" + Destination);
+            }
+            gigMapUrl = (gigMapUrl+ "&key=AIzaSyAqBwMAtQFkFgENx8Fn_0Stj3UOgIWysDc");
+            return gigMapUrl;
         }
         [HttpGet]
         public ActionResult Search()

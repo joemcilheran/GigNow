@@ -173,6 +173,10 @@ namespace GigNow.Controllers
         public ActionResult VenueView(int? VenueId)
         {
             var Venue = db.Venues.Find(VenueId);
+            var googleVAddress = Venue.address.StreetAddress.Replace(' ', '+');
+            var googleVCity = Venue.address.zipcode.city.Name.Replace(' ', '+');
+            var Destination = (googleVAddress + "+" + Venue.address.Apt + ",+" + googleVCity + ",+" + Venue.address.zipcode.city.state.Name + "+" + Venue.address.zipcode.ZipCode);
+            ViewBag.Map = ("https://www.google.com/maps/embed/v1/place?key=AIzaSyAqBwMAtQFkFgENx8Fn_0Stj3UOgIWysDc&q=" + Destination);
             if (Request.IsAuthenticated)
             {
                 var userId = User.Identity.GetUserId();
@@ -185,11 +189,20 @@ namespace GigNow.Controllers
                 else if (role == "Artist Manager")
                 {
                     ViewBag.User = "Artist";
+                    var artist = db.Artists.FirstOrDefault(x => x.UserId == userId);
+                    var googleAddress = artist.address.StreetAddress.Replace(' ', '+');
+                    var googleCity = artist.address.zipcode.city.Name.Replace(' ', '+');
+                    var Origin = (googleAddress + "+" + artist.address.Apt + ",+" + googleCity + ",+" + artist.address.zipcode.city.state.Name + "+" + artist.address.zipcode.ZipCode);
+                    ViewBag.Route = ("https://www.google.com/maps/embed/v1/directions?key=AIzaSyAqBwMAtQFkFgENx8Fn_0Stj3UOgIWysDc&origin=" + Origin + "&destination=" + Destination);
                 }
                 else if (role == "Listener")
                 {
                     ViewBag.User = "Listener";
                     var listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
+                    var googleAddress = listener.address.StreetAddress.Replace(' ', '+');
+                    var googleCity = listener.address.zipcode.city.Name.Replace(' ', '+');
+                    var Origin = (googleAddress + "+" + listener.address.Apt + ",+" + googleCity + ",+" + listener.address.zipcode.city.state.Name + "+" + listener.address.zipcode.ZipCode);
+                    ViewBag.Route = ("https://www.google.com/maps/embed/v1/directions?key=AIzaSyAqBwMAtQFkFgENx8Fn_0Stj3UOgIWysDc&origin=" + Origin + "&destination=" + Destination);
                     var relationshipList = db.VenueRelationships.Where(x => x.Listener == listener).ToList();
                     if (relationshipList.Count == 0)
                     {
@@ -233,7 +246,7 @@ namespace GigNow.Controllers
         public List<Gig> generateGigList(int? venueId)
         {
             var venue = db.Venues.Find(venueId);
-            var gigList = db.Gigs.Where(x => x.Venue.VenueId == venue.VenueId).ToList();
+            var gigList = db.Gigs.Where(x => x.Venue.VenueId == venue.VenueId && x.Date >= DateTime.Today).ToList();
             return gigList;
         }
         [HttpGet]

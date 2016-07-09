@@ -7,7 +7,28 @@
 <h2>@Html.DisplayFor(model => model.venue.Name)</h2>
 
 <div>
-    <div><img src="@Url.Action("ShowPhoto","Photos", new {PhotoId = Model.photo.PhotoId})" width="400" height="400"></div>
+    <div></div>
+    <div class="row">
+        <div class="col-md-4">
+            <img src="@Url.Action("ShowPhoto","Photos", new {PhotoId = Model.photo.PhotoId})" width="400" height="400">
+        </div>
+        <div class="col-md-4">
+            @if (ViewBag.User == "Artist" || ViewBag.User == "Listener")
+            {
+                <iframe width="600"
+                        height="450"
+                        frameborder="0" style="border:0"
+                        src="@ViewBag.Route" allowfullscreen></iframe>
+            }
+            else
+            {
+                <iframe width="600"
+                        height="450"
+                        frameborder="0" style="border:0"
+                        src="@ViewBag.Map" allowfullscreen></iframe>
+            }
+        </div>
+    </div>
     <hr />
     <dl class="dl-horizontal">
          
@@ -61,7 +82,6 @@
             <dt>
                 @Html.DisplayNameFor(model => model.venue.Capacity)
             </dt>
-
             <dd>
                 @Html.DisplayFor(model => model.venue.Capacity)<text>people</text>
             </dd>

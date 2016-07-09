@@ -21,8 +21,29 @@ namespace GigNow.Controllers
         }
         public ActionResult Inbox(int? artistId)
         {
+            CheckGigs(artistId);
             var inbox = db.ArtistNotifications.Where(x => x.artist.ArtistId == artistId && x.read == false).ToList();
             return View(inbox);
+        }
+        public void CheckGigs(int? artistId)
+        {
+            var gigs = (from slot in db.Slots where slot.Artist.ArtistId == artistId select slot.Gig).ToList();
+            foreach (Gig thisGig in gigs)
+            {
+                if (thisGig.Date.ToShortDateString() == DateTime.Today.ToShortDateString())
+                {
+                    ArtistNotification artistNotification = new ArtistNotification
+                    {
+                        artist = db.Artists.Find(artistId),
+                        slot = db.Slots.FirstOrDefault(x => x.Artist.ArtistId == artistId && x.Gig.GigId == thisGig.GigId),
+                        type = "Gig Reminder",
+                        read = false,
+                        message = (thisGig.Name + "is Today!")
+                    };
+                    db.ArtistNotifications.Add(artistNotification);
+                    db.SaveChanges();
+                }
+            }
         }
 
         // GET: ArtistNotifications/Details/5

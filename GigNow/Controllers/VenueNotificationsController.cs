@@ -21,8 +21,29 @@ namespace GigNow.Controllers
         }
         public ActionResult Inbox(int? venueId)
         {
+            CheckGigs(venueId);
             var inbox = db.VenueNotifications.Where(x => x.venue.VenueId == venueId && x.read == false).ToList();
             return View(inbox);
+        }
+        public void CheckGigs(int? venueId)
+        {
+            var gigs = db.Gigs.Where(x => x.Venue.VenueId == venueId).ToList();
+            foreach(Gig thisGig in gigs)
+            {
+                if(thisGig.Date.ToShortDateString() == DateTime.Today.ToShortDateString())
+                {
+                    VenueNotification venueNotification = new VenueNotification
+                    {
+                        venue = db.Venues.Find(venueId),
+                        slot = db.Slots.First(x => x.Gig.GigId == thisGig.GigId),
+                        type = "Gig Reminder",
+                        read = false,
+                        message = (thisGig.Name + "is Today!")
+                    };
+                    db.VenueNotifications.Add(venueNotification);
+                    db.SaveChanges();
+                }
+            }
         }
 
         // GET: VenueNotifications/Details/5

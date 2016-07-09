@@ -95,25 +95,33 @@
             <dd>
                 <a href="@Html.DisplayFor(model => model.artist.TwitterLink)">@Html.DisplayFor(model => model.artist.TwitterLink)</a>
             </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.artist.ExtraLink)
-            </dt>
-            <dd>
-                <a href="@Html.DisplayFor(model => model.artist.ExtraLink)">@Html.DisplayFor(model => model.artist.ExtraLink)</a>
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.artist.ExtraLink2)
-            </dt>
-            <dd>
-                <a href="@Html.DisplayFor(model => model.artist.ExtraLink2)">@Html.DisplayFor(model => model.artist.ExtraLink2)</a>
-            </dd>
         </dl>
     </div>
+    <div>
+        <div>
+            @Model.artist.BandCampEmbed1
+        </div>
+        <div>
+            @Model.artist.BandCampEmbed2
+        </div>
+        <div>
+            @Model.artist.BandCampEmbed3
+        </div>
+    </div>
+    
 </div>
 <div>
     @if(Model.gigList.Count > 0)
     {
-        @Html.Action("ShowGigList", "Gigs", new {gigList = Model.gigList, gigView = "false"})
+        
+        <div class="row">
+            <div class="col-md-4">
+                @Html.Action("ShowGigList", "Gigs", new { gigList = Model.gigList, gigView = "false" })
+            </div>
+            <div class="col-md-4">
+                <img src="@ViewBag.MapUrl" />
+            </div>
+        </div>
     }
 </div>
 

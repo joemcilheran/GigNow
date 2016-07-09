@@ -154,8 +154,14 @@ namespace GigNow.Controllers
         }
         public ActionResult GigView(int? gigId)
         {
+       
             var Gig = db.Gigs.Find(gigId);
             var Venue = db.Venues.FirstOrDefault(x => x.VenueId == Gig.Venue.VenueId);
+            ViewBag.PhotoId = (from photo in db.Photos where photo.Venue.VenueId == Venue.VenueId select photo.PhotoId).ToList()[0];
+            var googleVAddress = Venue.address.StreetAddress.Replace(' ', '+');
+            var googleVCity = Venue.address.zipcode.city.Name.Replace(' ', '+');
+            var Destination = (googleVAddress + "+" + Venue.address.Apt + ",+" + googleVCity + ",+" + Venue.address.zipcode.city.state.Name + "+" + Venue.address.zipcode.ZipCode);
+            ViewBag.Map = ("https://www.google.com/maps/embed/v1/place?key=AIzaSyAqBwMAtQFkFgENx8Fn_0Stj3UOgIWysDc&q=" + Destination);
             if (Request.IsAuthenticated)
             {
                 var userId = User.Identity.GetUserId();
@@ -167,12 +173,21 @@ namespace GigNow.Controllers
                 }
                 else if (role == "Artist Manager")
                 {
+                    var artist = db.Artists.FirstOrDefault(x => x.UserId == userId);
+                    var googleAddress = artist.address.StreetAddress.Replace(' ', '+');
+                    var googleCity = artist.address.zipcode.city.Name.Replace(' ', '+');
+                    var Origin = (googleAddress + "+" + artist.address.Apt + ",+" + googleCity + ",+" + artist.address.zipcode.city.state.Name + "+" + artist.address.zipcode.ZipCode);
+                    ViewBag.Route = ("https://www.google.com/maps/embed/v1/directions?key=AIzaSyAqBwMAtQFkFgENx8Fn_0Stj3UOgIWysDc&origin=" + Origin + "&destination=" + Destination);
                     ViewBag.User = "Artist";
                 }
                 else if (role == "Listener")
                 {
                     ViewBag.User = "Listener";
                     var listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
+                    var googleAddress = listener.address.StreetAddress.Replace(' ', '+');
+                    var googleCity = listener.address.zipcode.city.Name.Replace(' ', '+');
+                    var Origin = (googleAddress + "+" + listener.address.Apt + ",+" + googleCity + ",+" + listener.address.zipcode.city.state.Name + "+" + listener.address.zipcode.ZipCode);
+                    ViewBag.Route = ("https://www.google.com/maps/embed/v1/directions?key=AIzaSyAqBwMAtQFkFgENx8Fn_0Stj3UOgIWysDc&origin=" + Origin + "&destination=" + Destination);
                     var relationshipList = db.GigRelationships.Where(x => x.Listener.ListenerID == listener.ListenerID).ToList();
                     if (relationshipList.Count == 0)
                     {
@@ -228,11 +243,11 @@ namespace GigNow.Controllers
             }
             else if (!string.IsNullOrWhiteSpace(gigGenre) && string.IsNullOrWhiteSpace(gigCity) && !date.HasValue)
             {
-                gigSearchResultList = (from slot in db.Slots where slot.Genre == gigGenre select slot.Gig).ToList();
+                gigSearchResultList = (from slot in db.Slots where slot.Genre == gigGenre select slot.Gig).Where(x => x.Date >= DateTime.Today).ToList();
             }
             else if (string.IsNullOrWhiteSpace(gigGenre) && !string.IsNullOrWhiteSpace(gigCity) && !date.HasValue)
             {
-                gigSearchResultList = db.Gigs.Where(x => x.Venue.address.zipcode.city.Name == gigCity).ToList();
+                gigSearchResultList = db.Gigs.Where(x => x.Venue.address.zipcode.city.Name == gigCity && x.Date >= DateTime.Today).ToList();
             }
             else if (string.IsNullOrWhiteSpace(gigGenre) && string.IsNullOrWhiteSpace(gigCity) && date.HasValue)
             {
@@ -242,7 +257,7 @@ namespace GigNow.Controllers
             else if (!string.IsNullOrWhiteSpace(gigGenre) && !string.IsNullOrWhiteSpace(gigCity) && !date.HasValue)
             {
                 var genreGigs = (from slot in db.Slots where slot.Genre == gigGenre select slot.Gig);
-                gigSearchResultList = genreGigs.Where(x => x.Venue.address.zipcode.city.Name == gigCity).ToList();
+                gigSearchResultList = genreGigs.Where(x => x.Venue.address.zipcode.city.Name == gigCity && x.Date >= DateTime.Today).ToList();
             }
             else if (string.IsNullOrWhiteSpace(gigGenre) && !string.IsNullOrWhiteSpace(gigCity) && date.HasValue)
             {

@@ -21,8 +21,29 @@ namespace GigNow.Controllers
         }
         public ActionResult Inbox(int? listenerId)
         {
+            CheckGigs(listenerId);
             var inbox = db.ListenerNotifications.Where(x => x.listener.ListenerID == listenerId && x.read == false).ToList();
             return View(inbox);
+        }
+        public void CheckGigs(int? listenerId)
+        {
+            var gigs = (from gigRelationship in db.GigRelationships where gigRelationship.Listener.ListenerID == listenerId select gigRelationship.Gig).ToList();
+            foreach (Gig thisGig in gigs)
+            {
+                if (thisGig.Date.ToShortDateString() == DateTime.Today.ToShortDateString())
+                {
+                    ListenerNotification listenerNotification = new ListenerNotification
+                    {
+                        listener = db.Listeners.Find(listenerId),
+                        gig = thisGig,
+                        type = "Gig Reminder",
+                        read = false,
+                        message = (thisGig.Name + "is Today!")
+                    };
+                    db.ListenerNotifications.Add(listenerNotification);
+                    db.SaveChanges();
+                }
+            }
         }
 
         // GET: ListenerNotifications/Details/5

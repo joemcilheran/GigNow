@@ -22,8 +22,9 @@ namespace GigNow.Models
         public string FBLink { get; set; }
         public string SiteLink { get; set; }
         public string TwitterLink { get; set; }
-        public string ExtraLink { get; set; }
-        public string ExtraLink2 { get; set; }
+        public string BandCampEmbed1 { get; set; }
+        public string BandCampEmbed2 { get; set; }
+        public string BandCampEmbed3 { get; set; }
         [ForeignKey("AppUser")]
         public string UserId { get; set; }
         public ApplicationUser AppUser { get; set; }

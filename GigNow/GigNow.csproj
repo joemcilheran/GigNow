@@ -241,6 +241,14 @@
     <Compile Include="Migrations\201607082243105_endofday.Designer.cs">
       <DependentUpon>201607082243105_endofday.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607091806213_added embed props to Artist model.cs" />
+    <Compile Include="Migrations\201607091806213_added embed props to Artist model.Designer.cs">
+      <DependentUpon>201607091806213_added embed props to Artist model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607092146130_removed xtra link prop from artist model.cs" />
+    <Compile Include="Migrations\201607092146130_removed xtra link prop from artist model.Designer.cs">
+      <DependentUpon>201607092146130_removed xtra link prop from artist model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
@@ -509,6 +517,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607082243105_endofday.resx">
       <DependentUpon>201607082243105_endofday.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607091806213_added embed props to Artist model.resx">
+      <DependentUpon>201607091806213_added embed props to Artist model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607092146130_removed xtra link prop from artist model.resx">
+      <DependentUpon>201607092146130_removed xtra link prop from artist model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
