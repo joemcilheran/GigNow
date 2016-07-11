@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace GigNow.Models
         [Key]
         public int SlotId { get; set; }
         public int? Compensation { get; set; }
-        public string Genre { get; set; }      
+        public string Genre { get; set; }
+        [DisplayName("Type of Act")]
         public string ArtistType { get; set; }
         public string Perks { get; set; }
         public string Order { get; set; }

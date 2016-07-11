@@ -249,6 +249,10 @@
     <Compile Include="Migrations\201607092146130_removed xtra link prop from artist model.Designer.cs">
       <DependentUpon>201607092146130_removed xtra link prop from artist model.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607112303043_added display names.cs" />
+    <Compile Include="Migrations\201607112303043_added display names.Designer.cs">
+      <DependentUpon>201607112303043_added display names.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
@@ -523,6 +527,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607092146130_removed xtra link prop from artist model.resx">
       <DependentUpon>201607092146130_removed xtra link prop from artist model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607112303043_added display names.resx">
+      <DependentUpon>201607112303043_added display names.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

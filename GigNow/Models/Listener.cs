@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -15,8 +16,11 @@ namespace GigNow.Models
         [ForeignKey("AppUser")]
         public string UserId { get; set; }
         public ApplicationUser AppUser { get; set; }
+        [DisplayName("Primary Genre")]
         public string Genre1 { get; set; }
+        [DisplayName("Secondary Genre")]
         public string Genre2 { get; set; }
+        [DisplayName("Tertiary Genre")]
         public string Genre3 { get; set; }
 
     }
