@@ -65,7 +65,7 @@ namespace GigNow.Controllers
                 listenerViewModelVM.zipcode.city = listenerViewModelVM.city;
                 listenerViewModelVM.city.state = listenerViewModelVM.state;
                 db.SaveChanges();
-                return RedirectToAction("ListenerView", new {ListerId = listenerViewModelVM.listener.ListenerID});
+                return RedirectToAction("ListenerView", new {ListenerId = listenerViewModelVM.listener.ListenerID});
             }
 
             return View(listenerViewModelVM);

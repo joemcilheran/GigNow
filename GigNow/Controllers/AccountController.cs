@@ -170,11 +170,11 @@ namespace GigNow.Controllers
                     return RedirectToAction("RedirectToCreateProfile");
                    
                 }
-                var query = db.Roles.Where(x => !x.Name.Contains("Admin"));
-                ViewBag.Name = new SelectList(query.ToList(), "Name", "Name");
+
                 AddErrors(result);
             }
-
+            var query = db.Roles.Where(x => !x.Name.Contains("Admin"));
+            ViewBag.Name = new SelectList(query.ToList(), "Name", "Name");
             // If we got this far, something failed, redisplay form
             return View(model);
         }

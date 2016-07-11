@@ -10,7 +10,25 @@
     <h2>@Html.DisplayFor(model => model.artist.Name)</h2>
 
     <div>
-        <div><img src="@Url.Action("ShowPhoto","Photos", new {PhotoId = Model.photo.PhotoId})" width="400" height="400"></div>
+
+            @if (ViewBag.User == "Artist Manager")
+            {
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="@Url.Action("ShowPhoto","Photos", new {PhotoId = Model.photo.PhotoId})"width="400"height="400">
+                    </div>
+                    <div class="col-md-4">
+                        @Html.Action("Inbox", "ArtistNotifications", new { artistId = Model.artist.ArtistId })
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div><img src="@Url.Action("ShowPhoto","Photos", new {PhotoId = Model.photo.PhotoId})"width="400"height="400"></div>
+            }
+
+
+        
         <hr />
         <dl class="dl-horizontal">
 
@@ -99,13 +117,13 @@
     </div>
     <div>
         <div>
-            @Model.artist.BandCampEmbed1
+            @Html.Raw(Model.artist.BandCampEmbed1)
         </div>
         <div>
-            @Model.artist.BandCampEmbed2
+            @Html.Raw(Model.artist.BandCampEmbed2)
         </div>
         <div>
-            @Model.artist.BandCampEmbed3
+            @Html.Raw(Model.artist.BandCampEmbed3)
         </div>
     </div>
     
@@ -116,7 +134,7 @@
         
         <div class="row">
             <div class="col-md-4">
-                @Html.Action("ShowGigList", "Gigs", new { gigList = Model.gigList, gigView = "false" })
+                @Html.Action("ShowGigList", "Gigs", new { gigList = Model.gigList, gigView = "Artist" })
             </div>
             <div class="col-md-4">
                 <img src="@ViewBag.MapUrl" />
@@ -129,7 +147,7 @@
 {
     if (ViewBag.Watched == "true")
     {
-        <h5>You are Wathing @Html.DisplayFor(model => model.artist.Name)</h5>
+        <h5>You are Watching @Html.DisplayFor(model => model.artist.Name)</h5>
 
     }
     else

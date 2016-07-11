@@ -14,8 +14,10 @@
         <div><p>Your Offer:</p></div>
         <div>@Html.TextBox("counterOffer")<text> Dollars</text></div><br />
         <br />
-        <div>@Html.HiddenFor(model => model.slot.SlotId)</div>
-        <div>@Html.HiddenFor(model => model.artist.ArtistId)</div>
+        @*<div>@Html.HiddenFor(model => model.slot.SlotId)</div>*@
+        @Html.Hidden("slotId",Model.slot.SlotId)
+        @Html.Hidden("artistId",Model.artist.ArtistId)
+        @*<div>@Html.HiddenFor(model => model.artist.ArtistId)</div>*@
         <input type="submit" value="Submit Counter-Offer" />
     }
 </div>

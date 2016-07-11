@@ -9,52 +9,73 @@
     <div>
         <h4>Your Listener Profile</h4>
         <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                <text>Address</text>
-            </dt>
+        <div class="row">
+            <div class="col-md-4">
+                <dl class="dl-horizontal">
+                    <dt>
+                        <text>Address</text>
+                    </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.address.StreetAddress)<text>,</text>@Html.DisplayFor(model => model.address.Apt)<br />
-                @Html.DisplayFor(model => model.city.Name)<text>,</text>@Html.DisplayFor(model => model.state.Name)<text>  </text> @Html.DisplayFor(model => model.zipcode.ZipCode)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.listener.Genre1)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.listener.Genre1)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.listener.Genre2)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.listener.Genre2)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.listener.Genre3)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.listener.Genre3)
-            </dd>
-        </dl>
+                    <dd>
+                        @Html.DisplayFor(model => model.address.StreetAddress)<text>,</text>@Html.DisplayFor(model => model.address.Apt)<br />
+                        @Html.DisplayFor(model => model.city.Name)<text>,</text>@Html.DisplayFor(model => model.state.Name)<text>  </text> @Html.DisplayFor(model => model.zipcode.ZipCode)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.listener.Genre1)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.listener.Genre1)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.listener.Genre2)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.listener.Genre2)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.listener.Genre3)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.listener.Genre3)
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-4">
+                @Html.Action("Inbox", "ListenerNotifications", new { artistId = Model.listener.ListenerID })
+            </div>
+        </div>
+
     </div>
-    <div>
-        @if (Model.ArtistWatchList.Count > 0)
-        {
-            @Html.Action("ShowWatchList", "Artists", new { watchList = Model.ArtistWatchList })
-        }
+    <div class="row">
+        <div class="col-md-4">
+            @if (Model.ArtistWatchList.Count > 0)
+            {
+                @Html.Action("ShowWatchList", "Artists", new { watchList = Model.ArtistWatchList })
+            }
+        </div>
+        <div class="col-md-4">
+            @if (Model.VenueWatchList.Count > 0)
+            {
+                @Html.Action("ShowWatchList", "Venues", new { watchList = Model.VenueWatchList })
+            }
+        </div>
+        <div class="col-md-4">
+            @if (Model.GigWatchList.Count > 0)
+            {
+                @Html.Action("ShowGigList", "Gigs", new { gigList = Model.GigWatchList, gigView = "Listener" })
+            }
+        </div>
     </div>
-    <div>
-        @if (Model.VenueWatchList.Count > 0)
-        {
-            @Html.Action("ShowWatchList", "Venues", new { watchList = Model.VenueWatchList })
-        }
-    </div>
-    <div>
-        @if (Model.GigWatchList.Count > 0)
-        {
-            @Html.Action("ShowGigList", "Gigs", new { gigList = Model.GigWatchList, gigView = "false" })
-        }
+    <div class="row">
+        <div class="col-md-4">
+            @Html.Action("Search", "Artists")           
+        </div>
+        <div class="col-md-4">
+            @Html.Action("Search", "Venues")
+        </div>
+        <div class="col-md-4">
+            @Html.Action("Search", "Gigs")
+        </div>
     </div>
     <p>
         @Html.ActionLink("Edit your Listener Profile", "Edit", new { listenerViewModel = Model }) |

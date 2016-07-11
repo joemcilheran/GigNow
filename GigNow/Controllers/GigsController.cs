@@ -76,12 +76,13 @@ namespace GigNow.Controllers
         {
             if (ModelState.IsValid)
             {
+                gig.Venue = db.Venues.Find(gig.Venue.VenueId);
                 db.Gigs.Add(gig);
                 db.SaveChanges();
                 return RedirectToAction("GigView", new {gigId = gig.GigId });
             }
 
-            ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", gig.Venue.VenueId);
+            //ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", gig.Venue.VenueId);
             return View(gig);
         }
 
@@ -188,7 +189,7 @@ namespace GigNow.Controllers
                     var googleCity = listener.address.zipcode.city.Name.Replace(' ', '+');
                     var Origin = (googleAddress + "+" + listener.address.Apt + ",+" + googleCity + ",+" + listener.address.zipcode.city.state.Name + "+" + listener.address.zipcode.ZipCode);
                     ViewBag.Route = ("https://www.google.com/maps/embed/v1/directions?key=AIzaSyAqBwMAtQFkFgENx8Fn_0Stj3UOgIWysDc&origin=" + Origin + "&destination=" + Destination);
-                    var relationshipList = db.GigRelationships.Where(x => x.Listener.ListenerID == listener.ListenerID).ToList();
+                    var relationshipList = db.GigRelationships.Where(x => x.Listener.ListenerID == listener.ListenerID && x.Gig.GigId == gigId).ToList();
                     if (relationshipList.Count == 0)
                     {
                         ViewBag.Watched = "false";
@@ -270,7 +271,8 @@ namespace GigNow.Controllers
                 var genreGigs = (from slot in db.Slots where slot.Genre == gigGenre select slot.Gig);
                 gigSearchResultList = genreGigs.Where(x => x.Date == searchDate).ToList();
             }
-            return View(gigSearchResultList);
+            var newList =  checkGig(gigSearchResultList);
+            return View(newList);
         }
         public ActionResult Finish(int? gigId)
         {
@@ -309,13 +311,29 @@ namespace GigNow.Controllers
                         artist = thisArtist,
                         slot = thisSlot,
                         type = "Slot Opening",
-                        message = ("Slot available for" + thisGig.Name + " at " + thisGig.Venue.Name + " on " + thisGig.Date.ToShortDateString() + " at " + thisGig.Time.ToShortTimeString()),
+                        message = (thisSlot.Order+"Slot available for" + thisGig.Name + " at " + thisGig.Venue.Name + " on " + thisGig.Date.ToShortDateString() + " at " + thisGig.Time.ToShortTimeString()),
                         read = false
                     };
                     db.ArtistNotifications.Add(artistNotification);
                     db.SaveChanges();
                 }
             }
+        }
+        public List<Gig> checkGig(List<Gig> giglist)
+        {
+            List<Gig> newList = new List<Gig>();
+            foreach(Gig gig in giglist)
+            {
+                if (gig.Venue.Name == null)
+                {
+                    gig.Venue = db.Venues.Find(gig.Venue.VenueId);
+                    db.SaveChanges();
+                    
+                    
+                }
+                newList.Add(gig);
+            }
+            return newList;
         }
     }
 }

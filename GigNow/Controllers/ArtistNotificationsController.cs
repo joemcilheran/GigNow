@@ -32,28 +32,33 @@ namespace GigNow.Controllers
             {
                 if (thisGig.Date.ToShortDateString() == DateTime.Today.ToShortDateString())
                 {
-                    ArtistNotification artistNotification = new ArtistNotification
+                    var gigRemindersList = db.ArtistNotifications.Where(x => x.type == "Gig Reminder" && x.slot.Gig.GigId == thisGig.GigId && x.artist.ArtistId == artistId).ToList();
+                    if (gigRemindersList.Count() == 0)
                     {
-                        artist = db.Artists.Find(artistId),
-                        slot = db.Slots.FirstOrDefault(x => x.Artist.ArtistId == artistId && x.Gig.GigId == thisGig.GigId),
-                        type = "Gig Reminder",
-                        read = false,
-                        message = (thisGig.Name + "is Today!")
-                    };
-                    db.ArtistNotifications.Add(artistNotification);
-                    db.SaveChanges();
+                        ArtistNotification artistNotification = new ArtistNotification
+                        {
+                            artist = db.Artists.Find(artistId),
+                            slot = db.Slots.FirstOrDefault(x => x.Artist.ArtistId == artistId && x.Gig.GigId == thisGig.GigId),
+                            type = "Gig Reminder",
+                            read = false,
+                            message = (thisGig.Name + "is Today!")
+                        };
+                        db.ArtistNotifications.Add(artistNotification);
+                        db.SaveChanges();
+                    }
+
                 }
             }
         }
 
         // GET: ArtistNotifications/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? ArtistNotificationid)
         {
-            if (id == null)
+            if (ArtistNotificationid == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArtistNotification artistNotification = db.ArtistNotifications.Find(id);
+            ArtistNotification artistNotification = db.ArtistNotifications.Find(ArtistNotificationid);
             if (artistNotification == null)
             {
                 return HttpNotFound();
@@ -195,7 +200,7 @@ namespace GigNow.Controllers
             ArtistBooked(artistsListeners, venueNotification.slot.Gig, venueNotification.artist);
             return RedirectToAction("VenueView", "Venues", new { venueId = venueNotification.venue.VenueId });
         }
-        public ActionResult DeclineApplicaiton(int? venueNotificationId)
+        public ActionResult DeclineApplication(int? venueNotificationId)
         {
             var venueNotification = db.VenueNotifications.Find(venueNotificationId);
             venueNotification.read = true;

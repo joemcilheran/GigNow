@@ -22,7 +22,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Length)
         </th>
-        @if (ViewBag.User == "Gig Admin" || ViewBag.User == "Artist")
+        @if (ViewBag.User == "Gig Admin")
         {
             <th>
                 @Html.DisplayNameFor(model => model.Compensation)
@@ -44,7 +44,7 @@
         else
         {
             <td>
-                @Html.ActionLink(item.Artist.Name, "ArtistView","Artists", new {ArtistId = item.Artist.ArtistId})
+                @Html.ActionLink(item.Artist.Name, "ArtistView","Artists", new {ArtistId = item.Artist.ArtistId},null)
             </td>
         }
 
@@ -61,13 +61,13 @@
         <td>
             @Html.DisplayFor(modelItem => item.Length)
         </td>
-        @if (ViewBag.User == "Gig Admin" || ViewBag.User == "Arist")
+        @if (ViewBag.User == "Gig Admin")
         {
             <td>
-                @Html.DisplayFor(modelItem => item.Perks)
+                @Html.DisplayFor(modelItem => item.Compensation)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Compensation)
+                @Html.DisplayFor(modelItem => item.Perks)
             </td>
         }
 

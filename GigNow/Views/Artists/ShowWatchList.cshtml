@@ -1,9 +1,47 @@
 ﻿@model IEnumerable<GigNow.Models.Artist>
 
 
+<div><h2>Artist Watchlist</h2></div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Genre1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Genre2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Genre3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.address.zipcode.city.Name)
+        </th>
 
-@foreach (var item in Model)
-{
-    @Html.ActionLink(item.Name, "ArtistView", "Artists", new {artistId = item.ArtistId},null)
-}
 
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Name, "ArtistView", "Artists", new { ArtistId = item.ArtistId }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre3)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.address.zipcode.city.Name)
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,7 +1,14 @@
 ﻿@model IEnumerable<GigNow.Models.Gig>
 
+@if(ViewBag.gigview == "Listener")
+{
+    <h2>Gig Watchlist</h2>
+}
+else
+{
+    <h1>Gigs</h1>
+}
 
-<h1>Gigs</h1>
 <table class="table">
     <tr>
         <th>
@@ -10,7 +17,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Date)
         </th>
-        @if (ViewBag.gigView == "false")
+        @if (ViewBag.gigView != "Venue")
         {
             <th>
                 @Html.DisplayNameFor(model => model.Venue.Name)
@@ -31,7 +38,7 @@
             <td>
                 @item.Date.ToShortDateString()
             </td>
-            @if (ViewBag.gigView == "false")
+            @if (ViewBag.gigView != "Venue")
             {
                 <td>
                     @Html.ActionLink(item.Venue.Name, "VenueView", "Venues", new { venueId = item.Venue.VenueId }, null)

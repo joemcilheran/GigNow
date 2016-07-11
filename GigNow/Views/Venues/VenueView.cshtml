@@ -29,6 +29,13 @@
             }
         </div>
     </div>
+    @if (ViewBag.User == "Venue Admin")
+    {
+        <div align="center">
+            @Html.Action("Inbox", "VenueNotifications", new { venueId = Model.venue.VenueId })
+        </div>
+    }
+
     <hr />
     <dl class="dl-horizontal">
          
@@ -106,6 +113,7 @@
         }
         @if (ViewBag.User == "Venue Admin")
         {
+
             <dt>
                 @Html.DisplayNameFor(model => model.venue.DefaultArtistType)
             </dt>
@@ -150,7 +158,7 @@ else if (ViewBag.User == "Listener")
 {
     if (ViewBag.Watched == "true")
     {
-        <h5>You are Wathing @Html.DisplayFor(model => model.venue.Name)</h5>
+        <h5>You are Watching @Html.DisplayFor(model => model.venue.Name)</h5>
 
     }
     else

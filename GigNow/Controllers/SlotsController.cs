@@ -59,13 +59,13 @@ namespace GigNow.Controllers
         }
 
         // GET: Slots/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? slotId)
         {
-            if (id == null)
+            if (slotId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Slot slot = db.Slots.Find(id);
+            Slot slot = db.Slots.Find(slotId);
             if (slot == null)
             {
                 return HttpNotFound();
@@ -97,6 +97,7 @@ namespace GigNow.Controllers
         {
             if (ModelState.IsValid)
             {
+                slot.Gig = db.Gigs.Find(slot.Gig.GigId);
                 db.Slots.Add(slot);
                 db.SaveChanges();
                 return RedirectToAction("GigView","Gigs", new {gigId = slot.Gig.GigId });

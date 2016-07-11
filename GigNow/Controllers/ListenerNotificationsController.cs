@@ -30,19 +30,24 @@ namespace GigNow.Controllers
             var gigs = (from gigRelationship in db.GigRelationships where gigRelationship.Listener.ListenerID == listenerId select gigRelationship.Gig).ToList();
             foreach (Gig thisGig in gigs)
             {
-                if (thisGig.Date.ToShortDateString() == DateTime.Today.ToShortDateString())
+                var gigRemindersList = db.ListenerNotifications.Where(x => x.type == "Gig Reminder" && x.gig.GigId == thisGig.GigId && x.listener.ListenerID == listenerId).ToList();
+                if (gigRemindersList.Count() == 0)
                 {
-                    ListenerNotification listenerNotification = new ListenerNotification
+                    if (thisGig.Date.ToShortDateString() == DateTime.Today.ToShortDateString())
                     {
-                        listener = db.Listeners.Find(listenerId),
-                        gig = thisGig,
-                        type = "Gig Reminder",
-                        read = false,
-                        message = (thisGig.Name + "is Today!")
-                    };
-                    db.ListenerNotifications.Add(listenerNotification);
-                    db.SaveChanges();
+                        ListenerNotification listenerNotification = new ListenerNotification
+                        {
+                            listener = db.Listeners.Find(listenerId),
+                            gig = thisGig,
+                            type = "Gig Reminder",
+                            read = false,
+                            message = (thisGig.Name + "is Today!")
+                        };
+                        db.ListenerNotifications.Add(listenerNotification);
+                        db.SaveChanges();
+                    }
                 }
+
             }
         }
 

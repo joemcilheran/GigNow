@@ -1,28 +1,49 @@
 ﻿@model IEnumerable<GigNow.Models.VenueNotification>
-<div align="center"><h2>InBox</h2></div>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.message)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.type)
-        </th>
-        <th></th>
-    </tr>
+<div align="center">
+    <div><h2>InBox</h2></div>
+    @if (Model.Count() > 0)
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.message)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.type)
+                </th>
+                <th></th>
+            </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.message)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.type)
-        </td>
-        <td>
-            @Html.ActionLink("View Full Message", "Details","VenueNotifications", new { id=item.VenueNotificationId },null)
-        </td>
-    </tr>
-}
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.message)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.type)
+                    </td>
+                    @if(item.type == "Gig Reminder")
+                    {
+                        <td>
+                            @Html.ActionLink("View Gig", "MarkAsReadThenGig", "VenueNotifications", new { venueNotificationId = item.VenueNotificationId }, null) |
+                            @Html.ActionLink("Mark As Read", "MarkAsReadThenVenue", "VenueNotifications", new { venueNotificationId = item.VenueNotificationId }, null)
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.ActionLink("View Full Message", "Details", "VenueNotifications", new { venueNotificationId = item.VenueNotificationId }, null)
+                        </td>
+                    }
 
-</table>
+                </tr>
+            }
+
+        </table>
+    }
+    else
+    {
+        <h4>No new Notifications</h4>
+    }
+</div>

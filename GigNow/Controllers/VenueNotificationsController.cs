@@ -32,28 +32,34 @@ namespace GigNow.Controllers
             {
                 if(thisGig.Date.ToShortDateString() == DateTime.Today.ToShortDateString())
                 {
-                    VenueNotification venueNotification = new VenueNotification
+                    var gigRemindersList = db.VenueNotifications.Where(x => x.type == "Gig Reminder" && x.slot.Gig.GigId == thisGig.GigId).ToList();
+                    if (gigRemindersList.Count() == 0)
                     {
-                        venue = db.Venues.Find(venueId),
-                        slot = db.Slots.First(x => x.Gig.GigId == thisGig.GigId),
-                        type = "Gig Reminder",
-                        read = false,
-                        message = (thisGig.Name + "is Today!")
-                    };
-                    db.VenueNotifications.Add(venueNotification);
-                    db.SaveChanges();
+                        VenueNotification venueNotification = new VenueNotification
+                        {
+                            venue = db.Venues.Find(venueId),
+                            slot = db.Slots.First(x => x.Gig.GigId == thisGig.GigId),
+                            type = "Gig Reminder",
+                            read = false,
+                            message = (thisGig.Name + "is Today!")
+                        };
+                        db.VenueNotifications.Add(venueNotification);
+                        db.SaveChanges();
+                    }
+
+
                 }
             }
         }
 
         // GET: VenueNotifications/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? venueNotificationId)
         {
-            if (id == null)
+            if (venueNotificationId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            VenueNotification venueNotification = db.VenueNotifications.Find(id);
+            VenueNotification venueNotification = db.VenueNotifications.Find(venueNotificationId);
             if (venueNotification == null)
             {
                 return HttpNotFound();
@@ -148,6 +154,20 @@ namespace GigNow.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public ActionResult MarkAsReadThenGig(int? venueNotificationId)
+        {
+            var venueNotification = db.VenueNotifications.Find(venueNotificationId);
+            venueNotification.read = true;
+            db.SaveChanges();
+            return RedirectToAction("GigView", "Gigs", new { gigId = venueNotification.slot.Gig.GigId });
+        }
+        public ActionResult MarkAsReadThenVenue(int? venueNotificationId)
+        {
+            var venueNotification = db.VenueNotifications.Find(venueNotificationId);
+            venueNotification.read = true;
+            db.SaveChanges();
+            return RedirectToAction("VenueView", "Venues", new { venueId = venueNotification.venue.VenueId });
         }
         public ActionResult Apply(int? artistNotificationId)
         {

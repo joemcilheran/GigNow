@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace GigNow.Models
 {
@@ -22,8 +23,11 @@ namespace GigNow.Models
         public string FBLink { get; set; }
         public string SiteLink { get; set; }
         public string TwitterLink { get; set; }
+        [AllowHtml]
         public string BandCampEmbed1 { get; set; }
+        [AllowHtml]
         public string BandCampEmbed2 { get; set; }
+        [AllowHtml]
         public string BandCampEmbed3 { get; set; }
         [ForeignKey("AppUser")]
         public string UserId { get; set; }

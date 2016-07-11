@@ -203,7 +203,7 @@ namespace GigNow.Controllers
                     var googleCity = listener.address.zipcode.city.Name.Replace(' ', '+');
                     var Origin = (googleAddress + "+" + listener.address.Apt + ",+" + googleCity + ",+" + listener.address.zipcode.city.state.Name + "+" + listener.address.zipcode.ZipCode);
                     ViewBag.Route = ("https://www.google.com/maps/embed/v1/directions?key=AIzaSyAqBwMAtQFkFgENx8Fn_0Stj3UOgIWysDc&origin=" + Origin + "&destination=" + Destination);
-                    var relationshipList = db.VenueRelationships.Where(x => x.Listener == listener).ToList();
+                    var relationshipList = db.VenueRelationships.Where(x => x.Listener.ListenerID == listener.ListenerID && x.Venue.VenueId == VenueId).ToList();
                     if (relationshipList.Count == 0)
                     {
                         ViewBag.Watched = "false";

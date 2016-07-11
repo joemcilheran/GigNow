@@ -92,7 +92,7 @@ namespace GigNow.Controllers
 
                 }
                 db.SaveChanges();
-                return RedirectToAction("AddAudioandVideo", new { artist = artistViewModelVM.artist });
+                return RedirectToAction("ArtistView", new { artistId = artistViewModelVM.artist.ArtistId });
             }
             return View(artistViewModelVM);
         }
@@ -236,7 +236,7 @@ namespace GigNow.Controllers
                 {
                     ViewBag.User = "Listener";
                     var listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
-                    var relationshipList = db.ArtistRelationships.Where(x => x.Listener.ListenerID == listener.ListenerID).ToList();
+                    var relationshipList = db.ArtistRelationships.Where(x => x.Listener.ListenerID == listener.ListenerID && x.Artist.ArtistId == ArtistId).ToList();
                     if (relationshipList.Count == 0)
                     {
                         ViewBag.Watched = "false";
