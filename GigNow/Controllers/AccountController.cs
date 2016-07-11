@@ -501,7 +501,7 @@ namespace GigNow.Controllers
                     return RedirectToAction("VenueView", "Venues", new {venueId = venue.VenueId});
                 case "Artist Manager":
                     var artist = db.Artists.FirstOrDefault(x => x.UserId == userId);
-                    return RedirectToAction("ArtistView", "Artists", new {artistId = artist.ArtistId});
+                    return RedirectToAction("ArtistView", "Artists", new {artistId = artist.ArtistId, partial = "false"});
                 default:
                     var listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
                     return RedirectToAction("ListenerView", "Listeners", new {listenerId = listener.ListenerID});

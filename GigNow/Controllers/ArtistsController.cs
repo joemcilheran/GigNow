@@ -92,7 +92,7 @@ namespace GigNow.Controllers
 
                 }
                 db.SaveChanges();
-                return RedirectToAction("ArtistView", new { artistId = artistViewModelVM.artist.ArtistId });
+                return RedirectToAction("ArtistView", new { artistId = artistViewModelVM.artist.ArtistId, partial = "false" });
             }
             return View(artistViewModelVM);
         }
@@ -166,60 +166,61 @@ namespace GigNow.Controllers
             }
             base.Dispose(disposing);
         }
-        public ActionResult AddAudioandVideo(Artist artist)
+        //public ActionResult AddAudioandVideo(Artist artist)
+        //{
+        //    return View(artist);
+        //}
+        //[HttpPost]
+        //public ActionResult AddAudioandVideo(HttpPostedFileBase audio1, HttpPostedFileBase audio2, HttpPostedFileBase audio3, HttpPostedFileBase video)
+        //{
+        //    var userId = User.Identity.GetUserId();
+        //    var artist = db.Artists.FirstOrDefault(x => x.UserId == userId);
+        //    var artistId = artist.ArtistId;
+        //    saveAudio(audio1, artistId);
+        //    saveAudio(audio2, artistId);
+        //    saveAudio(audio3, artistId);
+        //    saveVideo(video, artistId);
+        //    return RedirectToAction("ArtistView");
+        //}
+        //public void saveAudio(HttpPostedFileBase audio, int artistId)
+        //{
+        //    var artist = db.Artists.Find(artistId);
+        //    if (audio != null && audio.ContentLength > 0)
+        //    {
+        //        Track track = new Track
+        //        {
+        //            Name = System.IO.Path.GetFileName(audio.FileName),
+        //            Artist = artist
+        //        };
+        //        using (var reader = new System.IO.BinaryReader(audio.InputStream))
+        //        {
+        //            track.Data = reader.ReadBytes(audio.ContentLength);
+        //        }
+        //        db.Tracks.Add(track);
+        //        db.SaveChanges();
+        //    }
+        //}
+        //public void saveVideo(HttpPostedFileBase upload, int artistId)
+        //{
+        //    var artist = db.Artists.Find(artistId);
+        //    if (upload != null && upload.ContentLength > 0)
+        //    {
+        //        Video video = new Video
+        //        {
+        //            Name = System.IO.Path.GetFileName(upload.FileName),
+        //            Artist = artist
+        //        };
+        //        using (var reader = new System.IO.BinaryReader(upload.InputStream))
+        //        {
+        //            video.Data = reader.ReadBytes(upload.ContentLength);
+        //        }
+        //        db.Videos.Add(video);
+        //        db.SaveChanges();
+        //    }
+        //}
+        public ActionResult ArtistView(int? ArtistId, string partial)
         {
-            return View(artist);
-        }
-        [HttpPost]
-        public ActionResult AddAudioandVideo(HttpPostedFileBase audio1, HttpPostedFileBase audio2, HttpPostedFileBase audio3, HttpPostedFileBase video)
-        {
-            var userId = User.Identity.GetUserId();
-            var artist = db.Artists.FirstOrDefault(x => x.UserId == userId);
-            var artistId = artist.ArtistId;
-            saveAudio(audio1, artistId);
-            saveAudio(audio2, artistId);
-            saveAudio(audio3, artistId);
-            saveVideo(video, artistId);
-            return RedirectToAction("ArtistView");
-        }
-        public void saveAudio(HttpPostedFileBase audio, int artistId)
-        {
-            var artist = db.Artists.Find(artistId);
-            if (audio != null && audio.ContentLength > 0)
-            {
-                Track track = new Track
-                {
-                    Name = System.IO.Path.GetFileName(audio.FileName),
-                    Artist = artist
-                };
-                using (var reader = new System.IO.BinaryReader(audio.InputStream))
-                {
-                    track.Data = reader.ReadBytes(audio.ContentLength);
-                }
-                db.Tracks.Add(track);
-                db.SaveChanges();
-            }
-        }
-        public void saveVideo(HttpPostedFileBase upload, int artistId)
-        {
-            var artist = db.Artists.Find(artistId);
-            if (upload != null && upload.ContentLength > 0)
-            {
-                Video video = new Video
-                {
-                    Name = System.IO.Path.GetFileName(upload.FileName),
-                    Artist = artist
-                };
-                using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                {
-                    video.Data = reader.ReadBytes(upload.ContentLength);
-                }
-                db.Videos.Add(video);
-                db.SaveChanges();
-            }
-        }
-        public ActionResult ArtistView(int? ArtistId)
-        {
+            ViewBag.Partial = partial;
             var Artist = db.Artists.Find(ArtistId);
             var thisgigList = generateGigList(Artist.ArtistId);
             ViewBag.MapUrl = generateGigMapUrl(thisgigList, ArtistId);

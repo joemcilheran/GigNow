@@ -4,18 +4,19 @@
     ViewBag.Title = "ArtistView";
 }
 
-<h2>ArtistView</h2>
+
 
 <div>
     <h2>@Html.DisplayFor(model => model.artist.Name)</h2>
 
     <div>
-
-            @if (ViewBag.User == "Artist Manager")
+        @if (ViewBag.Partial == "false")
+        {
+            if (ViewBag.User == "Artist Manager")
             {
                 <div class="row">
                     <div class="col-md-4">
-                        <img src="@Url.Action("ShowPhoto","Photos", new {PhotoId = Model.photo.PhotoId})"width="400"height="400">
+                        <img src="@Url.Action("ShowPhoto","Photos", new {PhotoId = Model.photo.PhotoId})" width="400" height="400">
                     </div>
                     <div class="col-md-4">
                         @Html.Action("Inbox", "ArtistNotifications", new { artistId = Model.artist.ArtistId })
@@ -24,11 +25,10 @@
             }
             else
             {
-                <div><img src="@Url.Action("ShowPhoto","Photos", new {PhotoId = Model.photo.PhotoId})"width="400"height="400"></div>
+                <div><img src="@Url.Action("ShowPhoto","Photos", new {PhotoId = Model.photo.PhotoId})" width="400" height="400"></div>
             }
-
-
-        
+        }
+      
         <hr />
         <dl class="dl-horizontal">
 
@@ -162,4 +162,8 @@ else if (ViewBag.User == "Artist Manager")
         @Html.ActionLink("Edit", "Edit", new { artistViewModelVM = Model }) |
         @Html.ActionLink("Back to List", "Index")
     </p>
+}
+@if(ViewBag.Partial == "true")
+{
+    @Html.ActionLink("View full profile", "ArtistView", new {artistId = Model.artist.ArtistId, partial = "false"})
 }

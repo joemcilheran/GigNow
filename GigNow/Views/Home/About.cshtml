@@ -1,7 +1,12 @@
 ﻿@{
     ViewBag.Title = "About";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<h2>About Gig:Now</h2>
+<h3>Gig:Now is all about making gigs happen: Now. Gig:Now facilitates streamlined communicaations between artists and venues to create fast and painless booking experiences.</h3>
 
-<p>Use this area to provide additional information.</p>
+<p>Artists can create streamlined profiles to be viewed by Venues and bookers. through the use of BandCamp Player, Viewers can stream your songs straight from  your profile</p><br />
+<p>Venues can create profiles that include all the information an artist needs, so you don't have send the same email thirty times a week to hopeful acts.</p><br />
+<p>Artists and Venues can communicate directly through Gig:Now to book gigs in as little one round of automated messaging.</p><br />
+<p>Listeners can search the site as guests to find Gigs, Artists, and Venues in their area, and can create Listener profiles to recieve automated notifications based on their taste preferences</p>
+
+<h3>@Html.ActionLink("Sign up Today", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</h3>

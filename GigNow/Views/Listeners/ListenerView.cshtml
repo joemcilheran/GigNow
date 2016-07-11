@@ -6,12 +6,13 @@
 
 @if (ViewBag.User == "Listener")
 {
+    <h2>Your Listener Profile</h2>
     <div>
-        <h4>Your Listener Profile</h4>
+        
         <hr />
         <div class="row">
-            <div class="col-md-4">
-                <dl class="dl-horizontal">
+            <div align="left" class="col-md-4">
+                <dl  class="dl-horizontal">
                     <dt>
                         <text>Address</text>
                     </dt>
@@ -39,6 +40,9 @@
                         @Html.DisplayFor(model => model.listener.Genre3)
                     </dd>
                 </dl>
+                <p>
+                    @Html.ActionLink("Edit your Listener Profile", "Edit", new { listenerViewModel = Model }) |
+                </p>
             </div>
             <div class="col-md-4">
                 @Html.Action("Inbox", "ListenerNotifications", new { artistId = Model.listener.ListenerID })
@@ -77,9 +81,7 @@
             @Html.Action("Search", "Gigs")
         </div>
     </div>
-    <p>
-        @Html.ActionLink("Edit your Listener Profile", "Edit", new { listenerViewModel = Model }) |
-    </p>
+
 }
 else
 {

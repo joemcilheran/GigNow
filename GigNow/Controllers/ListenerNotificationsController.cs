@@ -159,7 +159,7 @@ namespace GigNow.Controllers
             var listenerNotification = db.ListenerNotifications.Find(listenerNotificationId);
             listenerNotification.read = true;
             db.SaveChanges();
-            return RedirectToAction("GigView", "Gigs", new { gigId = listenerNotification.gig.GigId });
+            return RedirectToAction("GigView", "Gigs", new { gigId = listenerNotification.gig.GigId, partial = "false" });
         }
 
 

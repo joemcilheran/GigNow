@@ -44,7 +44,7 @@
         else
         {
             <td>
-                @Html.ActionLink(item.Artist.Name, "ArtistView","Artists", new {ArtistId = item.Artist.ArtistId},null)
+                @Html.ActionLink(item.Artist.Name, "ArtistView","Artists", new {ArtistId = item.Artist.ArtistId, partial = "false"},null)
             </td>
         }
 

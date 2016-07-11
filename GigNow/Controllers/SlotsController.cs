@@ -100,7 +100,7 @@ namespace GigNow.Controllers
                 slot.Gig = db.Gigs.Find(slot.Gig.GigId);
                 db.Slots.Add(slot);
                 db.SaveChanges();
-                return RedirectToAction("GigView","Gigs", new {gigId = slot.Gig.GigId });
+                return RedirectToAction("GigView","Gigs", new {gigId = slot.Gig.GigId, partial = "false" });
             }
 
             ViewBag.GigId = new SelectList(db.Gigs, "GigId", "DefaultGenre", slot.Gig.GigId);

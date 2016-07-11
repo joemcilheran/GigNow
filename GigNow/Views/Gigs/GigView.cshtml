@@ -5,35 +5,43 @@
 <div>
     <h2>@Html.DisplayFor(model => model.gig.Name)</h2>
     <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <img src="@Url.Action("ShowPhoto","Photos", new {PhotoId = ViewBag.PhotoId})" width="400" height="400">
+    @if (ViewBag.Partial == "false")
+    {
+        <div class="row">
+            <div class="col-md-4">
+                <img src="@Url.Action("ShowPhoto","Photos", new {PhotoId = ViewBag.PhotoId})" width="400" height="400">
+            </div>
+            <div class="col-md-4">
+                @if (ViewBag.User == "Artist" || ViewBag.User == "Listener")
+                {
+                    <iframe width="600"
+                            height="450"
+                            frameborder="0" style="border:0"
+                            src="@ViewBag.Route" allowfullscreen></iframe>
+                }
+                else
+                {
+                    <iframe width="600"
+                            height="450"
+                            frameborder="0" style="border:0"
+                            src="@ViewBag.Map" allowfullscreen></iframe>
+                }
+            </div>
         </div>
-        <div class="col-md-4">
-            @if (ViewBag.User == "Artist" || ViewBag.User == "Listener")
-            { 
-                <iframe width="600"
-                        height="450"
-                        frameborder="0" style="border:0"
-                        src="@ViewBag.Route" allowfullscreen></iframe>
-            }
-            else
-            {
-                <iframe width="600"
-                        height="450"
-                        frameborder="0" style="border:0"
-                        src="@ViewBag.Map" allowfullscreen></iframe>
-            }
-        </div>
-    </div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.venue.Name)
-        </dt>
+    }
 
-        <dd>
-            @Html.ActionLink((Model.venue.Name),"VenueView", "Venues", new {VenueId = Model.venue.VenueId }, null)
-        </dd>
+    <dl class="dl-horizontal">
+        @if (ViewBag.User != "Gig Admin")
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.venue.Name)
+            </dt>
+
+            <dd>
+                @Html.ActionLink((Model.venue.Name), "VenueView", "Venues", new { VenueId = Model.venue.VenueId }, null)
+            </dd>
+        }
+
 
         <dt>
             @Html.DisplayNameFor(model => model.gig.Cover)
@@ -70,7 +78,7 @@
         }
 
 
-        @if (ViewBag.User == "Gig Admin")
+        @if (ViewBag.User == "Gig Admin" && ViewBag.Partial == "false")
         {
             <dt>
                 @Html.DisplayNameFor(model => model.gig.DefaultGenre)
@@ -115,7 +123,7 @@
     {
         <h4>No Slots added</h4>
     }
-    @if(ViewBag.User == "Gig Admin")
+    @if(ViewBag.User == "Gig Admin" && ViewBag.Partial == "false")
     {
         @Html.ActionLink("Add a slot","Create","Slots", new {gigId = Model.gig.GigId}, null)
         @Html.ActionLink("Publish Gig", "Finish", "Gigs", new {gigId = Model.gig.GigId},null)
