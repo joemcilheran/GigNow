@@ -160,7 +160,7 @@ namespace GigNow.Controllers
             var venueNotification = db.VenueNotifications.Find(venueNotificationId);
             venueNotification.read = true;
             db.SaveChanges();
-            return RedirectToAction("GigView", "Gigs", new { gigId = venueNotification.slot.Gig.GigId });
+            return RedirectToAction("GigView", "Gigs", new { gigId = venueNotification.slot.Gig.GigId, partial = "false" });
         }
         public ActionResult MarkAsReadThenVenue(int? venueNotificationId)
         {
@@ -186,7 +186,7 @@ namespace GigNow.Controllers
             };
             db.VenueNotifications.Add(venueNotification);
             db.SaveChanges();
-            return RedirectToAction("ArtistView", "Artists", new { artistId = artistNotification.artist.ArtistId  });
+            return RedirectToAction("ArtistView", "Artists", new { artistId = artistNotification.artist.ArtistId, partial = "false" });
         }
         [HttpGet]
         public ActionResult CounterOffer(int? artistNotificationId)
@@ -212,7 +212,7 @@ namespace GigNow.Controllers
             };
             db.VenueNotifications.Add(venueNotification);
             db.SaveChanges();
-            return RedirectToAction("ArtistView", "Artists", new { artistId = artistId });
+            return RedirectToAction("ArtistView", "Artists", new { artistId = artistId, partial = "false" });
         }
     }
 }

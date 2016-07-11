@@ -50,7 +50,7 @@ namespace GigNow.Controllers
             };
             db.GigRelationships.Add(gigrelationship);
             db.SaveChanges();
-            return RedirectToAction("GigView", "Gigs", new { GigId = gig.GigId });
+            return RedirectToAction("GigView", "Gigs", new { GigId = gig.GigId, partial = "false" });
         }
 
         // GET: GigRelationships/Edit/5

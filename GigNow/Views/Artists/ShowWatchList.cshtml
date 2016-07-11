@@ -27,7 +27,7 @@
     {
         <tr>
             <td>
-                @Html.ActionLink(item.Name, "ArtistView", "Artists", new { ArtistId = item.ArtistId }, null)
+                @Html.ActionLink(item.Name, "ArtistView", "Artists", new { ArtistId = item.ArtistId, partial = "false" }, null)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Genre1)

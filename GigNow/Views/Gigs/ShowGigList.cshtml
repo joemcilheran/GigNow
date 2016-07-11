@@ -33,7 +33,7 @@ else
     {
         <tr>
             <td>
-                @Html.ActionLink(item.Name, "GigView", "Gigs", new { gigId = item.GigId }, null) 
+                @Html.ActionLink(item.Name, "GigView", "Gigs", new { gigId = item.GigId, partial = "false" }, null) 
             </td>
             <td>
                 @item.Date.ToShortDateString()

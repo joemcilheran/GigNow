@@ -271,14 +271,14 @@ namespace GigNow.Controllers
             var artistNotification = db.ArtistNotifications.Find(artistNotificationId);
             artistNotification.read = true;
             db.SaveChanges();
-            return RedirectToAction("GigView", "Gigs", new {gigId = artistNotification.slot.Gig.GigId});
+            return RedirectToAction("GigView", "Gigs", new {gigId = artistNotification.slot.Gig.GigId, partial = "false"});
         }
         public ActionResult MarkAsReadThenArtist(int? artistNotificationId)
         {
             var artistNotification = db.ArtistNotifications.Find(artistNotificationId);
             artistNotification.read = true;
             db.SaveChanges();
-            return RedirectToAction("ArtistView", "Artists", new { artistId = artistNotification.artist.ArtistId });
+            return RedirectToAction("ArtistView", "Artists", new { artistId = artistNotification.artist.ArtistId, partial = "false" });
         }
     }
 }

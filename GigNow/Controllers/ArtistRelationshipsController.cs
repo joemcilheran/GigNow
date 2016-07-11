@@ -49,7 +49,7 @@ namespace GigNow.Controllers
             };
             db.ArtistRelationships.Add(artistRelationship);
             db.SaveChanges();
-            return RedirectToAction("ArtistView", "Artists", new { ArtistId = artistId });
+            return RedirectToAction("ArtistView", "Artists", new { ArtistId = artistId, partial = "false" });
         }
 
 

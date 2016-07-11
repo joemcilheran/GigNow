@@ -79,7 +79,7 @@ namespace GigNow.Controllers
                 gig.Venue = db.Venues.Find(gig.Venue.VenueId);
                 db.Gigs.Add(gig);
                 db.SaveChanges();
-                return RedirectToAction("GigView", new {gigId = gig.GigId });
+                return RedirectToAction("GigView", new {gigId = gig.GigId, partial = "false" });
             }
 
             //ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", gig.Venue.VenueId);
@@ -153,9 +153,9 @@ namespace GigNow.Controllers
             }
             base.Dispose(disposing);
         }
-        public ActionResult GigView(int? gigId)
+        public ActionResult GigView(int? gigId, string partial)
         {
-       
+            ViewBag.Partial = partial;    
             var Gig = db.Gigs.Find(gigId);
             var Venue = db.Venues.FirstOrDefault(x => x.VenueId == Gig.Venue.VenueId);
             ViewBag.PhotoId = (from photo in db.Photos where photo.Venue.VenueId == Venue.VenueId select photo.PhotoId).ToList()[0];
