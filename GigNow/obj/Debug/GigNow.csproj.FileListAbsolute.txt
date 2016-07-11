@@ -82,3 +82,4 @@ C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.pdb
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.Migrations.removedxtralinkpropfromartistmodel.resources
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.csprojResolveAssemblyReference.cache
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.Migrations.addeddisplaynames.resources
