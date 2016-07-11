@@ -5,7 +5,7 @@
 <div>
     <h2>@Html.DisplayFor(model => model.gig.Name)</h2>
     <hr />
-    @if (ViewBag.Partial = "false")
+    @if (ViewBag.Partial == "false")
     {
         <div class="row">
             <div class="col-md-4">
@@ -123,7 +123,7 @@
     {
         <h4>No Slots added</h4>
     }
-    @if(ViewBag.User == "Gig Admin")
+    @if(ViewBag.User == "Gig Admin" && ViewBag.Partial == "false")
     {
         @Html.ActionLink("Add a slot","Create","Slots", new {gigId = Model.gig.GigId}, null)
         @Html.ActionLink("Publish Gig", "Finish", "Gigs", new {gigId = Model.gig.GigId},null)

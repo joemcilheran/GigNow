@@ -6,16 +6,17 @@
 
 <div align="center"><h2>@Model.message</h2></div>
 
-<div>
-    <div>
+<div class="row">
+    <div class="col-md-4">
         @Html.Action("GigView", "Gigs",new {gigId = Model.slot.Gig.GigId, partial = "true" })
     </div>
-    <div>
-        @Html.Action("ArtistView", "Artists", new {artistId = Model.artist.ArtistId, partial = "true" })
-    </div>
-    <div>
+    <div class="col-md-4">
         @Html.Action("Details", "Slots", new { slotId = Model.slot.SlotId })
     </div>
+    <div class="col-md-4">
+        @Html.Action("ArtistView", "Artists", new {artistId = Model.artist.ArtistId, partial = "true" })
+    </div>
+
 </div>
 @if (Model.type == "Slot Application")
 {

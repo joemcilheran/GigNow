@@ -4,13 +4,13 @@
     ViewBag.Title = "ArtistView";
 }
 
-<h2>ArtistView</h2>
+
 
 <div>
     <h2>@Html.DisplayFor(model => model.artist.Name)</h2>
 
     <div>
-        @if (ViewBag.Partial = "false")
+        @if (ViewBag.Partial == "false")
         {
             if (ViewBag.User == "Artist Manager")
             {
@@ -163,7 +163,7 @@ else if (ViewBag.User == "Artist Manager")
         @Html.ActionLink("Back to List", "Index")
     </p>
 }
-@if(ViewBag.Partial = "true")
+@if(ViewBag.Partial == "true")
 {
     @Html.ActionLink("View full profile", "ArtistView", new {artistId = Model.artist.ArtistId, partial = "false"})
 }
