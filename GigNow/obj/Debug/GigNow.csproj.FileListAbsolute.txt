@@ -83,3 +83,14 @@ C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.dll
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.pdb
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.csprojResolveAssemblyReference.cache
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\bin\RestSharp.dll
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\bin\Twilio.Api.dll
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\bin\Twilio.Mvc.dll
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\bin\Twilio.Twiml.dll
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\bin\RestSharp.xml
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\bin\Twilio.Api.pdb
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\bin\Twilio.Api.xml
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\bin\Twilio.Mvc.pdb
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\bin\Twilio.Mvc.xml
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\bin\Twilio.Twiml.pdb
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\bin\Twilio.Twiml.xml

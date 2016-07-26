@@ -69,7 +69,7 @@
             </div>
         </div>
         <div style="clear:both">
-            @if (ViewBag.Partial == "true")
+            @if (ViewBag.Partial == "true" || ViewBag.Partial == "truthy")
             {
                 <h3>@Html.ActionLink("View full profile", "ArtistView", new { artistId = Model.artist.ArtistId, partial = "false" })</h3>
             }

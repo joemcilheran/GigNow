@@ -173,7 +173,14 @@ namespace GigNow.Controllers
         {
             var gigIds = from gigRelationship in db.GigRelationships where gigRelationship.Listener.ListenerID == listenerId select gigRelationship.Gig.GigId;
             List<Gig> gigWatchList = new List<Gig>();
-            gigWatchList = db.Gigs.Where(x => gigIds.ToList().Contains(x.GigId)).ToList();
+            
+            foreach(Gig thisGig in db.Gigs.Where(x => gigIds.ToList().Contains(x.GigId)).ToList())
+            {
+                if (thisGig.Date >= DateTime.Today)
+                {
+                    gigWatchList.Add(thisGig);
+                }
+            }
             return gigWatchList;
         }
         public List<Venue> generateVenueWatchList(int? listenerId)

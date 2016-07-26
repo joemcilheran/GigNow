@@ -1,7 +1,8 @@
-﻿@model IEnumerable<GigNow.Models.ListenerNotification>
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<GigNow.Models.ListenerNotification>
 @{ Layout = null;}
 <div >
-    <div  id="inbox"><h2 style="color:white">Notifications<sup style="color: orangered">@Model.Count()</sup></h2></div>
+    <div id="inbox"><h1 style="color: orangered">@User.Identity.GetUserName()<sup style="color: white">@Model.Count()</sup></h1></div>
     <div style="font-size:large">
         <ul id="notifications" style="display:none">
             @foreach (var item in Model)

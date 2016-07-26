@@ -54,3 +54,6 @@ C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow.
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow.Tests\obj\Debug\GigNow.Tests.csprojResolveAssemblyReference.cache
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow.Tests\obj\Debug\GigNow.Tests.dll
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow.Tests\obj\Debug\GigNow.Tests.pdb
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow.Tests\bin\Debug\Twilio.Api.dll
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow.Tests\bin\Debug\Twilio.Api.pdb
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow.Tests\bin\Debug\Twilio.Api.xml

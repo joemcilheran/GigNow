@@ -46,6 +46,8 @@ namespace GigNow.Controllers
                             read = false,
                             message = (thisGig.Name + " is Today!")
                         };
+                        SmsController Sms = new SmsController();
+                        Sms.SendMessage(db.Users.Find(listenerNotification.listener.UserId).PhoneNumber, listenerNotification.message);
                         db.ListenerNotifications.Add(listenerNotification);
                         db.SaveChanges();
                     }

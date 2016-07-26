@@ -8,11 +8,11 @@
 
 <div class="row">
     <div class="col-md-3"style="background-color:none">
-        @Html.Action("GigView", "Gigs", new {gigId = Model.slot.Gig.GigId, partial = "true" })
+        @Html.Action("GigView", "Gigs", new {gigId = Model.slot.Gig.GigId, partial = "truthy" })
     </div>
     <div class="col-md-4"style="background-color:none"></div>
     <div class="col-md-3"style="background-color:none">
-        @Html.Action("ArtistView", "Artists", new {artistId = Model.artist.ArtistId, partial = "true" })
+        @Html.Action("ArtistView", "Artists", new {artistId = Model.artist.ArtistId, partial = "truthy" })
     </div>
 </div>
 <div style="clear:both">

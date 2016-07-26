@@ -16,6 +16,7 @@ namespace GigNow.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationUserManager _userManager;
+        SmsController Sms = new SmsController();
         public ApplicationUserManager UserManager
         {
             get
@@ -295,6 +296,7 @@ namespace GigNow.Controllers
                     message = (thisGig.Venue.Name + " created a new gig on " + thisGig.Date.ToShortDateString() + " at " + thisGig.Time.ToShortTimeString()),
                     read = false
                 };
+                Sms.SendMessage(db.Users.Find(thisListener.UserId).PhoneNumber, listenerNotification.message);
                 db.ListenerNotifications.Add(listenerNotification);
                 db.SaveChanges();
             }
@@ -314,6 +316,7 @@ namespace GigNow.Controllers
                         message = (thisSlot.Order+" slot available for " + thisGig.Name + " at " + thisGig.Venue.Name + " on " + thisGig.Date.ToShortDateString() + " at " + thisGig.Time.ToShortTimeString()),
                         read = false
                     };
+                    Sms.SendMessage(db.Users.Find(thisArtist.UserId).PhoneNumber, artistNotification.message);
                     db.ArtistNotifications.Add(artistNotification);
                     db.SaveChanges();
                 }

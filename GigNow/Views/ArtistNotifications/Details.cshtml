@@ -10,7 +10,7 @@
     <div >
         @Html.Action("GigView", "Gigs", new { gigId = Model.slot.Gig.GigId, partial = "true"})
     </div>
-    <div>
+    <div style="clear: both">
         @Html.Action("Details", "Slots", new { slotId = Model.slot.SlotId })
     </div>
 </div>

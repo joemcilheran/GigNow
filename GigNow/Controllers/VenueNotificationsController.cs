@@ -48,6 +48,8 @@ namespace GigNow.Controllers
                             read = false,
                             message = (thisGig.Name + " is Today!")
                         };
+                        SmsController Sms = new SmsController();
+                        Sms.SendMessage(db.Users.Find(venueNotification.venue.UserId).PhoneNumber, venueNotification.message);
                         db.VenueNotifications.Add(venueNotification);
                         db.SaveChanges();
                     }
@@ -189,6 +191,8 @@ namespace GigNow.Controllers
                 slot = artistNotification.slot
 
             };
+            SmsController Sms = new SmsController();
+            Sms.SendMessage(db.Users.Find(venueNotification.venue.UserId).PhoneNumber, venueNotification.message);
             db.VenueNotifications.Add(venueNotification);
             db.SaveChanges();
             return RedirectToAction("ArtistView", "Artists", new { artistId = artistNotification.artist.ArtistId, partial = "false" });
@@ -215,6 +219,8 @@ namespace GigNow.Controllers
                 message = (thisArtist.Name + " submitted a counter-offer for the " + thisSlot.Order + " slot for " + thisSlot.Gig.Name + " on " + thisSlot.Gig.Date.ToShortDateString() + ". Original offer: $" + thisSlot.Compensation + ". Counter-offer: $" + counterOffer),
                 read = false
             };
+            SmsController Sms = new SmsController();
+            Sms.SendMessage(db.Users.Find(venueNotification.venue.UserId).PhoneNumber, venueNotification.message);
             db.VenueNotifications.Add(venueNotification);
             db.SaveChanges();
             return RedirectToAction("ArtistView", "Artists", new { artistId = artistId, partial = "false" });

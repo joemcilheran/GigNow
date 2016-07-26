@@ -9,6 +9,9 @@ using System.Web.Mvc;
 using GigNow.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Twilio;
+using System.Threading.Tasks;
+
 
 namespace GigNow.Controllers
 {
@@ -35,19 +38,19 @@ namespace GigNow.Controllers
         }
 
         // GET: Venues/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Venue venue = db.Venues.Find(id);
-            if (venue == null)
-            {
-                return HttpNotFound();
-            }
-            return View(venue);
-        }
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Venue venue = db.Venues.Find(id);
+        //    if (venue == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(venue);
+        //}
 
         // GET: Venues/Create
         public ActionResult Create()
@@ -100,20 +103,20 @@ namespace GigNow.Controllers
         }
 
         // GET: Venues/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Venue venue = db.Venues.Find(id);
-            if (venue == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", venue.address.AddressId);
-            return View(venue);
-        }
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Venue venue = db.Venues.Find(id);
+        //    if (venue == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", venue.address.AddressId);
+        //    return View(venue);
+        //}
 
         // POST: Venues/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -133,19 +136,19 @@ namespace GigNow.Controllers
         }
 
         // GET: Venues/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Venue venue = db.Venues.Find(id);
-            if (venue == null)
-            {
-                return HttpNotFound();
-            }
-            return View(venue);
-        }
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Venue venue = db.Venues.Find(id);
+        //    if (venue == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(venue);
+        //}
 
         // POST: Venues/Delete/5
         [HttpPost, ActionName("Delete")]

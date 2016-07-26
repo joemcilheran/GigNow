@@ -8,12 +8,15 @@ using System.Web;
 using System.Web.Mvc;
 using GigNow.Models;
 using Microsoft.AspNet.Identity;
+using static GigNow.Controllers.SmsController;
+
 
 namespace GigNow.Controllers
 {
     public class ArtistNotificationsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        SmsController Sms = new SmsController();
 
         // GET: ArtistNotifications
         public ActionResult Index()
@@ -173,6 +176,8 @@ namespace GigNow.Controllers
                 read = false,
                 message = (venueNotification.venue.Name+" has booked you for the "+venueNotification.slot.Order+" slot for "+venueNotification.slot.Gig.Name+" on "+venueNotification.slot.Gig.Date.ToShortDateString()+" at "+venueNotification.slot.Gig.Time.ToShortTimeString())
             };
+            
+            Sms.SendMessage(db.Users.Find(artistNotification.artist.UserId).PhoneNumber, artistNotification.message);
             db.ArtistNotifications.Add(artistNotification);
             db.SaveChanges();
             var artistsListeners = (from artistRelationship in db.ArtistRelationships where artistRelationship.Artist.ArtistId == venueNotification.artist.ArtistId select artistRelationship.Listener).ToList();
@@ -196,6 +201,7 @@ namespace GigNow.Controllers
                 read = false,
                 message = (venueNotification.venue.Name + " has accepted your counter-offer for the " + venueNotification.slot.Order + " slot for " + venueNotification.slot.Gig.Name + " on " + venueNotification.slot.Gig.Date.ToShortDateString() + " at " + venueNotification.slot.Gig.Time.ToShortTimeString())
             };
+            Sms.SendMessage(db.Users.Find(artistNotification.artist.UserId).PhoneNumber, artistNotification.message);
             db.ArtistNotifications.Add(artistNotification);
             db.SaveChanges();
             var artistsListeners = (from artistRelationship in db.ArtistRelationships where artistRelationship.Artist.ArtistId == venueNotification.artist.ArtistId select artistRelationship.Listener).ToList();
@@ -217,6 +223,7 @@ namespace GigNow.Controllers
                 read = false,
                 message = (venueNotification.venue.Name + " has declined your application for the " + venueNotification.slot.Order + " slot for " + venueNotification.slot.Gig.Name + " on " + venueNotification.slot.Gig.Date.ToShortDateString() + " at " + venueNotification.slot.Gig.Time.ToShortTimeString())
             };
+            Sms.SendMessage(db.Users.Find(artistNotification.artist.UserId).PhoneNumber, artistNotification.message);
             db.ArtistNotifications.Add(artistNotification);
             db.SaveChanges();
             return RedirectToAction("VenueView", "Venues", new { venueId = venueNotification.venue.VenueId });
@@ -234,6 +241,7 @@ namespace GigNow.Controllers
                 read = false,
                 message = (venueNotification.venue.Name + " has declined your counter-offer for the " + venueNotification.slot.Order + " slot for " + venueNotification.slot.Gig.Name + " on " + venueNotification.slot.Gig.Date.ToShortDateString() + " at " + venueNotification.slot.Gig.Time.ToShortTimeString())
             };
+            Sms.SendMessage(db.Users.Find(artistNotification.artist.UserId).PhoneNumber, artistNotification.message);
             db.ArtistNotifications.Add(artistNotification);
             db.SaveChanges();
             return RedirectToAction("VenueView", "Venues", new { venueId = venueNotification.venue.VenueId });
@@ -250,6 +258,7 @@ namespace GigNow.Controllers
                     read = false,
                     message = (thisGig.Venue.Name+ " has updated "+thisGig.Name)
                 };
+                Sms.SendMessage(db.Users.Find(thisListener.UserId).PhoneNumber, listenerNotification.message);
                 db.ListenerNotifications.Add(listenerNotification);
                 db.SaveChanges();
             }
@@ -266,6 +275,7 @@ namespace GigNow.Controllers
                     read = false,
                     message = (thisArtist.Name +" is playing "+thisGig.Name+" at "+thisGig.Venue.Name+" on "+thisGig.Date.ToShortDateString()+" at "+thisGig.Time.ToShortTimeString())
                 };
+                Sms.SendMessage(db.Users.Find(thisListener.UserId).PhoneNumber, listenerNotification.message);
                 db.ListenerNotifications.Add(listenerNotification);
                 db.SaveChanges();
             }

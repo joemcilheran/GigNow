@@ -102,7 +102,7 @@
                     </dd>
                 }
             </dl>
-            @if (ViewBag.Partial == "true")
+            @if (ViewBag.Partial == "true" || ViewBag.Partial == "truthy")
             {
                 <h3>@Html.ActionLink("View full Gig", "GigView", new { gigId = Model.gig.GigId, partial = "false" })</h3>
             }
