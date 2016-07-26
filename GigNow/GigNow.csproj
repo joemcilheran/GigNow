@@ -295,25 +295,27 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Views\Account\Scripts\bootstrap.js" />
-    <Content Include="Views\Account\Scripts\bootstrap.min.js" />
-    <None Include="Views\Account\Scripts\jquery-3.0.0-vsdoc.js" />
-    <Content Include="Views\Account\Scripts\jquery-3.0.0.js" />
-    <Content Include="Views\Account\Scripts\jquery-3.0.0.min.js" />
-    <Content Include="Views\Account\Scripts\jquery-3.0.0.slim.js" />
-    <Content Include="Views\Account\Scripts\jquery-3.0.0.slim.min.js" />
-    <Content Include="Views\Account\Scripts\jquery-3.0.0.slim.min.map" />
-    <Content Include="Views\Account\Scripts\jquery-3.0.0.min.map" />
-    <None Include="Views\Account\Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Views\Account\Scripts\DatePickerReady.js" />
-    <Content Include="Views\Account\Scripts\jquery.validate.js" />
-    <Content Include="Views\Account\Scripts\jquery.validate.min.js" />
-    <Content Include="Views\Account\Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Views\Account\Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Views\Account\Scripts\modernizr-2.6.2.js" />
-    <Content Include="Views\Account\Scripts\respond.js" />
-    <Content Include="Views\Account\Scripts\respond.min.js" />
-    <Content Include="Views\Account\Scripts\_references.js" />
+    <Content Include="Images\volume-949240.jpg" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\ClickForInBox.js" />
+    <Content Include="Scripts\DatePickerReady.js" />
+    <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.0.0.js" />
+    <Content Include="Scripts\jquery-3.0.0.min.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <None Include="Scripts\_references.js" />
+    <Content Include="Scripts\jquery-3.0.0.min.map" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.map" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -550,7 +552,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>38153</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:38153/</IISUrl>
+          <IISUrl>http://localhost:45210/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

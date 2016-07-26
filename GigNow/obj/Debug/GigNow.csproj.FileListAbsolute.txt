@@ -77,9 +77,9 @@ C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.Migrations.addedmessageandtypetonotif.resources
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.Migrations.endofday.resources
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.Migrations.addedembedpropstoArtistmodel.resources
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.Migrations.removedxtralinkpropfromartistmodel.resources
+C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.Migrations.addeddisplaynames.resources
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.csproj.GenerateResource.Cache
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.dll
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.pdb
-C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.Migrations.removedxtralinkpropfromartistmodel.resources
 C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.csprojResolveAssemblyReference.cache
-C:\Users\Joseph A McIlheran\Documents\Visual Studio 2015\Projects\GigNow\GigNow\obj\Debug\GigNow.Migrations.addeddisplaynames.resources

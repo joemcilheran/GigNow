@@ -8,7 +8,7 @@
 
 <div>
     <div >
-        @Html.Action("GigView", "Gigs",new {gigId = Model.slot.Gig.GigId })
+        @Html.Action("GigView", "Gigs", new { gigId = Model.slot.Gig.GigId, partial = "true"})
     </div>
     <div>
         @Html.Action("Details", "Slots", new { slotId = Model.slot.SlotId })

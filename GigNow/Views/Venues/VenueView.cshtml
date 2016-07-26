@@ -3,169 +3,128 @@
 @{
     ViewBag.Title = "VenueView";
 } 
+@if(ViewBag.Partial == "true")
+{
+    Layout = null;
+}
 
-<h2>@Html.DisplayFor(model => model.venue.Name)</h2>
+
+<br />
+<br />
 
 <div>
-    <div></div>
-    <div class="row">
-        <div class="col-md-4">
-            <img src="@Url.Action("ShowPhoto","Photos", new {PhotoId = Model.photo.PhotoId})" width="400" height="400">
-        </div>
-        <div class="col-md-4">
-            @if (ViewBag.User == "Artist" || ViewBag.User == "Listener")
+    <div class="gigMap">
+        <br /><br />
+        @if (ViewBag.User == "Artist" || ViewBag.User == "Listener")
             {
-                <iframe width="600"
-                        height="450"
-                        frameborder="0" style="border:0"
-                        src="@ViewBag.Route" allowfullscreen></iframe>
-            }
-            else
-            {
-                <iframe width="600"
-                        height="450"
-                        frameborder="0" style="border:0"
-                        src="@ViewBag.Map" allowfullscreen></iframe>
-            }
-        </div>
-    </div>
-    @if (ViewBag.User == "Venue Admin")
-    {
-        <div align="center">
-            @Html.Action("Inbox", "VenueNotifications", new { venueId = Model.venue.VenueId })
-        </div>
-    }
-
-    <hr />
-    <dl class="dl-horizontal">
-         
-        <dt>
-            <text>Address</text>
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.address.StreetAddress)<text>,</text>@Html.DisplayFor(model => model.address.Apt)                       
-            @Html.DisplayFor(model => model.city.Name)<text>,</text>@Html.DisplayFor(model => model.state.Name)<text>  </text> @Html.DisplayFor(model => model.zipcode.ZipCode)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.venue.SiteLink)
-        </dt>
-        <dd>
-            <a href="@Html.DisplayFor(model => model.venue.SiteLink)">@Html.DisplayFor(model => model.venue.SiteLink)</a>
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.venue.FBLink)
-        </dt>
-        <dd>
-            <a href="@Html.DisplayFor(model => model.venue.FBLink)">@Html.DisplayFor(model => model.venue.FBLink)</a>
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.venue.TwitterLink)
-        </dt>
-        <dd>
-            <a href="@Html.DisplayFor(model => model.venue.TwitterLink)">@Html.DisplayFor(model => model.venue.TwitterLink)</a>
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.venue.ExtraLink)
-        </dt>
-        <dd>
-            <a href="@Html.DisplayFor(model => model.venue.ExtraLink)">@Html.DisplayFor(model => model.venue.ExtraLink)</a>
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.venue.ExtraLink2)
-        </dt>
-        <dd>
-            <a href="@Html.DisplayFor(model => model.venue.ExtraLink2)">@Html.DisplayFor(model => model.venue.ExtraLink2)</a>
-        </dd>
-        @if (ViewBag.User == "Venue Admin" || ViewBag.User == "Artist")
-        {
-            <dt>
-                @Html.DisplayNameFor(model => model.venue.ContactName)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.venue.ContactName)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.venue.Capacity)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.venue.Capacity)<text>people</text>
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.venue.StageSize)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.venue.StageSize)<text>square feet</text>
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.venue.SoundSystem)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.venue.SoundSystem)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.venue.LoadInInstructions)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.venue.LoadInInstructions)
-            </dd>
+            <iframe width="600"
+                    height="450"
+                    frameborder="0" style="border:0"
+                    src="@ViewBag.Route" allowfullscreen></iframe>
+            <h3>Your Route to @Model.venue.Name</h3>
         }
+        else
+        {
+            <iframe width="600"
+                    height="450"
+                    frameborder="0" style="border:0"
+                    src="@ViewBag.Map" allowfullscreen></iframe>
+        }
+    </div>
+    <div class="venueProfile">
         @if (ViewBag.User == "Venue Admin")
         {
-
-            <dt>
-                @Html.DisplayNameFor(model => model.venue.DefaultArtistType)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.venue.DefaultArtistType)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.venue.DefaultGenre)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.venue.DefaultGenre)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.venue.DefaultCompensation)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.venue.DefaultCompensation)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.venue.DefaultPerks)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.venue.DefaultPerks)
-            </dd>
+            @Html.Action("Inbox", "VenueNotifications")
         }
-    </dl>
+        else
+        {
+            <h1>@Html.DisplayFor(model => model.venue.Name)</h1>
+        }
+        <div class="profileImage">
+            <img src="@Url.Action("ShowPhoto","Photos", new {PhotoId = Model.photo.PhotoId})" width="350">
+        </div>
+        <div class="profileDetails">
+            <div>
+                @Html.DisplayFor(model => model.address.StreetAddress)<text>,</text>@Html.DisplayFor(model => model.address.Apt)<br />
+                @Html.DisplayFor(model => model.city.Name)<text>,</text>@Html.DisplayFor(model => model.state.Name)<text>  </text> @Html.DisplayFor(model => model.zipcode.ZipCode)
+            </div>
+            <div>
+                <h3><a href="@Html.DisplayFor(model => model.venue.SiteLink)">Website</a></h3>
+            </div>
+            <div>
+                <h3><a href="@Html.DisplayFor(model => model.venue.FBLink)">Facebook</a></h3>
+            </div>
+            <div>
+                <h3><a href="@Html.DisplayFor(model => model.venue.TwitterLink)">Twitter</a></h3>
+            </div>
+        </div>
+        <br />
+        <div style="clear: both">
+            
+                @if (ViewBag.User == "Venue Admin" || ViewBag.User == "Artist")
+            {
+                    <dl class="dl-horizontal"style="font-size:larger">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.venue.Capacity)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.venue.Capacity)<text> people</text>
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.venue.StageSize)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.venue.StageSize)<text> square feet</text>
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.venue.SoundSystem)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.venue.SoundSystem)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.venue.LoadInInstructions)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.venue.LoadInInstructions)
+                        </dd>
+                    </dl>
+                }
+
+            
+
+      </div>
+    </div>
 </div>
-<div>
+<div style="clear:both">
     @if (Model.gigList.Count > 0)
     {
-        @Html.Action("ShowGigList", "Gigs", new { gigList = Model.gigList, gigView = "true" })
+        <h4>@Html.Action("ShowGigList", "Gigs", new { gigList = Model.gigList, gigView = "true" })</h4>
     }
 </div>
-@if (ViewBag.User == "Venue Admin")
-{
-    <p>
-        @Html.ActionLink("Edit", "Edit", new {venueViewModelVM = Model }) |
-        @Html.ActionLink("Add a Gig", "Create", "Gigs")
-    </p>
-}
-else if (ViewBag.User == "Listener")
-{
-    if (ViewBag.Watched == "true")
+<div>
+    @if (ViewBag.User == "Venue Admin")
     {
-        <h5>You are Watching @Html.DisplayFor(model => model.venue.Name)</h5>
+        <h3>
+            @Html.ActionLink("Edit", "Edit", new { venueViewModelVM = Model }) | 
+            @Html.ActionLink("Add a Gig", "Create", "Gigs") | 
+            @Html.ActionLink("Inbox", "Inbox", "VenueNotifications")
+        </h3>
+    }
+    else if (ViewBag.User == "Listener")
+    {
+        if (ViewBag.Watched == "true")
+        {
+            <h2>You are Watching @Html.DisplayFor(model => model.venue.Name)</h2>
 
+        }
+        else
+        {
+            <h3>@Html.ActionLink("Watch this Venue", "Create", "VenueRelationships", new { venueId = Model.venue.VenueId }, null)</h3>
+        }
     }
-    else
-    {
-        @Html.ActionLink("Watch this Venue", "Create", "VenueRelationships", new { venueId = Model.venue.VenueId }, null)
-    }
-}
+</div>
+
 
 
 

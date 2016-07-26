@@ -217,10 +217,10 @@ namespace GigNow.Controllers
             };
             return View(GVM);
         }
-        //public ActionResult ShowWatchList(List<Gig> watchList)
-        //{
-        //    return View(watchList);
-        //}
+        public ActionResult ShowWatchList(List<Gig> watchList)
+        {
+            return View(watchList);
+        }
         public ActionResult ShowGigList(List<Gig> gigList, string gigView)
         {
             ViewBag.gigView = gigView;
@@ -311,7 +311,7 @@ namespace GigNow.Controllers
                         artist = thisArtist,
                         slot = thisSlot,
                         type = "Slot Opening",
-                        message = (thisSlot.Order+"Slot available for" + thisGig.Name + " at " + thisGig.Venue.Name + " on " + thisGig.Date.ToShortDateString() + " at " + thisGig.Time.ToShortTimeString()),
+                        message = (thisSlot.Order+" slot available for " + thisGig.Name + " at " + thisGig.Venue.Name + " on " + thisGig.Date.ToShortDateString() + " at " + thisGig.Time.ToShortTimeString()),
                         read = false
                     };
                     db.ArtistNotifications.Add(artistNotification);

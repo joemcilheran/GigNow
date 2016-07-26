@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<GigNow.Models.Artist>
 
-
+@{
+    Layout = null;
+}
 <div><h2>Artist Watchlist</h2></div>
-<table class="table">
+@*<table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -44,4 +46,12 @@
         </tr>
     }
 
-</table>
+</table>*@
+<ul style="list-style-type:none">
+    @foreach (var item in Model)
+    {
+        <li>
+            @Html.ActionLink(item.Name, "ArtistView", "Artists", new { ArtistId = item.ArtistId, partial = "false" }, null)
+        </li>
+    }
+</ul>

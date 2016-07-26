@@ -7,28 +7,28 @@
 <div align="center"><h2>@Model.message</h2></div>
 
 <div class="row">
-    <div class="col-md-4">
-        @Html.Action("GigView", "Gigs",new {gigId = Model.slot.Gig.GigId, partial = "true" })
+    <div class="col-md-3"style="background-color:none">
+        @Html.Action("GigView", "Gigs", new {gigId = Model.slot.Gig.GigId, partial = "true" })
     </div>
-    <div class="col-md-4">
-        @Html.Action("Details", "Slots", new { slotId = Model.slot.SlotId })
-    </div>
-    <div class="col-md-4">
+    <div class="col-md-4"style="background-color:none"></div>
+    <div class="col-md-3"style="background-color:none">
         @Html.Action("ArtistView", "Artists", new {artistId = Model.artist.ArtistId, partial = "true" })
     </div>
-
+</div>
+<div style="clear:both">
+    @Html.Action("Details", "Slots", new { slotId = Model.slot.SlotId })
 </div>
 @if (Model.type == "Slot Application")
 {
     <h3>
-        @Html.ActionLink("Book this Artist","AcceptApplication","ArtistNotifications", new {venueNotificationid = Model.VenueNotificationId },null)
+        @Html.ActionLink("Book this Artist","AcceptApplication","ArtistNotifications", new {venueNotificationid = Model.VenueNotificationId },null) |
         @Html.ActionLink("Decline Application", "DeclineApplication", "ArtistNotifications", new { venueNotificationid = Model.VenueNotificationId }, null)
     </h3>
 }
 else if (Model.type == "Counter-Offer")
 {
     <h3>
-        @Html.ActionLink("Accept Counter-Offer and Book this Artist", "AcceptCounterOffer", "ArtistNotifications", new { venueNotificationid = Model.VenueNotificationId }, null)
+        @Html.ActionLink("Accept Counter-Offer and Book this Artist", "AcceptCounterOffer", "ArtistNotifications", new { venueNotificationid = Model.VenueNotificationId }, null) |
         @Html.ActionLink("Decline Counter-Offer", "DeclineCounterOffer", "ArtistNotifications", new { venueNotificationid = Model.VenueNotificationId }, null)
     </h3>
 }

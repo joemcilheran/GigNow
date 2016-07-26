@@ -1,87 +1,89 @@
 ﻿@model GigNow.Models.ListenerViewModelVM
-
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "ListenerView";
 }
 
 @if (ViewBag.User == "Listener")
 {
-    <h2>Your Listener Profile</h2>
+    
     <div>
-        
-        <hr />
-        <div class="row">
-            <div align="left" class="col-md-4">
-                <dl  class="dl-horizontal">
-                    <dt>
-                        <text>Address</text>
-                    </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.address.StreetAddress)<text>,</text>@Html.DisplayFor(model => model.address.Apt)<br />
-                        @Html.DisplayFor(model => model.city.Name)<text>,</text>@Html.DisplayFor(model => model.state.Name)<text>  </text> @Html.DisplayFor(model => model.zipcode.ZipCode)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.listener.Genre1)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.listener.Genre1)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.listener.Genre2)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.listener.Genre2)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.listener.Genre3)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.listener.Genre3)
-                    </dd>
-                </dl>
-                <p>
-                    @Html.ActionLink("Edit your Listener Profile", "Edit", new { listenerViewModel = Model }) |
-                </p>
+
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div align="left" class="col-md-6">
+                <div id="name" style="text-align:center"><h1>Hi @User.Identity.GetUserName()</h1></div>
+                <dl class="dl-horizontal">
+                        <dt style="font-size:larger">
+                            <text> Your Address</text>
+                        </dt>
+
+                        <dd style="font-size:larger">
+                            @Html.DisplayFor(model => model.address.StreetAddress)<text>,</text>@Html.DisplayFor(model => model.address.Apt)<br />
+                            @Html.DisplayFor(model => model.city.Name)<text>,</text>@Html.DisplayFor(model => model.state.Name)<text>  </text> @Html.DisplayFor(model => model.zipcode.ZipCode)
+                        </dd>
+                        <dt style="font-size:larger">
+                            <text>You like</text>
+                        </dt>
+                        <dd style="font-size:larger">
+                            @Html.DisplayFor(model => model.listener.Genre1)<text>, </text>@Html.DisplayFor(model => model.listener.Genre2)<text>, and </text>@Html.DisplayFor(model => model.listener.Genre3)
+                        </dd>
+                    </dl>
+                <div>
+                    @Html.Action("Inbox", "ListenerNotifications")
+
+                </div>
             </div>
-            <div class="col-md-4">
-                @Html.Action("Inbox", "ListenerNotifications", new { artistId = Model.listener.ListenerID })
-            </div>
+            <div class="col-md-3"></div>
+ 
         </div>
+        <br /><br />
 
     </div>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 padding">
             @if (Model.ArtistWatchList.Count > 0)
             {
                 @Html.Action("ShowWatchList", "Artists", new { watchList = Model.ArtistWatchList })
             }
         </div>
-        <div class="col-md-4">
+
+        <div class="col-md-4 padding">
             @if (Model.VenueWatchList.Count > 0)
             {
                 @Html.Action("ShowWatchList", "Venues", new { watchList = Model.VenueWatchList })
             }
         </div>
-        <div class="col-md-4">
+
+        <div class="col-md-4 padding">
             @if (Model.GigWatchList.Count > 0)
             {
-                @Html.Action("ShowGigList", "Gigs", new { gigList = Model.GigWatchList, gigView = "Listener" })
+                @Html.Action("ShowWatchList", "Gigs", new { watchList = Model.GigWatchList })
             }
         </div>
     </div>
+    <br /><br />
     <div class="row">
-        <div class="col-md-4">
-            @Html.Action("Search", "Artists")           
+        <div class="col-md-4 padding">
+            @Html.Action("Search", "Artists")
         </div>
-        <div class="col-md-4">
+
+        <div class="col-md-4 padding">
             @Html.Action("Search", "Venues")
         </div>
-        <div class="col-md-4">
+
+        <div class="col-md-4 padding">
             @Html.Action("Search", "Gigs")
         </div>
     </div>
+    <div>
+        <h3>
+            @Html.ActionLink("Edit your Listener Profile", "Edit", new { listenerViewModel = Model })
+        </h3>
+    </div>
 
+    <script src="~/Scripts/ClickForInBox.js"></script>
 }
 else
 {

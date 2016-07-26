@@ -2,38 +2,118 @@
 @{
     ViewBag.Title = "GigView";
 }
+@if (ViewBag.Partial == "true"){
+    Layout = null;
+}
 <div>
-    <h2>@Html.DisplayFor(model => model.gig.Name)</h2>
-    <hr />
-    @if (ViewBag.Partial == "false")
-    {
-        <div class="row">
-            <div class="col-md-4">
-                <img src="@Url.Action("ShowPhoto","Photos", new {PhotoId = ViewBag.PhotoId})" width="400" height="400">
+
+
+
+    <div class="gigMap">
+        @if (ViewBag.User == "Gig Admin" || ViewBag.User == "Listener" || ViewBag.User == "Artist")
+        {
+            <iframe width="600"
+                    height="450"
+                    frameborder="0" style="border:0"
+                    src="@ViewBag.Route" allowfullscreen></iframe>
+        }
+        else if (ViewBag.User == "other")
+        {
+            <iframe width="600"
+                    height="450"
+                    frameborder="0" style="border:0"
+                    src="@ViewBag.Map" allowfullscreen></iframe>
+        }
+        else if (ViewBag.User == "Gig Admin" && ViewBag.Partial == "false")
+        {
+            <iframe width="600"
+                    height="450"
+                    frameborder="0" style="border:0"
+                    src="@ViewBag.Map" allowfullscreen></iframe>
+        }
+    </div>
+
+    <div class="gigProfile">
+        <h2>@Html.DisplayFor(model => model.gig.Name)</h2>
+        <div class="profileImage">
+            <img src="@Url.Action("ShowPhoto","Photos", new {PhotoId = ViewBag.PhotoId})" width="350">
+        </div>
+        <div class="profileDetails">
+            <div>
+                @Html.ActionLink((Model.venue.Name), "VenueView", "Venues", new { VenueId = Model.venue.VenueId }, null)
             </div>
-            <div class="col-md-4">
-                @if (ViewBag.User == "Artist" || ViewBag.User == "Listener")
-                {
-                    <iframe width="600"
-                            height="450"
-                            frameborder="0" style="border:0"
-                            src="@ViewBag.Route" allowfullscreen></iframe>
-                }
-                else
-                {
-                    <iframe width="600"
-                            height="450"
-                            frameborder="0" style="border:0"
-                            src="@ViewBag.Map" allowfullscreen></iframe>
-                }
+            <div>
+                @Html.DisplayFor(model => model.gig.Date)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.gig.Time)
+            </div>
+            <div>
+                <text>$ </text>@Html.DisplayFor(model => model.gig.Cover)
             </div>
         </div>
-    }
+        <br />
+        <br />
 
-    <dl class="dl-horizontal">
-        @if (ViewBag.User != "Gig Admin")
-        {
-            <dt>
+        <div style="clear: both">
+            <dl class="dl-horizontal">
+                @if (ViewBag.User == "Artist")
+            {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.gig.LoadInInsrtuctions)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.gig.LoadInInsrtuctions)
+                    </dd>
+                }
+
+
+                @if (ViewBag.User == "Gig Admin" && ViewBag.Partial == "false")
+            {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.gig.DefaultGenre)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.gig.DefaultGenre)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.gig.DefaultArtistType)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.gig.DefaultArtistType)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.gig.DefaultCompensation)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.gig.DefaultCompensation)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.gig.DefaultPerks)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.gig.DefaultPerks)
+                    </dd>
+                }
+            </dl>
+            @if (ViewBag.Partial == "true")
+            {
+                <h3>@Html.ActionLink("View full Gig", "GigView", new { gigId = Model.gig.GigId, partial = "false" })</h3>
+            }
+        </div>
+    </div>
+
+
+    @*<dl class="dl-horizontal">*@
+    @*@if (ViewBag.User != "Gig Admin")
+        {*@
+    @*<dt>
                 @Html.DisplayNameFor(model => model.venue.Name)
             </dt>
 
@@ -65,81 +145,45 @@
 
         <dd>
             @Html.DisplayFor(model => model.gig.Time)
-        </dd>
-        @if (ViewBag.User == "Gig Admin" || ViewBag.User == "Artist")
-        {
-            <dt>
-                @Html.DisplayNameFor(model => model.gig.LoadInInsrtuctions)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.gig.LoadInInsrtuctions)
-            </dd>
-        }
+        </dd>*@
 
 
-        @if (ViewBag.User == "Gig Admin" && ViewBag.Partial == "false")
-        {
-            <dt>
-                @Html.DisplayNameFor(model => model.gig.DefaultGenre)
-            </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.gig.DefaultGenre)
-            </dd>
+    @*</dl>*@
 
-            <dt>
-                @Html.DisplayNameFor(model => model.gig.DefaultArtistType)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.gig.DefaultArtistType)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.gig.DefaultCompensation)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.gig.DefaultCompensation)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.gig.DefaultPerks)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.gig.DefaultPerks)
-            </dd>
-        }
-
-
-    </dl>
 </div>
-    @if(Model.bill.Count > 0)
+@if (ViewBag.Partial == "false")
+{
+    <div style="clear:both">
+        @if (Model.bill.Count > 0)
+        {
+
+            <h4>@Html.Action("Index", "Slots", new { bill = Model.bill })</h4>
+        }
+    </div>
+}
+
+
+
+@if (ViewBag.User == "Gig Admin" && ViewBag.Partial == "false")
+{
+    <h3>
+        @Html.ActionLink("Add a slot", "Create", "Slots", new { gigId = Model.gig.GigId }, null) |
+        @Html.ActionLink("Publish Gig", "Finish", "Gigs", new { gigId = Model.gig.GigId }, null)
+    </h3>
+}
+@if (ViewBag.User == "Listener")
+{
+    if (ViewBag.Watched == "true")
     {
-        <h2>Bill</h2>
-        @Html.Action("Index","Slots", new {bill = Model.bill})
+        <h3>You are Watching @Html.DisplayFor(model => model.gig.Name)</h3>
+
     }
     else
     {
-        <h4>No Slots added</h4>
+        <h3>@Html.ActionLink("Watch this Gig", "Create", "GigRelationships", new { gigId = Model.gig.GigId }, null)</h3>
     }
-    @if(ViewBag.User == "Gig Admin" && ViewBag.Partial == "false")
-    {
-        @Html.ActionLink("Add a slot","Create","Slots", new {gigId = Model.gig.GigId}, null)
-        @Html.ActionLink("Publish Gig", "Finish", "Gigs", new {gigId = Model.gig.GigId},null)
-    }
-    @if (ViewBag.User == "Listener")
-    {
-        if (ViewBag.Watched == "true")
-        {
-            <h5>You are Watching @Html.DisplayFor(model => model.gig.Name)</h5>
-
-        }
-        else
-        {
-            @Html.ActionLink("Watch this Gig", "Create", "GigRelationships", new { gigId = Model.gig.GigId }, null)        
-        }
-    }
+}
 
 
 

@@ -1,15 +1,16 @@
 ﻿@model IEnumerable<GigNow.Models.Gig>
 
-@if(ViewBag.gigview == "Listener")
-{
-    <h2>Gig Watchlist</h2>
-}
-else
-{
-    <h1>Gigs</h1>
-}
+@{ Layout = null;}
 
 <table class="table">
+        @if (ViewBag.gigview == "Listener")
+        {
+            <caption><h1>Watchlist</h1></caption>
+        }
+        else
+        {
+            <caption><h1>Gigs</h1></caption>
+        }
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -32,9 +33,19 @@ else
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                @Html.ActionLink(item.Name, "GigView", "Gigs", new { gigId = item.GigId, partial = "false" }, null) 
-            </td>
+            @if (String.IsNullOrWhiteSpace(item.Name))
+            {
+                <td>
+                    @Html.ActionLink(("Gig at "+ item.Venue.Name), "GigView", "Gigs", new { gigId = item.GigId, partial = "false" }, null)
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.ActionLink(item.Name, "GigView", "Gigs", new { gigId = item.GigId, partial = "false" }, null)
+                </td>
+            }
+
             <td>
                 @item.Date.ToShortDateString()
             </td>

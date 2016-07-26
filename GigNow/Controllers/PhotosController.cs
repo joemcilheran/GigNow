@@ -13,7 +13,7 @@ namespace GigNow.Controllers
     public class PhotosController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+         
         // GET: Photos
         public ActionResult Index()
         {

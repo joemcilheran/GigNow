@@ -1,6 +1,9 @@
 ﻿@model IEnumerable<GigNow.Models.VenueNotification>
-<div align="center">
-    <div><h2>InBox</h2></div>
+@{
+    Layout = null;
+}
+@*<div align="center">
+    <div><h1>InBox</h1></div>
     @if (Model.Count() > 0)
     {
         <table class="table">
@@ -44,6 +47,34 @@
     }
     else
     {
-        <h4>No new Notifications</h4>
+        <h2>No new Notifications</h2>
     }
+
+    <script src="~/Scripts/ClickForInBox.js"></script>
+</div>*@
+<div>
+    <div>
+        <div id="inbox"><h1 style="color: white">@ViewBag.Name<sup style="color: orangered">@Model.Count()</sup></h1></div>
+        <div style="font-size:large">
+            <ul id="notifications" style="display:none">
+                @foreach (var item in Model)
+                {
+                    @*<li>@Html.DisplayFor(modelItem => item.message)<text> </text>@Html.ActionLink("View Gig", "MarkAsRead", "ListenerNotifications", new { listenerNotificationId = item.ListenerNotificationId }, null)</li>*@
+                if (item.type == "Gig Reminder")
+                {
+                    <li>
+                        @Html.DisplayFor(modelItem => item.message)<text> </text>@Html.ActionLink("View Gig", "MarkAsReadThenGig", "VenueNotifications", new { venueNotificationId = item.VenueNotificationId }, null)<text> | </text>@Html.ActionLink("Mark As Read", "MarkAsReadThenVenue", "VenueNotifications", new { venueNotificationId = item.VenueNotificationId }, null)
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        @Html.DisplayFor(modelItem => item.message)<text> </text>@Html.ActionLink("View Full Message", "Details", "VenueNotifications", new { venueNotificationId = item.VenueNotificationId }, null)
+                    </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+    @*<script src="~/Scripts/ClickForInBox.js"></script>*@
 </div>

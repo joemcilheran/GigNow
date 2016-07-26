@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GigNow.Models;
+using Microsoft.AspNet.Identity;
 
 namespace GigNow.Controllers
 {
@@ -19,8 +20,10 @@ namespace GigNow.Controllers
         {
             return View(db.ListenerNotifications.ToList());
         }
-        public ActionResult Inbox(int? listenerId)
+        public ActionResult Inbox()
         {
+            var userId = User.Identity.GetUserId();
+            var listenerId = db.Listeners.FirstOrDefault(x => x.UserId == userId).ListenerID;
             CheckGigs(listenerId);
             var inbox = db.ListenerNotifications.Where(x => x.listener.ListenerID == listenerId && x.read == false).ToList();
             return View(inbox);
@@ -41,7 +44,7 @@ namespace GigNow.Controllers
                             gig = thisGig,
                             type = "Gig Reminder",
                             read = false,
-                            message = (thisGig.Name + "is Today!")
+                            message = (thisGig.Name + " is Today!")
                         };
                         db.ListenerNotifications.Add(listenerNotification);
                         db.SaveChanges();

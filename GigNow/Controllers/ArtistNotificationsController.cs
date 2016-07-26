@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GigNow.Models;
+using Microsoft.AspNet.Identity;
 
 namespace GigNow.Controllers
 {
@@ -19,10 +20,13 @@ namespace GigNow.Controllers
         {
             return View(db.ArtistNotifications.ToList());
         }
-        public ActionResult Inbox(int? artistId)
+        public ActionResult Inbox()
         {
+            var userId = User.Identity.GetUserId();
+            var artistId = db.Artists.FirstOrDefault(x => x.UserId == userId).ArtistId;
             CheckGigs(artistId);
             var inbox = db.ArtistNotifications.Where(x => x.artist.ArtistId == artistId && x.read == false).ToList();
+            ViewBag.Name = db.Artists.FirstOrDefault(x => x.UserId == userId).Name;
             return View(inbox);
         }
         public void CheckGigs(int? artistId)
@@ -41,7 +45,7 @@ namespace GigNow.Controllers
                             slot = db.Slots.FirstOrDefault(x => x.Artist.ArtistId == artistId && x.Gig.GigId == thisGig.GigId),
                             type = "Gig Reminder",
                             read = false,
-                            message = (thisGig.Name + "is Today!")
+                            message = (thisGig.Name + " is Today!")
                         };
                         db.ArtistNotifications.Add(artistNotification);
                         db.SaveChanges();
@@ -260,7 +264,7 @@ namespace GigNow.Controllers
                     listener = thisListener,
                     type = "Artist Booked",
                     read = false,
-                    message = (thisArtist.Name +"is playing "+thisGig.Name+" at "+thisGig.Venue.Name+" on "+thisGig.Date.ToShortDateString()+" at "+thisGig.Time.ToShortTimeString())
+                    message = (thisArtist.Name +" is playing "+thisGig.Name+" at "+thisGig.Venue.Name+" on "+thisGig.Date.ToShortDateString()+" at "+thisGig.Time.ToShortTimeString())
                 };
                 db.ListenerNotifications.Add(listenerNotification);
                 db.SaveChanges();

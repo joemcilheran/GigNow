@@ -3,167 +3,116 @@
 @{
     ViewBag.Title = "ArtistView";
 }
-
-
-
-<div>
-    <h2>@Html.DisplayFor(model => model.artist.Name)</h2>
-
-    <div>
-        @if (ViewBag.Partial == "false")
-        {
-            if (ViewBag.User == "Artist Manager")
-            {
-                <div class="row">
-                    <div class="col-md-4">
-                        <img src="@Url.Action("ShowPhoto","Photos", new {PhotoId = Model.photo.PhotoId})" width="400" height="400">
-                    </div>
-                    <div class="col-md-4">
-                        @Html.Action("Inbox", "ArtistNotifications", new { artistId = Model.artist.ArtistId })
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div><img src="@Url.Action("ShowPhoto","Photos", new {PhotoId = Model.photo.PhotoId})" width="400" height="400"></div>
-            }
-        }
-      
-        <hr />
-        <dl class="dl-horizontal">
-
-           @if (ViewBag.User != "Listener")
-           {
-            <dt>
-                @Html.DisplayNameFor(model => model.artist.ContactName)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.artist.ContactName)
-            </dd>
-           }
-
-            @if (ViewBag.User == "Artist Manager")
-            {
-                <dt>
-                    <text>Address</text>
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.address.StreetAddress)<text>,</text>@Html.DisplayFor(model => model.address.Apt)<br />
-                    @Html.DisplayFor(model => model.city.Name)<text>,</text>@Html.DisplayFor(model => model.state.Name)<text>  </text> @Html.DisplayFor(model => model.zipcode.ZipCode)
-                </dd>
-            }
-            else
-            {
-                <dt>
-                   @Html.DisplayNameFor(model => model.city.Name)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.city.Name)
-                </dd>
-            }
-
-            <dt>
-                @Html.DisplayNameFor(model => model.artist.NumberOfMembers)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.artist.NumberOfMembers)<text>members</text>
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.artist.Genre1)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.artist.Genre1)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.artist.Genre2)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.artist.Genre2)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.artist.Genre3)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.artist.Genre3)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.artist.Type)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.artist.Type)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.artist.SiteLink)
-            </dt>
-            <dd>
-                <a href="@Html.DisplayFor(model => model.artist.SiteLink)">@Html.DisplayFor(model => model.artist.SiteLink)</a>
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.artist.FBLink)
-            </dt>
-            <dd>
-                <a href="@Html.DisplayFor(model => model.artist.FBLink)">@Html.DisplayFor(model => model.artist.FBLink)</a>
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.artist.TwitterLink)
-            </dt>
-            <dd>
-                <a href="@Html.DisplayFor(model => model.artist.TwitterLink)">@Html.DisplayFor(model => model.artist.TwitterLink)</a>
-            </dd>
-        </dl>
-    </div>
-    <div>
-        <div>
-            @Html.Raw(Model.artist.BandCampEmbed1)
-        </div>
-        <div>
-            @Html.Raw(Model.artist.BandCampEmbed2)
-        </div>
-        <div>
-            @Html.Raw(Model.artist.BandCampEmbed3)
-        </div>
-    </div>
-    
-</div>
-<div>
-    @if(Model.gigList.Count > 0)
-    {
-        
-        <div class="row">
-            <div class="col-md-4">
-                @Html.Action("ShowGigList", "Gigs", new { gigList = Model.gigList, gigView = "Artist" })
-            </div>
-            <div class="col-md-4">
-                <img src="@ViewBag.MapUrl" />
-            </div>
-        </div>
-    }
-</div>
-
-@if (ViewBag.User == "Listener")
-{
-    if (ViewBag.Watched == "true")
-    {
-        <h5>You are Watching @Html.DisplayFor(model => model.artist.Name)</h5>
-
-    }
-    else
-    {
-        @Html.ActionLink("Watch this Artist", "Create", "ArtistRelationships", new { ArtistId = Model.artist.ArtistId }, null)
-    }
-
-}
-else if (ViewBag.User == "Artist Manager")
-{
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { artistViewModelVM = Model }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-}
 @if(ViewBag.Partial == "true")
 {
-    @Html.ActionLink("View full profile", "ArtistView", new {artistId = Model.artist.ArtistId, partial = "false"})
+     Layout = null;
 }
+
+
+<div>
+    @if (ViewBag.Partial == "false")
+    {
+        <div class="gigMap">
+            <br /><br />
+            <img src="@ViewBag.MapUrl" />
+            <h3>Gigs in Red</h3>
+        </div>
+    }
+
+    <div class="artistprofile">
+        @if (ViewBag.User == "Artist Manager")
+        {
+            @Html.Action("Inbox", "ArtistNotifications")
+        }
+        else
+        {
+            <h1>@Html.DisplayFor(model => model.artist.Name)</h1>
+        }
+        
+        <div class="profileImage">
+            <img src="@Url.Action("ShowPhoto","Photos", new { PhotoId = Model.photo.PhotoId })" width="350">
+        </div>
+
+
+        <div class="profileDetails">
+            <div>
+                @Html.DisplayFor(model => model.city.Name)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.artist.Genre1)<text>, </text>@Html.DisplayFor(model => model.artist.Genre2)<text>, </text>@Html.DisplayFor(model => model.artist.Genre3)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.artist.Type)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.artist.NumberOfMembers)<text> members</text>
+            </div>
+            <div>
+                <h3><a href="@Html.DisplayFor(model => model.artist.SiteLink)">Website</a></h3>
+            </div>
+            <div>
+                <h3><a href="@Html.DisplayFor(model => model.artist.FBLink)">Facebook</a></h3>
+            </div>
+            <div>
+                <h3><a href="@Html.DisplayFor(model => model.artist.TwitterLink)">Twitter</a></h3>
+            </div>
+        </div>
+        <div>
+            <div>
+                @Html.Raw(Model.artist.BandCampEmbed1)
+            </div>
+            <div>
+                @Html.Raw(Model.artist.BandCampEmbed2)
+            </div>
+            <div>
+                @Html.Raw(Model.artist.BandCampEmbed3)
+            </div>
+        </div>
+        <div style="clear:both">
+            @if (ViewBag.Partial == "true")
+            {
+                <h3>@Html.ActionLink("View full profile", "ArtistView", new { artistId = Model.artist.ArtistId, partial = "false" })</h3>
+            }
+        </div>
+    </div>
+
+
+</div>
+@if (ViewBag.Partial == "false")
+{
+    <br />
+    <div style="width: 50%">
+        @if (Model.gigList.Count > 0)
+        {
+
+            <h4>@Html.Action("ShowGigList", "Gigs", new { gigList = Model.gigList, gigView = "Artist" })</h4>
+
+        }
+    </div>
+    if (ViewBag.User == "Listener")
+    {
+        if (ViewBag.Watched == "true")
+        {
+            <h3>You are Watching @Html.DisplayFor(model => model.artist.Name)</h3>
+
+        }
+        else
+        {
+            <h3>@Html.ActionLink("Watch this Artist", "Create", "ArtistRelationships", new { ArtistId = Model.artist.ArtistId }, null)</h3>
+        }
+
+    }
+    else if (ViewBag.User == "Artist Manager")
+    {
+
+
+        <div>
+            <h3>
+                @Html.ActionLink("Edit Your Profile", "Edit", new { artistViewModelVM = Model })
+
+            </h3>
+        </div>
+
+    }
+}
+

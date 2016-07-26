@@ -1,39 +1,17 @@
 ﻿@model IEnumerable<GigNow.Models.ListenerNotification>
-
-<div align="center">
-    <div><h2>InBox</h2></div>
-    @if (Model.Count() > 0)
-    {
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.message)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.type)
-                </th>
-                <th></th>
-            </tr>
-
+@{ Layout = null;}
+<div >
+    <div  id="inbox"><h2 style="color:white">Notifications<sup style="color: orangered">@Model.Count()</sup></h2></div>
+    <div style="font-size:large">
+        <ul id="notifications" style="display:none">
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.message)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.type)
-                    </td>
-                    <td>
-                        @Html.ActionLink("View Gig", "MarkAsRead", "ListenerNotifications", new { listenerNotificationId = item.ListenerNotificationId },null)
-                    </td>
-                </tr>
+                <li>@Html.DisplayFor(modelItem => item.message)<text> </text>@Html.ActionLink("View Gig", "MarkAsRead", "ListenerNotifications", new { listenerNotificationId = item.ListenerNotificationId }, null)</li>
             }
-
-        </table>
-    }
-    else
-    {
-        <h4>No new Notifications</h4>
-    }
+        </ul>
+    </div>
+    
+    @*<script src="~/Scripts/ClickForInBox.js"></script>*@
 </div>
+
+
