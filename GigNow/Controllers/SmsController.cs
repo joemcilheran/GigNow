@@ -14,12 +14,12 @@ namespace GigNow.Controllers
         public void SendMessage(string phoneNumber, string message)
         {
 
-            if (string.IsNullOrWhiteSpace(phoneNumber))
+            if (!string.IsNullOrWhiteSpace(phoneNumber))
             {
-                phoneNumber = "+12629892753";
+                string body = ("Gig:Now says:  " + message + "   Log in to your Gig:Now account to see the entire message.");
+                client.SendMessage("+12623203180", phoneNumber, body);
             }
-             string body = ("Gig:Now says:  " + message + "   Log in to your Gig:Now account to see the entire message.");
-            client.SendMessage("+12623203180", phoneNumber, body);
+
         }
     }
 }

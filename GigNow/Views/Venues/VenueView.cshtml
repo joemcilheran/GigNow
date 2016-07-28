@@ -51,11 +51,11 @@
             <div>
                 <h3><a href="@Html.DisplayFor(model => model.venue.SiteLink)">Website</a></h3>
             </div>
-            <div>
-                <h3><a href="@Html.DisplayFor(model => model.venue.FBLink)">Facebook</a></h3>
+            <div>                
+                <h3><a target="_blank" href="@Html.DisplayFor(model => model.venue.FBLink)" class="social facebook"></a></h3>
             </div>
-            <div>
-                <h3><a href="@Html.DisplayFor(model => model.venue.TwitterLink)">Twitter</a></h3>
+            <div>               
+                <h3><a target="_blank" href="@Html.DisplayFor(model => model.venue.FBLink)" class="social twitter"></a></h3>
             </div>
         </div>
         <br />
