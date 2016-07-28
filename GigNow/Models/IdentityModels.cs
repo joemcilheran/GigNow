@@ -38,9 +38,6 @@ namespace GigNow.Models
 
         public System.Data.Entity.DbSet<GigNow.Models.Photo> Photos { get; set; }
 
-        public System.Data.Entity.DbSet<GigNow.Models.Track> Tracks { get; set; }
-
-        public System.Data.Entity.DbSet<GigNow.Models.Video> Videos { get; set; }
 
         public System.Data.Entity.DbSet<GigNow.Models.ArtistRelationship> ArtistRelationships { get; set; }
 
@@ -56,7 +53,7 @@ namespace GigNow.Models
 
         public System.Data.Entity.DbSet<GigNow.Models.GigRelationship> GigRelationships { get; set; }
 
-        public System.Data.Entity.DbSet<GigNow.Models.Message> Messages { get; set; }
+
 
         public System.Data.Entity.DbSet<GigNow.Models.Slot> Slots { get; set; }
 

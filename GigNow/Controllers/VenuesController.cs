@@ -30,37 +30,15 @@ namespace GigNow.Controllers
                 _userManager = value;
             }
         }
-        // GET: Venues
-        public ActionResult Index()
-        {
-            var venues = db.Venues.Include(v => v.address).Include(v => v.AppUser);
-            return View(venues.ToList());
-        }
 
-        // GET: Venues/Details/5
-        //public ActionResult Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Venue venue = db.Venues.Find(id);
-        //    if (venue == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(venue);
-        //}
 
-        // GET: Venues/Create
+
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: VenueViewModelVMs/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(VenueViewModelVM venueViewModelVM, HttpPostedFileBase upload)
@@ -80,21 +58,8 @@ namespace GigNow.Controllers
                 venueViewModelVM.address.zipcode = venueViewModelVM.zipcode;
                 venueViewModelVM.zipcode.city = venueViewModelVM.city;
                 venueViewModelVM.city.state = venueViewModelVM.state;
-                if (upload != null && upload.ContentLength > 0)
-                {
-                    var photo = new Photo
-                    {
-                        Name = System.IO.Path.GetFileName(upload.FileName),
-                        Venue = venueViewModelVM.venue
-                    };
-                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                    {
-                        photo.Data = reader.ReadBytes(upload.ContentLength);
-                    }
-                    db.Photos.Add(photo);
-                    venueViewModelVM.photo = photo;
-
-                }
+                PhotosController PC = new PhotosController();
+                PC.CreateVenuePhoto(upload, venueViewModelVM.venue);
                 db.SaveChanges();
                 return RedirectToAction("VenueView", new { venueId = venueViewModelVM.venue.VenueId });
             }
@@ -102,84 +67,62 @@ namespace GigNow.Controllers
             return View(venueViewModelVM);
         }
 
-        // GET: Venues/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Venue venue = db.Venues.Find(id);
-        //    if (venue == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", venue.address.AddressId);
-        //    return View(venue);
-        //}
 
-        // POST: Venues/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        public ActionResult Edit(int? venueId)
+        {
+            var Venue = db.Venues.Find(venueId);
+            var Address = db.Addresses.Find(Venue.address.AddressId);
+            var Zipcode = db.Zipcodes.Find(Address.zipcode.ZipcodeId);
+            var City = db.Cities.Find(Zipcode.city.CityId);
+            var State = db.States.Find(City.state.StateId);
+            VenueViewModelVM VVM = new VenueViewModelVM
+            {
+                gigList = generateGigList(Venue.VenueId),
+                photo = db.Photos.FirstOrDefault(x => x.Venue.VenueId == Venue.VenueId),
+                venue = Venue,
+                address = Address,
+                zipcode = Zipcode,
+                city = City,
+                state = State,
+            };
+            return View(VVM);
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "VenueId,Name,AddressId,Capacity,StageSize,ContactName,DefaultArtistType,DefaultCompensation,DefaultGenre,DefaultPerks,FBLink,SiteLink,TwitterLink,ExtraLink,ExtraLink2,SoundSystem,LoadInInstructions,rating,UserId")] Venue venue)
+        public ActionResult Edit(VenueViewModelVM venueViewModelVM, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(venue).State = EntityState.Modified;
+                
+                db.Venues.Add(venueViewModelVM.venue);
+                db.Addresses.Add(venueViewModelVM.address);
+                db.Zipcodes.Add(venueViewModelVM.zipcode);
+                db.Cities.Add(venueViewModelVM.city);
+                db.States.Add(venueViewModelVM.state);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                venueViewModelVM.venue.address = venueViewModelVM.address;
+                venueViewModelVM.address.zipcode = venueViewModelVM.zipcode;
+                venueViewModelVM.zipcode.city = venueViewModelVM.city;
+                venueViewModelVM.city.state = venueViewModelVM.state;
+                PhotosController PC = new PhotosController();
+                PC.CreateVenuePhoto(upload, venueViewModelVM.venue);
+                db.SaveChanges();
+                return RedirectToAction("VenueView", new { venueId = venueViewModelVM.venue.VenueId });
             }
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", venue.address.AddressId);
-            return View(venue);
+            return View(venueViewModelVM);
         }
 
-        // GET: Venues/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Venue venue = db.Venues.Find(id);
-        //    if (venue == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(venue);
-        //}
 
-        // POST: Venues/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Venue venue = db.Venues.Find(id);
-            db.Venues.Remove(venue);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-        public ActionResult AddFiles(int VenueId)
-        {
-            return View();
-        }
+
         public ActionResult VenueView(int? VenueId)
         {
             var Venue = db.Venues.Find(VenueId);
-            var googleVAddress = Venue.address.StreetAddress.Replace(' ', '+');
-            var googleVCity = Venue.address.zipcode.city.Name.Replace(' ', '+');
-            var Destination = (googleVAddress + "+" + Venue.address.Apt + ",+" + googleVCity + ",+" + Venue.address.zipcode.city.state.Name + "+" + Venue.address.zipcode.ZipCode);
-            ViewBag.Map = ("https://www.google.com/maps/embed/v1/place?key=AIzaSyAqBwMAtQFkFgENx8Fn_0Stj3UOgIWysDc&q=" + Destination);
+            MapsController MC = new MapsController();
+            var Destination = MC.generateDestination(Venue);
+            ViewBag.Map = MC.generateMap(Destination);
             if (Request.IsAuthenticated)
             {
                 var userId = User.Identity.GetUserId();
@@ -193,19 +136,15 @@ namespace GigNow.Controllers
                 {
                     ViewBag.User = "Artist";
                     var artist = db.Artists.FirstOrDefault(x => x.UserId == userId);
-                    var googleAddress = artist.address.StreetAddress.Replace(' ', '+');
-                    var googleCity = artist.address.zipcode.city.Name.Replace(' ', '+');
-                    var Origin = (googleAddress + "+" + artist.address.Apt + ",+" + googleCity + ",+" + artist.address.zipcode.city.state.Name + "+" + artist.address.zipcode.ZipCode);
-                    ViewBag.Route = ("https://www.google.com/maps/embed/v1/directions?key=AIzaSyAqBwMAtQFkFgENx8Fn_0Stj3UOgIWysDc&origin=" + Origin + "&destination=" + Destination);
+                    string Origin = MC.generateOrigin(artist);
+                    ViewBag.Route = MC.generateRoute(Origin, Destination);
                 }
                 else if (role == "Listener")
                 {
                     ViewBag.User = "Listener";
                     var listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
-                    var googleAddress = listener.address.StreetAddress.Replace(' ', '+');
-                    var googleCity = listener.address.zipcode.city.Name.Replace(' ', '+');
-                    var Origin = (googleAddress + "+" + listener.address.Apt + ",+" + googleCity + ",+" + listener.address.zipcode.city.state.Name + "+" + listener.address.zipcode.ZipCode);
-                    ViewBag.Route = ("https://www.google.com/maps/embed/v1/directions?key=AIzaSyAqBwMAtQFkFgENx8Fn_0Stj3UOgIWysDc&origin=" + Origin + "&destination=" + Destination);
+                    string Origin = MC.generateOrigin(listener);
+                    ViewBag.Route = MC.generateRoute(Origin, Destination);
                     var relationshipList = db.VenueRelationships.Where(x => x.Listener.ListenerID == listener.ListenerID && x.Venue.VenueId == VenueId).ToList();
                     if (relationshipList.Count == 0)
                     {

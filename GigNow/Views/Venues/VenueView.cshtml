@@ -106,8 +106,8 @@
     @if (ViewBag.User == "Venue Admin")
     {
         <h3>
-            @Html.ActionLink("Edit", "Edit", new { venueViewModelVM = Model }) | 
-            @Html.ActionLink("Add a Gig", "Create", "Gigs") | 
+            @Html.ActionLink("Edit your Venue", "Edit", new { venueId = Model.venue.VenueId }) | 
+            @Html.ActionLink("Add a Gig", "Create", "Gigs")
         </h3>
     }
     else if (ViewBag.User == "Listener")

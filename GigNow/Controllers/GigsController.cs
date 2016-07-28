@@ -16,7 +16,7 @@ namespace GigNow.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationUserManager _userManager;
-        SmsController Sms = new SmsController();
+        SmsController Sms = new SmsController(); 
         public ApplicationUserManager UserManager
         {
             get
@@ -29,27 +29,7 @@ namespace GigNow.Controllers
             }
         }
 
-        // GET: Gigs
-        public ActionResult Index()
-        {
-            var gigs = db.Gigs.Include(g => g.Venue);
-            return View(gigs.ToList());
-        }
 
-        // GET: Gigs/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Gig gig = db.Gigs.Find(id);
-            if (gig == null)
-            {
-                return HttpNotFound();
-            }
-            return View(gig);
-        }
 
         // GET: Gigs/Create
         public ActionResult Create()
@@ -68,9 +48,7 @@ namespace GigNow.Controllers
             return View(gig);
         }
 
-        // POST: Gigs/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Gig gig)
@@ -83,11 +61,11 @@ namespace GigNow.Controllers
                 return RedirectToAction("GigView", new {gigId = gig.GigId, partial = "false" });
             }
 
-            //ViewBag.VenueId = new SelectList(db.Venues, "VenueId", "Name", gig.Venue.VenueId);
+
             return View(gig);
         }
 
-        // GET: Gigs/Edit/5
+        //GET: Gigs/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -103,9 +81,7 @@ namespace GigNow.Controllers
             return View(gig);
         }
 
-        // POST: Gigs/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "GigId,Cover,Date,Time,DefaultGenre,DefaulCompensation,Name,UseVenueDefaults,VenueId")] Gig gig)
@@ -120,7 +96,7 @@ namespace GigNow.Controllers
             return View(gig);
         }
 
-        // GET: Gigs/Delete/5
+        //GET: Gigs/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -135,7 +111,6 @@ namespace GigNow.Controllers
             return View(gig);
         }
 
-        // POST: Gigs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -146,24 +121,16 @@ namespace GigNow.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+
         public ActionResult GigView(int? gigId, string partial)
         {
             ViewBag.Partial = partial;    
             var Gig = db.Gigs.Find(gigId);
             var Venue = db.Venues.FirstOrDefault(x => x.VenueId == Gig.Venue.VenueId);
             ViewBag.PhotoId = (from photo in db.Photos where photo.Venue.VenueId == Venue.VenueId select photo.PhotoId).ToList()[0];
-            var googleVAddress = Venue.address.StreetAddress.Replace(' ', '+');
-            var googleVCity = Venue.address.zipcode.city.Name.Replace(' ', '+');
-            var Destination = (googleVAddress + "+" + Venue.address.Apt + ",+" + googleVCity + ",+" + Venue.address.zipcode.city.state.Name + "+" + Venue.address.zipcode.ZipCode);
-            ViewBag.Map = ("https://www.google.com/maps/embed/v1/place?key=AIzaSyAqBwMAtQFkFgENx8Fn_0Stj3UOgIWysDc&q=" + Destination);
+            MapsController MC = new MapsController();
+            string Destination = MC.generateDestination(Venue);
+            ViewBag.Map = MC.generateMap(Destination);
             if (Request.IsAuthenticated)
             {
                 var userId = User.Identity.GetUserId();
@@ -176,20 +143,16 @@ namespace GigNow.Controllers
                 else if (role == "Artist Manager")
                 {
                     var artist = db.Artists.FirstOrDefault(x => x.UserId == userId);
-                    var googleAddress = artist.address.StreetAddress.Replace(' ', '+');
-                    var googleCity = artist.address.zipcode.city.Name.Replace(' ', '+');
-                    var Origin = (googleAddress + "+" + artist.address.Apt + ",+" + googleCity + ",+" + artist.address.zipcode.city.state.Name + "+" + artist.address.zipcode.ZipCode);
-                    ViewBag.Route = ("https://www.google.com/maps/embed/v1/directions?key=AIzaSyAqBwMAtQFkFgENx8Fn_0Stj3UOgIWysDc&origin=" + Origin + "&destination=" + Destination);
+                    string Origin = MC.generateOrigin(artist);
+                    ViewBag.Route = MC.generateRoute(Origin, Destination);
                     ViewBag.User = "Artist";
                 }
                 else if (role == "Listener")
                 {
                     ViewBag.User = "Listener";
                     var listener = db.Listeners.FirstOrDefault(x => x.UserId == userId);
-                    var googleAddress = listener.address.StreetAddress.Replace(' ', '+');
-                    var googleCity = listener.address.zipcode.city.Name.Replace(' ', '+');
-                    var Origin = (googleAddress + "+" + listener.address.Apt + ",+" + googleCity + ",+" + listener.address.zipcode.city.state.Name + "+" + listener.address.zipcode.ZipCode);
-                    ViewBag.Route = ("https://www.google.com/maps/embed/v1/directions?key=AIzaSyAqBwMAtQFkFgENx8Fn_0Stj3UOgIWysDc&origin=" + Origin + "&destination=" + Destination);
+                    string Origin = MC.generateOrigin(listener);
+                    ViewBag.Route = MC.generateRoute(Origin, Destination);
                     var relationshipList = db.GigRelationships.Where(x => x.Listener.ListenerID == listener.ListenerID && x.Gig.GigId == gigId).ToList();
                     if (relationshipList.Count == 0)
                     {
@@ -338,5 +301,6 @@ namespace GigNow.Controllers
             }
             return newList;
         }
+
     }
 }

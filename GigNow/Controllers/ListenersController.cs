@@ -15,27 +15,6 @@ namespace GigNow.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Listeners
-        public ActionResult Index()
-        {
-            var listeners = db.Listeners.Include(l => l.address).Include(l => l.AppUser);
-            return View(listeners.ToList());
-        }
-
-        // GET: Listeners/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Listener listener = db.Listeners.Find(id);
-            if (listener == null)
-            {
-                return HttpNotFound();
-            }
-            return View(listener);
-        }
 
         // GET: Listeners/Create
         public ActionResult Create()
@@ -43,9 +22,7 @@ namespace GigNow.Controllers
             return View();
         }
 
-        // POST: ListenerViewModelVMs/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(ListenerViewModelVM listenerViewModelVM)
@@ -71,75 +48,57 @@ namespace GigNow.Controllers
             return View(listenerViewModelVM);
         }
 
-        // GET: Listeners/Edit/5
-        public ActionResult Edit(int? id)
+
+        public ActionResult Edit(int? listenerId)
         {
-            if (id == null)
+            var Listener = db.Listeners.Find(listenerId);
+            var Address = db.Addresses.Find(Listener.address.AddressId);
+            var Zipcode = db.Zipcodes.Find(Address.zipcode.ZipcodeId);
+            var City = db.Cities.Find(Zipcode.city.CityId);
+            var State = db.States.Find(City.state.StateId);
+            ListenerViewModelVM LVM = new ListenerViewModelVM
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Listener listener = db.Listeners.Find(id);
-            if (listener == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", listener.address.AddressId);
-            
-            return View(listener);
+                GigWatchList = generateGigWatchList(Listener.ListenerID),
+                ArtistWatchList = generateArtistWatchList(Listener.ListenerID),
+                VenueWatchList = generateVenueWatchList(Listener.ListenerID),
+                listener = Listener,
+                address = Address,
+                zipcode = Zipcode,
+                city = City,
+                state = State,
+            };
+            return View(LVM);
         }
 
-        // POST: Listeners/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ListenerID,AddressId,UserId,Genre1,Genre2,Genre3")] Listener listener)
+        public ActionResult Edit(ListenerViewModelVM listenerViewModelVM)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(listener).State = EntityState.Modified;
+                db.Listeners.Add(listenerViewModelVM.listener);
+                db.Addresses.Add(listenerViewModelVM.address);
+                db.Zipcodes.Add(listenerViewModelVM.zipcode);
+                db.Cities.Add(listenerViewModelVM.city);
+                db.States.Add(listenerViewModelVM.state);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                var userId = User.Identity.GetUserId();
+                listenerViewModelVM.listener.address = listenerViewModelVM.address;
+                listenerViewModelVM.listener.UserId = userId;
+                listenerViewModelVM.address.zipcode = listenerViewModelVM.zipcode;
+                listenerViewModelVM.zipcode.city = listenerViewModelVM.city;
+                listenerViewModelVM.city.state = listenerViewModelVM.state;
+                db.SaveChanges();
+                return RedirectToAction("ListenerView", new { ListenerId = listenerViewModelVM.listener.ListenerID });
             }
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", listener.address.AddressId);
-            
-            return View(listener);
+           
+            return View(listenerViewModelVM);
         }
 
-        // GET: Listeners/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Listener listener = db.Listeners.Find(id);
-            if (listener == null)
-            {
-                return HttpNotFound();
-            }
-            return View(listener);
-        }
 
-        // POST: Listeners/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Listener listener = db.Listeners.Find(id);
-            db.Listeners.Remove(listener);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+
         public ActionResult ListenerView(int? listenerId)
         {
             var userId = User.Identity.GetUserId();

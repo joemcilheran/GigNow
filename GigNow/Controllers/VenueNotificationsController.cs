@@ -15,11 +15,7 @@ namespace GigNow.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: VenueNotifications
-        public ActionResult Index()
-        {
-            return View(db.VenueNotifications.ToList());
-        }
+
         public ActionResult Inbox()
         {
             var userId = User.Identity.GetUserId();
@@ -74,94 +70,7 @@ namespace GigNow.Controllers
             return View(venueNotification);
         }
 
-        // GET: VenueNotifications/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
 
-        // POST: VenueNotifications/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "VenueNotificationId")] VenueNotification venueNotification)
-        {
-            if (ModelState.IsValid)
-            {
-                db.VenueNotifications.Add(venueNotification);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(venueNotification);
-        }
-
-        // GET: VenueNotifications/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            VenueNotification venueNotification = db.VenueNotifications.Find(id);
-            if (venueNotification == null)
-            {
-                return HttpNotFound();
-            }
-            return View(venueNotification);
-        }
-
-        // POST: VenueNotifications/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "VenueNotificationId")] VenueNotification venueNotification)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(venueNotification).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(venueNotification);
-        }
-
-        // GET: VenueNotifications/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            VenueNotification venueNotification = db.VenueNotifications.Find(id);
-            if (venueNotification == null)
-            {
-                return HttpNotFound();
-            }
-            return View(venueNotification);
-        }
-
-        // POST: VenueNotifications/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            VenueNotification venueNotification = db.VenueNotifications.Find(id);
-            db.VenueNotifications.Remove(venueNotification);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
         public ActionResult MarkAsReadThenGig(int? venueNotificationId)
         {
             var venueNotification = db.VenueNotifications.Find(venueNotificationId);

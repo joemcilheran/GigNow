@@ -27,27 +27,7 @@ namespace GigNow.Controllers
                 _userManager = value;
             }
         }
-        // GET: Artists
-        public ActionResult Index()
-        {
-            var artists = db.Artists.Include(a => a.address).Include(a => a.AppUser);
-            return View(artists.ToList());
-        }
 
-        // GET: Artists/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Artist artist = db.Artists.Find(id);
-            if (artist == null)
-            {
-                return HttpNotFound();
-            }
-            return View(artist);
-        }
 
         // GET: Artists/Create
         public ActionResult Create()
@@ -55,9 +35,7 @@ namespace GigNow.Controllers
             return View();
         }
 
-        // POST: ArtistViewModelVMs/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(ArtistViewModelVM artistViewModelVM, HttpPostedFileBase upload)
@@ -76,103 +54,71 @@ namespace GigNow.Controllers
                 artistViewModelVM.address.zipcode = artistViewModelVM.zipcode;
                 artistViewModelVM.zipcode.city = artistViewModelVM.city;
                 artistViewModelVM.city.state = artistViewModelVM.state;
-                if (upload != null && upload.ContentLength > 0)
-                {
-                    var photo = new Photo
-                    {
-                        Name = System.IO.Path.GetFileName(upload.FileName),
-                        ArtistId = artistViewModelVM.artist.ArtistId
-                    };
-                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                    {
-                        photo.Data = reader.ReadBytes(upload.ContentLength);
-                    }
-                    db.Photos.Add(photo);
-                    artistViewModelVM.photo = photo;
-
-                }
+                PhotosController PC = new PhotosController();
+                PC.CreateArtistPhoto(upload, artistViewModelVM.artist);
                 db.SaveChanges();
                 return RedirectToAction("ArtistView", new { artistId = artistViewModelVM.artist.ArtistId, partial = "false" });
             }
             return View(artistViewModelVM);
         }
 
-        // GET: Artists/Edit/5
-        public ActionResult Edit(int? id)
+        //GET: Artists/Edit/5
+        public ActionResult Edit(int? artistId)
         {
-            if (id == null)
+            var Artist = db.Artists.Find(artistId);
+            var Address = db.Addresses.Find(Artist.address.AddressId);
+            var Zipcode = db.Zipcodes.Find(Address.zipcode.ZipcodeId);
+            var City = db.Cities.Find(Zipcode.city.CityId);
+            var State = db.States.Find(City.state.StateId);
+            ArtistViewModelVM AVM = new ArtistViewModelVM
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Artist artist = db.Artists.Find(id);
-            if (artist == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", artist.address.AddressId);
-           
-            return View(artist);
+
+                photo = db.Photos.FirstOrDefault(x => x.Artist.ArtistId == Artist.ArtistId),
+                artist = Artist,
+                address = Address,
+                zipcode = Zipcode,
+                city = City,
+                state = State,
+            };
+            return View(AVM);
         }
 
-        // POST: Artists/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ArtistId,Name,AddressId,ContactName,Genre1,Genre2,Genre3,Type,NumberOfMembers,UserId")] Artist artist)
+        public ActionResult Edit(ArtistViewModelVM artistViewModelVM, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(artist).State = EntityState.Modified;
+                var userId = User.Identity.GetUserId();
+                db.Artists.Add(artistViewModelVM.artist);
+                db.Addresses.Add(artistViewModelVM.address);
+                db.Zipcodes.Add(artistViewModelVM.zipcode);
+                db.Cities.Add(artistViewModelVM.city);
+                db.States.Add(artistViewModelVM.state);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                artistViewModelVM.artist.address = artistViewModelVM.address;
+                artistViewModelVM.artist.UserId = userId;
+                artistViewModelVM.address.zipcode = artistViewModelVM.zipcode;
+                artistViewModelVM.zipcode.city = artistViewModelVM.city;
+                artistViewModelVM.city.state = artistViewModelVM.state;
+                PhotosController PC = new PhotosController();
+                PC.CreateArtistPhoto(upload, artistViewModelVM.artist);
+                db.SaveChanges();
+                return RedirectToAction("ArtistView", new { artistId = artistViewModelVM.artist.ArtistId, partial = "false" });
             }
-            ViewBag.AddressId = new SelectList(db.Addresses, "AddressId", "StreetAddress", artist.address.AddressId);
-           
-            return View(artist);
+            return View(artistViewModelVM);
         }
 
-        // GET: Artists/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Artist artist = db.Artists.Find(id);
-            if (artist == null)
-            {
-                return HttpNotFound();
-            }
-            return View(artist);
-        }
 
-        // POST: Artists/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Artist artist = db.Artists.Find(id);
-            db.Artists.Remove(artist);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
 
         public ActionResult ArtistView(int? ArtistId, string partial)
         {
             ViewBag.Partial = partial;
             var Artist = db.Artists.Find(ArtistId);
             var thisgigList = generateGigList(Artist.ArtistId);
-            ViewBag.MapUrl = generateGigMapUrl(thisgigList, ArtistId);
+            MapsController MP = new MapsController();
+            ViewBag.MapUrl = MP.generateGigMapUrl(thisgigList, ArtistId);
             if (Request.IsAuthenticated)
             {
                 var userId = User.Identity.GetUserId();
@@ -232,23 +178,7 @@ namespace GigNow.Controllers
             var currentGigList = gigList.Where(x => x.Date >= DateTime.Today).ToList();
             return currentGigList;
         }
-        public string generateGigMapUrl(List<Gig> gigList, int? artistId)
-        {
-            var artist = db.Artists.Find(artistId);
-            var googleAddress = artist.address.StreetAddress.Replace(' ', '+');
-            var googleCity = artist.address.zipcode.city.Name.Replace(' ', '+');
-            var artistAddress = (googleAddress + "+" + artist.address.Apt + ",+" + googleCity + ",+" + artist.address.zipcode.city.state.Name + "+" + artist.address.zipcode.ZipCode);
-            string gigMapUrl = ("https://maps.googleapis.com/maps/api/staticmap?size=400x400&maptype=roadmap&markers=color:blue%7Clabel:A%7C"+artistAddress+"&markers=color:red");
-            foreach(Gig thisGig in gigList)
-            {
-                var googleVAddress = thisGig.Venue.address.StreetAddress.Replace(' ', '+');
-                var googleVCity = thisGig.Venue.address.zipcode.city.Name.Replace(' ', '+');
-                var Destination = (googleVAddress + "+" + thisGig.Venue.address.Apt + ",+" + googleVCity + ",+" + thisGig.Venue.address.zipcode.city.state.Name + "+" + thisGig.Venue.address.zipcode.ZipCode);
-                gigMapUrl = (gigMapUrl + "%7C" + Destination);
-            }
-            gigMapUrl = (gigMapUrl+ "&key=AIzaSyAqBwMAtQFkFgENx8Fn_0Stj3UOgIWysDc");
-            return gigMapUrl;
-        }
+
         [HttpGet]
         public ActionResult Search()
         {
@@ -260,12 +190,12 @@ namespace GigNow.Controllers
             List<Artist> artistSearchResultList = new List<Artist>();
             if(!string.IsNullOrWhiteSpace(artistGenre) && !string.IsNullOrWhiteSpace(artistCity))
             {
-                var artistsByGenre = db.Artists.Where(x => x.Genre1 == artistGenre || x.Genre1 == artistGenre || x.Genre3 == artistGenre);
+                var artistsByGenre = db.Artists.Where(x => x.Genre1 == artistGenre || x.Genre2 == artistGenre || x.Genre3 == artistGenre);
                 artistSearchResultList = artistsByGenre.Where(x => x.address.zipcode.city.Name == artistCity).ToList();
             }
             if (!string.IsNullOrWhiteSpace(artistGenre) && string.IsNullOrWhiteSpace(artistCity))
             {
-                artistSearchResultList = db.Artists.Where(x => x.Genre1 == artistGenre || x.Genre1 == artistGenre || x.Genre3 == artistGenre).ToList();
+                artistSearchResultList = db.Artists.Where(x => x.Genre1 == artistGenre || x.Genre2 == artistGenre || x.Genre3 == artistGenre).ToList();
             }
             if (string.IsNullOrWhiteSpace(artistGenre) && !string.IsNullOrWhiteSpace(artistCity))
             {
@@ -273,6 +203,8 @@ namespace GigNow.Controllers
             }
             return View(artistSearchResultList);
         }
+
+        
 
     }
 }

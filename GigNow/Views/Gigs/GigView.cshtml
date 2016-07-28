@@ -10,14 +10,14 @@
 
 
     <div class="gigMap">
-        @if (ViewBag.User == "Gig Admin" || ViewBag.User == "Listener" || ViewBag.User == "Artist")
+        @if (ViewBag.User == "Listener" || ViewBag.User == "Artist")
         {
             <iframe width="600"
                     height="450"
                     frameborder="0" style="border:0"
                     src="@ViewBag.Route" allowfullscreen></iframe>
         }
-        else if (ViewBag.User == "other")
+        else if (ViewBag.User == "other" || ViewBag.User == "Visiter")
         {
             <iframe width="600"
                     height="450"
@@ -110,46 +110,7 @@
     </div>
 
 
-    @*<dl class="dl-horizontal">*@
-    @*@if (ViewBag.User != "Gig Admin")
-        {*@
-    @*<dt>
-                @Html.DisplayNameFor(model => model.venue.Name)
-            </dt>
 
-            <dd>
-                @Html.ActionLink((Model.venue.Name), "VenueView", "Venues", new { VenueId = Model.venue.VenueId }, null)
-            </dd>
-        }
-
-
-        <dt>
-            @Html.DisplayNameFor(model => model.gig.Cover)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.gig.Cover)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.gig.Date)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.gig.Date)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.gig.Time)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.gig.Time)
-        </dd>*@
-
-
-
-    @*</dl>*@
 
 </div>
 @if (ViewBag.Partial == "false")
