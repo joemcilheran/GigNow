@@ -7,7 +7,7 @@ using Twilio;
 
 namespace GigNow.Controllers
 {
-    //Turn this into a non-controller class
+    
     public class SmsController : Controller
     {
         TwilioRestClient client = new TwilioRestClient("AC2afb2ae21d8426bf118ac7c01b8c832c", "01ef1e9c7ae5cb3acc8e7d9ad1c58a69");
